@@ -29,7 +29,6 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Typing Training Mode - KPC Typing","url":"https://kpctyping.space/training-mode","description":"Learn keyboard skills with KPC Typing training mode, guided lessons, symbols, finger practice, focus mode and typing roadmap.","image":"https://kpctyping.space/static/images/og-kpc-typing.png","inLanguage":"en","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"KPC Typing","url":"https://kpctyping.space"},"learningResourceType":"Typing lesson","educationalUse":"Practice","audience":{"@type":"EducationalAudience","educationalRole":"student"}}</script>
     <meta name="csrf-token" content="{{ csrf_token }}">
 
-<!-- REAL PHASE 12: Mobile Experience + PWA -->
 <link rel="manifest" href="/static/manifest.json">
 <meta name="theme-color" content="#5b7cfa">
 <meta name="mobile-web-app-capable" content="yes">
@@ -181,15 +180,9 @@
 <script src="{{ url_for('static', filename='js/v48_smart_learning.js') }}"></script>
 <script src="{{ url_for('static', filename='js/lesson_engine.js') }}"></script>
 <script src="{{ url_for('static', filename='js/ai_coach_tracker.js') }}"></script>
-<script src="{{ url_for('static', filename='js/v26_theme_center.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/v26_1_final_polish.js') }}" defer></script>
 <script src="{{ url_for('static', filename='js/career_client.js') }}"></script>
 
-<!-- REAL PHASE 12: PWA registration and mobile touch helpers -->
 <script src="/static/js/mobile_typing_helper.js" defer></script>
-<script src="/static/js/pwa_install.js" defer></script>
-<script src="{{ url_for('static', filename='js/kpctyping_mockup2_redesign.js') }}" defer></script>
 
-<script src="{{ url_for('static', filename='js/kpc_svg_icon_system_2026.js') }}" defer></script>
 </body>
 </html>
