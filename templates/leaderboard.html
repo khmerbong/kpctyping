@@ -1,130 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H8Q99PGJYV"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-H8Q99PGJYV');
-    </script>
+{% extends "base.html" %}
+{% block title %}Typing Scoreboard - KPC Typing{% endblock %}
+{% block description %}View the KPC Typing leaderboard and compare top scores, WPM, combos and levels across typing games.{% endblock %}
+{% block body_class %}kpc-leaderboard-redesign{% endblock %}
+{% block head %}
+<link rel="canonical" href="https://kpctyping.space/leaderboard">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+{% block content %}
+<section class="kpc-dashboard-shell">
+  <div class="kpc-dashboard-hero">
+    <article class="kpc-hero-card">
+      <div class="kpc-hero-content">
+        <span class="kpc-kicker">🏆 Community Scores</span>
+        <h1>Scoreboard that feels like a real game hub.</h1>
+        <p>Compare scores, WPM, combos, and levels across KPC Typing game modes. Play a round and take your place on the board.</p>
+        <div class="kpc-hero-actions"><a class="kpc-btn kpc-btn-xl" href="/typing-test">Play Typing Test</a><a class="kpc-btn kpc-btn-secondary kpc-btn-xl" href="/zombie-typing">Zombie Round</a></div>
+      </div>
+    </article>
+    <aside class="kpc-side-card">
+      <div class="kpc-xp-ring"><div><strong>{{ rows|length }}</strong><span>Scores</span></div></div>
+      <p style="text-align:center;color:var(--kpc-muted,#64748b)">Filtered by: <b>{{ selected_game|capitalize }}</b></p>
+    </aside>
+  </div>
 
-<meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Typing Scoreboard - KPC Typing</title>
+  <div class="kpc-leaderboard-top">
+    {% for row in rows[:3] %}
+    <article class="kpc-podium-card"><div class="kpc-podium-rank">{% if loop.index == 1 %}🥇{% elif loop.index == 2 %}🥈{% else %}🥉{% endif %}</div><strong>{{ row.player_name }}</strong><small>{{ row.score }} score · {{ row.wpm }} WPM</small></article>
+    {% else %}
+    <article class="kpc-podium-card"><div class="kpc-podium-rank">🏁</div><strong>No scores yet</strong><small>Be the first player today.</small></article>
+    {% endfor %}
+  </div>
 
-    <meta name="description" content="View the KPC Typing leaderboard and compare top scores, WPM, combos and levels across typing games." />
-    <meta name="keywords" content="free typing game, online typing test, typing speed test, keyboard practice, typing lessons, WPM test, typing leaderboard, Khmer typing practice" />
-    <meta name="author" content="KPC Typing" />
-    <link rel="canonical" href="https://kpctyping.space/leaderboard" />
-    <meta property="og:title" content="Typing Scoreboard - KPC Typing" />
-    <meta property="og:description" content="View the KPC Typing leaderboard and compare top scores, WPM, combos and levels across typing games." />
-    <meta property="og:url" content="https://kpctyping.space/leaderboard" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="KPC Typing" />
-    <meta property="og:image" content="https://kpctyping.space/static/images/og-kpc-typing.png" />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="KPC Typing free typing practice website preview" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Typing Scoreboard - KPC Typing" />
-    <meta name="twitter:description" content="View the KPC Typing leaderboard and compare top scores, WPM, combos and levels across typing games." />
-    <meta name="twitter:image" content="https://kpctyping.space/static/images/og-kpc-typing.png" />
-    <meta name="twitter:image:alt" content="KPC Typing free typing practice website preview" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Typing Scoreboard - KPC Typing","url":"https://kpctyping.space/leaderboard","description":"View the KPC Typing leaderboard and compare top scores, WPM, combos and levels across typing games.","image":"https://kpctyping.space/static/images/og-kpc-typing.png","inLanguage":"en","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"KPC Typing","url":"https://kpctyping.space"},"applicationCategory":"EducationalApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
-    <meta name="csrf-token" content="{{ csrf_token }}">
-
-<link rel="manifest" href="/static/manifest.json">
-<meta name="theme-color" content="#5b7cfa">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="KPC Typing">
-<link rel="manifest" href="/static/manifest.json">
-<meta name="theme-color" content="#075ce8">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/design-system.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
-</head>
-<body>
-    <main class="page-shell">
-        <nav class="top-nav">
-            <a href="/">← Home</a>
-            <strong>KPC Typing</strong>
-        </nav>
-
-        <section class="typing-panel leaderboard-panel">
-            <div class="panel-header">
-                <div>
-                    <div class="badge">Community scores</div>
-                    <h1>Scoreboard</h1>
-                    <p>Recent scores from typing practice. Play a round and see where you land.</p>
-                </div>
-                <a class="primary-btn" href="/zombie-typing">Play a round</a>
-            </div>
-
-            <div class="leaderboard-tabs">
-                <a class="{% if selected_game == 'all' %}active{% endif %}" href="/leaderboard?game=all">All</a>
-                <a class="{% if selected_game == 'speed' %}active{% endif %}" href="/leaderboard?game=speed">Speed</a>
-                <a class="{% if selected_game == 'zombie' %}active{% endif %}" href="/leaderboard?game=zombie">Zombie</a>
-                <a class="{% if selected_game == 'vampire' %}active{% endif %}" href="/leaderboard?game=vampire">Vampire</a>
-<a class="{% if selected_game == 'space' %}active{% endif %}" href="/leaderboard?game=space">🚀 Space</a>
-            </div>
-
-            <div class="leaderboard-table-wrap">
-                <table class="leaderboard-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Player</th>
-                            <th>Game</th>
-                            <th>Score</th>
-                            <th>Combo</th>
-                            <th>Level</th>
-                            <th>WPM</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for row in rows %}
-                        <tr>
-                            <td>{{ loop.index }}</td>
-                            <td>{{ row.player_name }}</td>
-                            <td>{{ row.game|capitalize }}</td>
-                            <td>{{ row.score }}</td>
-                            <td>{{ row.combo }}</td>
-                            <td>{{ row.level }}</td>
-                            <td>{{ row.wpm }}</td>
-                            <td>{{ row.created_at }}</td>
-                        </tr>
-                        {% else %}
-                        <tr>
-                            <td colspan="8" class="empty-score">No scores yet. Try a quick round first.</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </section>
-            <section class="v25-anti-cheat">
-                <h2>🛡️ Fair play check</h2>
-                <p>Suspicious scores are filtered so the board stays useful.</p>
-                <div class="v25-pill-row"><span>WPM limit</span><span>Name check</span><span>Cooldown</span><span>Score limit</span></div>
-            </section>
-    </main>
-<script src="{{ url_for('static', filename='js/achievement_popup.js') }}"></script>
-<script src="{{ url_for('static', filename='js/letter_feedback.js') }}"></script>
-<script src="{{ url_for('static', filename='js/gameover_v24.js') }}"></script>
-<div id="pauseOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:99998;align-items:center;justify-content:center;">
-<div style="background:#111827;padding:30px;border-radius:20px;text-align:center;color:white;">
-<h1>⏸️ PAUSED</h1>
-<button onclick="resumeGame()">Resume</button>
-<button onclick="location.reload()">Restart</button>
-<button onclick="location.href='/'">Home</button>
-</div></div>
-<script src="{{ url_for('static', filename='js/pause_system.js') }}"></script>
-
-<script src="/static/js/mobile_typing_helper.js" defer></script>
-
-</body>
-</html>
+  <section class="kpc-glass-card">
+    <div class="kpc-filter-row">
+      <div class="kpc-tab-group">
+        <a class="{% if selected_game == 'all' %}active{% endif %}" href="/leaderboard?game=all">All</a>
+        <a class="{% if selected_game == 'speed' %}active{% endif %}" href="/leaderboard?game=speed">Speed</a>
+        <a class="{% if selected_game == 'zombie' %}active{% endif %}" href="/leaderboard?game=zombie">Zombie</a>
+        <a class="{% if selected_game == 'vampire' %}active{% endif %}" href="/leaderboard?game=vampire">Vampire</a>
+        <a class="{% if selected_game == 'space' %}active{% endif %}" href="/leaderboard?game=space">Space</a>
+      </div>
+      <input class="kpc-search-box" id="leaderboardSearch" type="search" placeholder="Search player..." aria-label="Search player">
+    </div>
+    <div class="kpc-table-wrap">
+      <table class="kpc-pro-table" id="leaderboardTable">
+        <thead><tr><th>#</th><th>Player</th><th>Game</th><th>Score</th><th>Combo</th><th>Level</th><th>WPM</th><th>Date</th></tr></thead>
+        <tbody>
+          {% for row in rows %}
+          <tr><td class="kpc-rank-cell">{{ loop.index }}</td><td>{{ row.player_name }}</td><td>{{ row.game|capitalize }}</td><td><span class="kpc-score-pill">{{ row.score }}</span></td><td>{{ row.combo }}</td><td>{{ row.level }}</td><td>{{ row.wpm }}</td><td>{{ row.created_at }}</td></tr>
+          {% else %}
+          <tr><td colspan="8"><div class="kpc-empty-state">No scores yet. Try a quick round first.</div></td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+  <section class="kpc-glass-card" style="margin-top:18px"><h2>🛡️ Fair play check</h2><p>Suspicious scores are filtered so the board stays useful.</p><div class="kpc-meta-row" style="justify-content:flex-start"><span class="kpc-mini-badge">WPM limit</span><span class="kpc-mini-badge">Name check</span><span class="kpc-mini-badge">Cooldown</span><span class="kpc-mini-badge">Score limit</span></div></section>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+(function(){
+  const input = document.getElementById('leaderboardSearch');
+  const table = document.getElementById('leaderboardTable');
+  if(!input || !table) return;
+  input.addEventListener('input', function(){
+    const q = this.value.toLowerCase().trim();
+    table.querySelectorAll('tbody tr').forEach(row => { row.style.display = row.innerText.toLowerCase().includes(q) ? '' : 'none'; });
+  });
+})();
+</script>
+{% endblock %}

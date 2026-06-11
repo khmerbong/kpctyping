@@ -4,9 +4,12 @@
 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/design-system.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
 </head>
 <body class="phase13-page">
 <main class="lb-shell"><section class="lb-hero"><div><p class="eyebrow">PUBLIC PLAYER PROFILE</p><h1>👤 {{ profile_username }}</h1><p>Global leaderboard profile and recent verified scores.</p></div><nav class="lb-actions"><a href="/global-leaderboard">Global</a></nav></section><section class="card" id="playerProfile">Loading...</section></main>
 <script>window.PROFILE_USERNAME={{ profile_username|tojson }};</script><script src="/static/js/public_player.js"></script>
 
+  <script src="/static/js/theme-toggle.js" defer></script>
 </body></html>

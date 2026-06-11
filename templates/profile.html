@@ -1,91 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="csrf-token" content="{{ csrf_token }}">
-  <title>Profile | KPC Typing</title>
-
-<link rel="manifest" href="/static/manifest.json">
-  <meta name="theme-color" content="#050816">
-
-<link rel="stylesheet" href="{{ url_for('static', filename='css/design-system.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
-</head>
-<body class="kpc-mockup2-page kpc-profile-page">
-  <main class="kpc-shell">
-    <nav class="kpc-topbar">
-      <a class="kpc-brand" href="/"><span class="kpc-logo">⌨️</span><strong>KPCTYPING</strong></a>
-      <div class="kpc-navlinks">
-        <a href="/training-mode">Practice</a>
-        <a href="/ai-coach">AI Coach</a>
-        <a href="/career">Career</a>
-        <a href="/analytics-pro">Analytics</a>
-        <a href="/global-leaderboard">Leaderboard</a>
-      </div>
-      <div class="kpc-nav-actions"><a class="kpc-btn kpc-btn-ghost" href="/logout">Logout</a></div>
-    </nav>
-
-    <section class="kpc-profile-hero">
-      <div class="kpc-profile-main">
-        <div class="kpc-avatar-large">{{ user.username[0]|upper }}</div>
-        <div>
-          <span class="kpc-pill">Player Profile</span>
-          <h1>{{ user.username }} <span class="verified">●</span></h1>
-          <p>{{ user.email or "No email added" }}</p>
-          <div class="kpc-xp-block">
-            <div><b>Level 42</b><span>Grandmaster</span></div>
-            <div class="kpc-xp-bar"><i style="width:68%"></i></div>
-            <small>12,450 / 18,000 XP</small>
-          </div>
+{% extends "base.html" %}
+{% block title %}Profile | KPC Typing{% endblock %}
+{% block description %}View your KPC Typing player profile, progress sync history, achievements, and quick practice links.{% endblock %}
+{% block body_class %}kpc-profile-redesign{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">{% endblock %}
+{% block content %}
+<section class="kpc-dashboard-shell">
+  <div class="kpc-section-title"><div><span class="kpc-kicker">👤 Player Profile</span><h2>Welcome back, {{ user.username }}</h2><p>Your account, progress history, and next actions in one clean place.</p></div></div>
+  <div class="kpc-profile-layout">
+    <aside class="kpc-glass-card kpc-profile-card">
+      <div class="kpc-avatar-xl">{{ user.username[0]|upper }}</div>
+      <div class="kpc-profile-name">{{ user.username }}</div>
+      <p>{{ user.email or 'No email added' }}</p>
+      <div class="kpc-meta-row"><span class="kpc-mini-badge">Active Player</span><span class="kpc-mini-badge">2026 UI</span></div>
+      <div class="kpc-progress-track"><div class="kpc-progress-fill" style="width: 62%"></div></div>
+      <small>Keep practicing to unlock stronger ranks.</small>
+      <div class="kpc-hero-actions" style="justify-content:center"><a class="kpc-btn" href="/training-mode">Practice Now</a><a class="kpc-btn kpc-btn-secondary" href="/progress">Progress</a></div>
+    </aside>
+    <div class="kpc-list-stack">
+      <section class="kpc-glass-card">
+        <div class="kpc-section-title" style="margin-top:0"><div><h2>Player Overview</h2><p>Fast shortcuts for the features players use most.</p></div></div>
+        <div class="kpc-action-grid">
+          <a class="kpc-action-card" href="/typing-test"><span>⌨️</span><div><b>Typing Test</b><small>Measure speed</small></div></a>
+          <a class="kpc-action-card" href="/ai-coach"><span>🤖</span><div><b>AI Coach</b><small>Fix weak keys</small></div></a>
+          <a class="kpc-action-card" href="/leaderboard"><span>🏆</span><div><b>Leaderboard</b><small>Climb ranks</small></div></a>
         </div>
-      </div>
-      <div class="kpc-rank-badge"><span>👑</span><b>Global Rank</b><strong>#128</strong></div>
-    </section>
-
-    <section class="kpc-profile-stats">
-      <article><span>Tests Completed</span><strong>2,453</strong></article>
-      <article><span>Total WPM</span><strong>98</strong></article>
-      <article><span>Accuracy</span><strong>96.5%</strong></article>
-      <article><span>Current XP</span><strong id="profileXP">{{ user.xp or 0 }}</strong></article>
-    </section>
-
-    <section class="kpc-profile-grid">
-      <article class="kpc-glass-card kpc-achievements-card">
-        <div class="kpc-section-head"><h2>Achievements</h2><a href="/career">View All</a></div>
-        <div class="kpc-badge-grid">
-          <div><span>⚡</span><b>Speed Demon</b><small>100 WPM</small></div>
-          <div><span>🎯</span><b>Perfect Accuracy</b><small>100% Accuracy</small></div>
-          <div><span>📅</span><b>Consistency</b><small>7 Day Streak</small></div>
-          <div><span>🏆</span><b>Tournament Winner</b><small>Win 1 Tournament</small></div>
-        </div>
-      </article>
-
-      <article class="kpc-glass-card">
-        <div class="kpc-section-head"><h2>Sync & Actions</h2></div>
-        <div class="profile-actions kpc-action-grid">
-          <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
-          <button id="syncProgressBtn" type="button">Sync Local Progress</button>
-          <a class="kpc-btn kpc-btn-ghost" href="/progress">Open Progress</a>
-          <a class="kpc-btn kpc-btn-ghost" href="/career">Open Career</a>
-          <a class="kpc-btn kpc-btn-ghost" href="/analytics-pro">Open Analytics Pro</a>
-          <a class="kpc-btn kpc-btn-primary" href="/training-mode">Continue Training</a>
-        </div>
-        <div class="profile-sync">
-          <h3>Saved Cloud-Ready Data</h3>
-          {% if progress_rows %}
-            <ul>{% for row in progress_rows %}<li><strong>{{ row.progress_type }}</strong> — {{ row.updated_at }}</li>{% endfor %}</ul>
+      </section>
+      <section class="kpc-glass-card">
+        <div class="kpc-section-title" style="margin-top:0"><div><h2>Recent Sync History</h2><p>Your latest saved local/cloud progress records.</p></div></div>
+        <div class="kpc-list-stack">
+          {% for row in progress_rows %}
+          <article class="kpc-progress-item"><b>{{ row.progress_type|replace('_',' ')|title }}</b><small>Updated: {{ row.updated_at }}</small></article>
           {% else %}
-            <p>No synced progress yet. Click “Sync Local Progress”.</p>
-          {% endif %}
-          <pre id="syncStatus">Ready</pre>
+          <div class="kpc-empty-state">No saved progress yet. Complete a practice session to start your history.</div>
+          {% endfor %}
         </div>
-      </article>
-    </section>
-  </main>
-  <script src="{{ url_for('static', filename='js/cloud_sync.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/auth_ui.js') }}"></script>
-  <script src="/static/js/mobile_typing_helper.js" defer></script>
-
-</body>
-</html>
+      </section>
+    </div>
+  </div>
+</section>
+{% endblock %}

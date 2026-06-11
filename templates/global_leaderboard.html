@@ -8,6 +8,8 @@
 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/design-system.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
 </head>
 <body class="kpc-mockup2-page kpc-leaderboard-page phase13-page">
   <main class="kpc-shell lb-shell">
@@ -79,5 +81,6 @@
   <script>window.PHASE13_DEFAULT_PERIOD = "{{ default_period|default('all') }}";</script>
   <script src="/static/js/global_leaderboard.js"></script>
 
+  <script src="/static/js/theme-toggle.js" defer></script>
 </body>
 </html>

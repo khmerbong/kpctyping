@@ -99,6 +99,58 @@ def ensure_user_tables():
     conn.execute("CREATE INDEX IF NOT EXISTS idx_ai_stats_user_guest ON ai_key_stats (user_id, guest_id)")
     conn.execute("CREATE INDEX IF NOT EXISTS idx_ai_sessions_user_guest ON ai_practice_sessions (user_id, guest_id, created_at)")
 
+    # PHASE 4 — AI Coach Upgrade 2026: daily challenges, weekly goals and reusable recommendations.
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS ai_daily_challenges (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER,
+            guest_id TEXT,
+            challenge_date TEXT NOT NULL,
+            target_wpm INTEGER DEFAULT 35,
+            target_accuracy REAL DEFAULT 95,
+            focus_keys TEXT DEFAULT '',
+            reward_xp INTEGER DEFAULT 100,
+            completed INTEGER DEFAULT 0,
+            completed_at TEXT,
+            created_at TEXT NOT NULL,
+            UNIQUE(user_id, guest_id, challenge_date),
+            FOREIGN KEY(user_id) REFERENCES users(id)
+        )
+    """)
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS ai_weekly_goals (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER,
+            guest_id TEXT,
+            week_key TEXT NOT NULL,
+            target_xp INTEGER DEFAULT 5000,
+            current_xp INTEGER DEFAULT 0,
+            target_sessions INTEGER DEFAULT 20,
+            completed_sessions INTEGER DEFAULT 0,
+            focus_area TEXT DEFAULT 'Accuracy',
+            created_at TEXT NOT NULL,
+            updated_at TEXT NOT NULL,
+            UNIQUE(user_id, guest_id, week_key),
+            FOREIGN KEY(user_id) REFERENCES users(id)
+        )
+    """)
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS ai_recommendations (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER,
+            guest_id TEXT,
+            recommendation_type TEXT NOT NULL,
+            title TEXT NOT NULL,
+            body TEXT NOT NULL,
+            priority INTEGER DEFAULT 1,
+            created_at TEXT NOT NULL,
+            read_at TEXT,
+            FOREIGN KEY(user_id) REFERENCES users(id)
+        )
+    """)
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_ai_daily_identity ON ai_daily_challenges (user_id, guest_id, challenge_date)")
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_ai_weekly_identity ON ai_weekly_goals (user_id, guest_id, week_key)")
+
     # REAL PHASE 9: XP, career ranks, achievements and daily reward tables.
     conn.execute("""
         CREATE TABLE IF NOT EXISTS user_xp_events (
@@ -844,6 +896,64 @@ def _ai_stats_rows(conn, user_id, guest_id):
         return conn.execute("SELECT * FROM ai_key_stats WHERE guest_id = ? ORDER BY wrong_count DESC, slow_count DESC, key_value ASC", (guest_id,)).fetchall()
     return []
 
+def _phase4_skill_level(best_wpm, accuracy, total_keys):
+    if total_keys < 100:
+        return {"name": "Starter", "progress": 8, "next": "Beginner", "message": "Complete one full practice to unlock stronger coaching."}
+    if best_wpm >= 100 and accuracy >= 97:
+        return {"name": "Grandmaster", "progress": 100, "next": "Legend", "message": "Elite speed with strong control."}
+    if best_wpm >= 80 and accuracy >= 96:
+        return {"name": "Master", "progress": 86, "next": "Grandmaster", "message": "Very strong typing rhythm. Polish weak keys."}
+    if best_wpm >= 60 and accuracy >= 95:
+        return {"name": "Expert", "progress": 70, "next": "Master", "message": "Your speed is strong. Protect accuracy under pressure."}
+    if best_wpm >= 45 and accuracy >= 93:
+        return {"name": "Advanced", "progress": 55, "next": "Expert", "message": "Good foundation. Build longer streaks."}
+    if best_wpm >= 30 and accuracy >= 90:
+        return {"name": "Intermediate", "progress": 38, "next": "Advanced", "message": "Focus on steady accuracy before chasing speed."}
+    return {"name": "Beginner", "progress": 22, "next": "Intermediate", "message": "Start slow and keep your fingers relaxed."}
+
+
+def _phase4_keyboard_heatmap(enriched):
+    rows = [list("QWERTYUIOP"), list("ASDFGHJKL"), list("ZXCVBNM")]
+    by_key = {str(k["key"]).lower(): k for k in enriched}
+    heat = []
+    for row in rows:
+        line = []
+        for ch in row:
+            data = by_key.get(ch.lower(), {})
+            risk = int(data.get("risk", 0) or 0)
+            if risk >= 40:
+                level = "high"
+            elif risk >= 18:
+                level = "medium"
+            elif risk > 0:
+                level = "low"
+            else:
+                level = "none"
+            line.append({"key": ch, "level": level, "wrong": data.get("wrong", 0), "accuracy": data.get("accuracy", 100)})
+        heat.append(line)
+    return heat
+
+
+def _phase4_recommendations(summary):
+    weak = summary.get("weak_keys", [])
+    accuracy = float(summary.get("accuracy", 100) or 100)
+    total = int(summary.get("total_keys", 0) or 0)
+    recs = []
+    if total < 100:
+        recs.append({"type": "start", "title": "Build your first data set", "body": "Finish at least 100 typed characters so the coach can measure your real weak keys.", "priority": 1})
+    if accuracy < 92:
+        recs.append({"type": "accuracy", "title": "Slow down for clean accuracy", "body": "Your accuracy is below 92%. Type slower for 5 minutes and avoid rushing the next word.", "priority": 3})
+    if weak:
+        keys = ", ".join(str(k["key"]).upper() for k in weak[:4])
+        recs.append({"type": "weak_keys", "title": "Focus weak keys", "body": f"Practice these keys first: {keys}. Repeat them slowly before a normal test.", "priority": 2})
+    if summary.get("slow_keys"):
+        keys = ", ".join(str(k["key"]).upper() for k in summary["slow_keys"][:3])
+        recs.append({"type": "speed_control", "title": "Smooth slow keys", "body": f"Your slowest keys are {keys}. Keep the same rhythm instead of pausing on them.", "priority": 2})
+    if not recs:
+        recs.append({"type": "maintenance", "title": "Keep your rhythm", "body": "Your typing looks stable. Try a longer session and keep accuracy above 96%.", "priority": 1})
+    return recs[:5]
+
+
 def _build_ai_coach_summary(rows):
     total_correct = sum(int(r["correct_count"] or 0) for r in rows)
     total_wrong = sum(int(r["wrong_count"] or 0) for r in rows)
@@ -868,14 +978,15 @@ def _build_ai_coach_summary(rows):
         })
     weak_keys = sorted(enriched, key=lambda x: (-x["risk"], -x["wrong"], -x["slow"], x["key"]))[:8]
     slow_keys = sorted([x for x in enriched if x["avg_time_ms"]], key=lambda x: (-x["avg_time_ms"], -x["slow"]))[:8]
+    best_wpm_estimate = round((total_correct / 5) / max(1, (sum(int(r["total_time_ms"] or 0) for r in rows) / 60000)), 1) if rows else 0
     if weak_keys:
-        base = " ".join(k["key"] for k in weak_keys[:4])
-        recommended = " ".join(([base, base[::-1] if len(base) > 1 else base, "focus accuracy first"] * 3)).strip()
-        coach_message = "Practice your weak keys slowly before increasing speed."
+        focus = " ".join(k["key"] for k in weak_keys[:5])
+        recommended = "  ".join([focus, focus[::-1] if len(focus) > 1 else focus, "slow accuracy rhythm", focus] * 2).strip()
+        coach_message = "Your coach found weak-key patterns. Practice them slowly, then return to normal typing."
     else:
-        recommended = "f j d k s l a ; f j d k s l a ;"
-        coach_message = "Start with home-row accuracy. The coach will adapt after you type."
-    return {
+        recommended = "f j d k s l a ; f j d k s l a ; calm rhythm clean accuracy"
+        coach_message = "Start with home-row accuracy. The coach will adapt after you type more sessions."
+    summary = {
         "total_keys": total_keys,
         "correct_keys": total_correct,
         "wrong_keys": total_wrong,
@@ -885,9 +996,71 @@ def _build_ai_coach_summary(rows):
         "slow_keys": slow_keys,
         "recommended_lesson": recommended,
         "coach_message": coach_message,
+        "keyboard_heatmap": _phase4_keyboard_heatmap(enriched),
+        "skill_level": _phase4_skill_level(best_wpm_estimate, accuracy, total_keys),
+        "improvement_score": min(100, max(0, round((accuracy * 0.65) + (min(best_wpm_estimate, 100) * 0.35), 1))),
+        "best_wpm_estimate": best_wpm_estimate,
     }
+    summary["recommendations"] = _phase4_recommendations(summary)
+    return summary
+
+
+def _phase4_week_key(dt=None):
+    dt = dt or datetime.utcnow()
+    y, w, _ = dt.isocalendar()
+    return f"{y}-W{int(w):02d}"
+
+
+def _phase4_get_or_create_challenge(conn, user_id, guest_id, summary):
+    today = datetime.utcnow().date().isoformat()
+    now = datetime.utcnow().isoformat()
+    row = None
+    if user_id:
+        row = conn.execute("SELECT * FROM ai_daily_challenges WHERE user_id = ? AND challenge_date = ?", (user_id, today)).fetchone()
+    elif guest_id:
+        row = conn.execute("SELECT * FROM ai_daily_challenges WHERE guest_id = ? AND challenge_date = ?", (guest_id, today)).fetchone()
+    if not row:
+        weak = summary.get("weak_keys", [])[:3]
+        focus_keys = " ".join(k["key"] for k in weak) or "f j d k"
+        target_wpm = max(25, min(90, int(float(summary.get("best_wpm_estimate", 0) or 0) + 5)))
+        target_accuracy = 96 if float(summary.get("accuracy", 100) or 100) >= 94 else 94
+        conn.execute("""
+            INSERT INTO ai_daily_challenges (user_id, guest_id, challenge_date, target_wpm, target_accuracy, focus_keys, reward_xp, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """, (user_id, guest_id, today, target_wpm, target_accuracy, focus_keys, 100, now))
+        conn.commit()
+        if user_id:
+            row = conn.execute("SELECT * FROM ai_daily_challenges WHERE user_id = ? AND challenge_date = ?", (user_id, today)).fetchone()
+        else:
+            row = conn.execute("SELECT * FROM ai_daily_challenges WHERE guest_id = ? AND challenge_date = ?", (guest_id, today)).fetchone()
+    return dict(row) if row else {}
+
+
+def _phase4_get_or_create_weekly_goal(conn, user_id, guest_id):
+    week = _phase4_week_key()
+    now = datetime.utcnow().isoformat()
+    row = None
+    if user_id:
+        row = conn.execute("SELECT * FROM ai_weekly_goals WHERE user_id = ? AND week_key = ?", (user_id, week)).fetchone()
+    elif guest_id:
+        row = conn.execute("SELECT * FROM ai_weekly_goals WHERE guest_id = ? AND week_key = ?", (guest_id, week)).fetchone()
+    if not row:
+        conn.execute("""
+            INSERT INTO ai_weekly_goals (user_id, guest_id, week_key, target_xp, current_xp, target_sessions, completed_sessions, focus_area, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (user_id, guest_id, week, 5000, 0, 20, 0, "Accuracy + weak keys", now, now))
+        conn.commit()
+        if user_id:
+            row = conn.execute("SELECT * FROM ai_weekly_goals WHERE user_id = ? AND week_key = ?", (user_id, week)).fetchone()
+        else:
+            row = conn.execute("SELECT * FROM ai_weekly_goals WHERE guest_id = ? AND week_key = ?", (guest_id, week)).fetchone()
+    data = dict(row) if row else {}
+    if data:
+        data["progress_percent"] = min(100, round((int(data.get("completed_sessions") or 0) / max(1, int(data.get("target_sessions") or 20))) * 100, 1))
+    return data
 
 @app.route("/ai-coach")
+@app.route("/dashboard/coach")
 def ai_coach():
     return render_template("ai_coach.html")
 
@@ -903,6 +1076,8 @@ def api_ai_coach():
             sessions = conn.execute("SELECT * FROM ai_practice_sessions WHERE guest_id = ? ORDER BY created_at DESC LIMIT 10", (guest_id,)).fetchall()
         else:
             sessions = []
+        summary["daily_challenge"] = _phase4_get_or_create_challenge(conn, user_id, guest_id, summary)
+        summary["weekly_goal"] = _phase4_get_or_create_weekly_goal(conn, user_id, guest_id)
     summary["ok"] = True
     summary["mode"] = "account" if user_id else "guest"
     summary["recent_sessions"] = [dict(r) for r in sessions]
@@ -964,6 +1139,9 @@ def api_ai_coach_track():
             """,
             (user_id, guest_id, sanitize_player_name(str(data.get("lesson_name") or "Training Mode")) or "Training Mode", total, correct, wrong, avg_time, weak_json, summary["recommended_lesson"], now),
         )
+        week_goal = _phase4_get_or_create_weekly_goal(conn, user_id, guest_id)
+        if week_goal.get("id"):
+            conn.execute("UPDATE ai_weekly_goals SET completed_sessions = completed_sessions + 1, current_xp = current_xp + ?, updated_at = ? WHERE id = ?", (max(5, correct // 10), now, week_goal["id"]))
         conn.commit()
     summary.update({"ok": True, "saved_events": total, "mode": "account" if user_id else "guest"})
     return jsonify(summary)

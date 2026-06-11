@@ -1,0 +1,32 @@
+/* KPCTyping 2026 Phase 1 Theme Layer: light/dark modes + accessibility */
+:root{
+  color-scheme:light;
+  --kpc-focus:0 0 0 4px rgba(37,99,235,.16);
+  --kpc-gradient-brand:linear-gradient(135deg,#2563eb 0%,#06b6d4 55%,#22c55e 100%);
+  --kpc-gradient-soft:radial-gradient(circle at 18% -10%,rgba(37,99,235,.16),transparent 30%),radial-gradient(circle at 86% 0%,rgba(34,197,94,.12),transparent 26%),linear-gradient(180deg,#f8fbff 0%,#f6f8fc 100%);
+  --kpc-glass:rgba(255,255,255,.82);
+}
+html[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#07111f;--surface:#0f1b2d;--surface-2:#13223a;--surface-3:#1b2f4f;
+  --text:#f8fafc;--muted:#a8b3c7;--muted-2:#71809a;--border:#24364f;
+  --primary:#60a5fa;--primary-600:#3b82f6;--primary-700:#93c5fd;--primary-soft:rgba(96,165,250,.16);
+  --accent:#34d399;--accent-600:#10b981;--accent-soft:rgba(52,211,153,.14);
+  --danger:#fb7185;--warning:#fbbf24;--success:#34d399;
+  --shadow-xs:0 1px 2px rgba(0,0,0,.22);--shadow-sm:0 10px 30px rgba(0,0,0,.28);--shadow:0 22px 60px rgba(0,0,0,.38);
+  --kpc-glass:rgba(15,27,45,.78);
+  --kpc-gradient-soft:radial-gradient(circle at 18% -10%,rgba(96,165,250,.18),transparent 30%),radial-gradient(circle at 86% 0%,rgba(52,211,153,.13),transparent 26%),linear-gradient(180deg,#07111f 0%,#0b1424 100%);
+}
+html[data-theme="dark"] body{background:var(--kpc-gradient-soft);}
+html[data-theme="dark"] .kpc-navbar,html[data-theme="dark"] .app-nav,html[data-theme="dark"] .top-nav,html[data-theme="dark"] .career-nav,html[data-theme="dark"] .analytics-pro-nav,html[data-theme="dark"] .tour-nav,html[data-theme="dark"] .social-nav,html[data-theme="dark"] .navbar,html[data-theme="dark"] .main-nav{background:rgba(15,27,45,.84);border-color:var(--border)}
+html[data-theme="dark"] .card,html[data-theme="dark"] .kpc-feature,html[data-theme="dark"] .kpc-game-card,html[data-theme="dark"] .social-card,html[data-theme="dark"] .social-panel,html[data-theme="dark"] .auth-card,html[data-theme="dark"] .hero,html[data-theme="dark"] .social-hero,html[data-theme="dark"] .career-hero,html[data-theme="dark"] .analytics-hero,html[data-theme="dark"] .ai-coach-hero,html[data-theme="dark"] .tour-hero,html[data-theme="dark"] .page-hero,html[data-theme="dark"] .game-area,html[data-theme="dark"] .typing-area,html[data-theme="dark"] .word-display,html[data-theme="dark"] .typing-text,html[data-theme="dark"] .prompt-box,html[data-theme="dark"] .table-wrap,html[data-theme="dark"] table,html[data-theme="dark"] input,html[data-theme="dark"] select,html[data-theme="dark"] textarea{background:var(--surface);border-color:var(--border);color:var(--text)}
+html[data-theme="dark"] th,html[data-theme="dark"] .word-display,html[data-theme="dark"] .typing-text,html[data-theme="dark"] .prompt-box{background:var(--surface-2)}
+html[data-theme="dark"] tr:hover td{background:rgba(96,165,250,.08)}
+html[data-theme="dark"] .kpc-footer,html[data-theme="dark"] .kpc-mobile-bottom-nav{background:rgba(15,27,45,.92);border-color:var(--border)}
+.kpc-theme-toggle{min-width:44px;width:44px;height:44px;border-radius:14px;padding:0;background:var(--surface);color:var(--text)!important;border:1px solid var(--border);box-shadow:var(--shadow-xs)}
+.kpc-theme-toggle:hover{background:var(--surface-2);transform:translateY(-1px)}
+:focus-visible{outline:none!important;box-shadow:var(--kpc-focus)!important}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}}
+
+.kpc-floating-theme-toggle{position:fixed;right:18px;bottom:18px;z-index:190}
+@media(max-width:760px){.kpc-floating-theme-toggle{right:18px;bottom:92px}}

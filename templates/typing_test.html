@@ -1,183 +1,125 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H8Q99PGJYV"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-H8Q99PGJYV');
-    </script>
+{% extends "base.html" %}
 
-<meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>60-second typing test - KPC Typing</title>
+{% block title %}Typing Test 2026 - KPC Typing{% endblock %}
+{% block description %}A modern 60-second typing test with live WPM, accuracy, streaks, heatmap, keyboard shortcuts, and a polished 2026 typing experience.{% endblock %}
+{% block body_class %}typing-2026-page{% endblock %}
 
-    <meta name="description" content="Take a free 60-second typing speed test with WPM, accuracy, score tracking and leaderboard practice on KPC Typing." />
-    <meta name="keywords" content="free typing game, online typing test, typing speed test, keyboard practice, typing lessons, WPM test, typing leaderboard, Khmer typing practice" />
-    <meta name="author" content="KPC Typing" />
-    <link rel="canonical" href="https://kpctyping.space/typing-test" />
-    <meta property="og:title" content="60-second typing test - KPC Typing" />
-    <meta property="og:description" content="Take a free 60-second typing speed test with WPM, accuracy, score tracking and leaderboard practice on KPC Typing." />
-    <meta property="og:url" content="https://kpctyping.space/typing-test" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="KPC Typing" />
-    <meta property="og:image" content="https://kpctyping.space/static/images/og-kpc-typing.png" />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="KPC Typing free typing practice website preview" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="60-second typing test - KPC Typing" />
-    <meta name="twitter:description" content="Take a free 60-second typing speed test with WPM, accuracy, score tracking and leaderboard practice on KPC Typing." />
-    <meta name="twitter:image" content="https://kpctyping.space/static/images/og-kpc-typing.png" />
-    <meta name="twitter:image:alt" content="KPC Typing free typing practice website preview" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Game","name":"60-second typing test - KPC Typing","url":"https://kpctyping.space/typing-test","description":"Take a free 60-second typing speed test with WPM, accuracy, score tracking and leaderboard practice on KPC Typing.","image":"https://kpctyping.space/static/images/og-kpc-typing.png","inLanguage":"en","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"KPC Typing","url":"https://kpctyping.space"},"genre":"Typing Game","gamePlatform":"Web Browser","applicationCategory":"GameApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
-    <meta name="csrf-token" content="{{ csrf_token }}">
+{% block head %}
+  <link rel="canonical" href="https://kpctyping.space/typing-test">
+  <meta property="og:title" content="Typing Test 2026 - KPC Typing">
+  <meta property="og:description" content="Take a modern typing speed test with live WPM, accuracy, streaks and results analysis.">
+  <meta property="og:url" content="https://kpctyping.space/typing-test">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="KPC Typing">
+  <meta property="og:image" content="https://kpctyping.space/static/images/og-kpc-typing.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Typing Test 2026 - KPC Typing">
+  <meta name="twitter:description" content="Modern typing test with live WPM, accuracy and heatmap.">
+  <meta name="twitter:image" content="https://kpctyping.space/static/images/og-kpc-typing.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Game","name":"Typing Test 2026 - KPC Typing","url":"https://kpctyping.space/typing-test","description":"A modern 60-second typing test with live WPM, accuracy, streaks, heatmap, keyboard shortcuts, and polished results.","image":"https://kpctyping.space/static/images/og-kpc-typing.png","inLanguage":"en","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"KPC Typing","url":"https://kpctyping.space"},"genre":"Typing Game","gamePlatform":"Web Browser","applicationCategory":"GameApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/typing2026.css') }}">
+{% endblock %}
 
-<link rel="manifest" href="/static/manifest.json">
-<meta name="theme-color" content="#5b7cfa">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="KPC Typing">
-<link rel="manifest" href="/static/manifest.json">
-<meta name="theme-color" content="#075ce8">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/design-system.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
-</head>
-<body>
-    
-<div id="gameOverlay" class="game-overlay">
-  <div class="game-overlay-card">
-    <h1 id="overlayTitle">Typing warm-up</h1>
-    <p id="overlaySubtitle">60 seconds. Stay calm and keep going.</p>
-    <button id="overlayPlayBtn" class="overlay-play-btn">Start</button>
+{% block content %}
+<section class="typing2026-shell" data-typing-shell>
+  <div class="typing2026-bg typing2026-bg-one"></div>
+  <div class="typing2026-bg typing2026-bg-two"></div>
+
+  <header class="typing2026-hero">
+    <div>
+      <span class="typing2026-eyebrow">Phase 3 • Typing Test 2026</span>
+      <h1>Focus typing test</h1>
+      <p>Type the highlighted text. Accuracy, speed, streak and weak keys update live while you type.</p>
+    </div>
+    <div class="typing2026-actions">
+      <button class="typing2026-btn secondary" type="button" id="focusModeBtn" title="Toggle focus mode">Focus mode</button>
+      <button class="typing2026-btn secondary" type="button" id="soundToggleBtn" aria-pressed="false">Sound off</button>
+      <button class="typing2026-btn primary" type="button" id="startBtn">Start test</button>
+    </div>
+  </header>
+
+  <section class="typing2026-stats" aria-label="Live typing statistics">
+    <article class="typing2026-stat"><span>Time</span><strong id="timeLeft">60</strong><small>seconds</small></article>
+    <article class="typing2026-stat"><span>WPM</span><strong id="wpm">0</strong><small>correct chars / 5</small></article>
+    <article class="typing2026-stat"><span>Accuracy</span><strong id="accuracy">100%</strong><small>live</small></article>
+    <article class="typing2026-stat"><span>Errors</span><strong id="errors">0</strong><small>mistakes</small></article>
+    <article class="typing2026-stat"><span>Streak</span><strong id="streak">0</strong><small>best <b id="bestStreak">0</b></small></article>
+  </section>
+
+  <section class="typing2026-card typing2026-test-card" aria-label="Typing test area">
+    <div class="typing2026-toolbar">
+      <div class="typing2026-mode-group" aria-label="Difficulty">
+        <button type="button" class="mode-pill active" data-difficulty="easy">Easy</button>
+        <button type="button" class="mode-pill" data-difficulty="medium">Medium</button>
+        <button type="button" class="mode-pill" data-difficulty="hard">Hard</button>
+      </div>
+      <div class="typing2026-mode-group" aria-label="Duration">
+        <button type="button" class="mode-pill" data-duration="30">30s</button>
+        <button type="button" class="mode-pill active" data-duration="60">60s</button>
+        <button type="button" class="mode-pill" data-duration="120">120s</button>
+      </div>
+    </div>
+
+    <div class="typing2026-text" id="typingText" tabindex="0" aria-label="Text to type">
+      <span class="muted">Press Start test to begin.</span>
+    </div>
+
+    <textarea id="typingInput" class="typing2026-input" rows="3" placeholder="Start, then type here..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" disabled></textarea>
+
+    <div class="typing2026-footerline">
+      <p id="message" class="typing2026-message">Tab = new test • Ctrl+R = restart • Esc = pause • F11/f = focus</p>
+      <div class="typing2026-progress" aria-hidden="true"><span id="progressBar"></span></div>
+    </div>
+  </section>
+
+  <section class="typing2026-lower-grid">
+    <article class="typing2026-card">
+      <div class="typing2026-section-head"><h2>Keyboard heatmap</h2><span>weak keys</span></div>
+      <div id="heatmap" class="typing2026-heatmap" aria-label="Keyboard heatmap"></div>
+    </article>
+    <article class="typing2026-card">
+      <div class="typing2026-section-head"><h2>Session insight</h2><span id="rawWpmLabel">Raw WPM 0</span></div>
+      <ul class="typing2026-insights" id="insightsList">
+        <li>Keep your eyes on the text and use smooth rhythm.</li>
+        <li>Your weak keys will appear after the first mistakes.</li>
+      </ul>
+    </article>
+  </section>
+</section>
+
+<div class="typing2026-pause" id="pauseOverlay" hidden>
+  <div class="typing2026-pause-card">
+    <h2>Paused</h2>
+    <p>Take a breath. Resume when ready.</p>
+    <div>
+      <button class="typing2026-btn primary" type="button" id="resumeBtn">Resume</button>
+      <button class="typing2026-btn secondary" type="button" id="restartPauseBtn">Restart</button>
+      <a class="typing2026-btn ghost" href="/">Home</a>
+    </div>
   </div>
 </div>
 
-<main class="page-shell">
-        <nav class="top-nav">
-            <a href="/">← Home</a>
-            <strong>KPC Typing</strong>
-        </nav>
+<div class="typing2026-result" id="resultModal" hidden>
+  <div class="typing2026-result-card" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
+    <button class="typing2026-close" type="button" id="closeResultBtn" aria-label="Close result">×</button>
+    <span class="typing2026-trophy">🏆</span>
+    <h2 id="resultTitle">Test complete</h2>
+    <div class="typing2026-result-grid">
+      <div><span>WPM</span><strong id="resultWpm">0</strong></div>
+      <div><span>Accuracy</span><strong id="resultAccuracy">100%</strong></div>
+      <div><span>Errors</span><strong id="resultErrors">0</strong></div>
+      <div><span>Best streak</span><strong id="resultStreak">0</strong></div>
+    </div>
+    <p id="resultAdvice">Nice work. Try again and keep a steady rhythm.</p>
+    <button class="typing2026-btn primary" type="button" id="playAgainBtn">Play again</button>
+  </div>
+</div>
 
-        <section class="typing-panel">
-            <div class="panel-header">
-                <div>
-                    <div class="badge">Quick practice</div>
-                    <h1>60-second typing test</h1>
-                    <p>Type each word as it appears. Speed matters, but accuracy wins.</p>
-                </div>
-                <button id="startBtn" class="primary-btn">Start</button>
-            </div>
+<div data-mobile-keyboard></div>
+{% endblock %}
 
-            <div class="stats-grid">
-                <div class="stat-card"><span>Time</span><strong id="timeLeft">60</strong></div>
-                <div class="stat-card"><span>Score</span><strong id="score">0</strong></div>
-                <div class="stat-card"><span>WPM</span><strong id="wpm">0</strong></div>
-                <div class="stat-card"><span>Accuracy</span><strong id="accuracy">100%</strong></div>
-            </div>
-
-            <div class="word-box">
-                <p>Next word</p>
-                <h2 id="wordDisplay">Ready</h2>
-            </div>
-
-            <input id="typingInput" class="typing-input" type="text" placeholder="Start typing here..." autocomplete="off" disabled />
-            <p id="message" class="message">Take a breath. Start when ready.</p>
-
-            <div class="word-list" id="wordList"></div>
-        </section>
-    <div data-mobile-keyboard></div>
-</main>
-
-    <script src="{{ url_for('static', filename='js/typing_test.js') }}"></script>
-<script src="{{ url_for('static', filename='js/achievement_popup.js') }}"></script>
-<script src="{{ url_for('static', filename='js/letter_feedback.js') }}"></script>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const overlay = document.getElementById('gameOverlay');
-  const playBtn = document.getElementById('overlayPlayBtn');
-  if (!overlay || !playBtn) return;
-
-  const startSelectors = [
-    '#spaceStart',
-    '#spaceStartBtn',
-    '#startBtn',
-    '#startGame',
-    '#startGameBtn',
-    '#startTyping',
-    '#startTest',
-    '#typingStart',
-    '#zombieStart',
-    '#vampireStart',
-    'button[data-start-game]'
-  ];
-
-  function getStartButton(){
-    for (const sel of startSelectors){
-      const el = document.querySelector(sel);
-      if (el) return el;
-    }
-    // fallback: find button whose text looks like start/restart/play
-    const buttons = Array.from(document.querySelectorAll('button'));
-    return buttons.find(b => /start|play|mission|test/i.test((b.textContent || '').trim()) && b.id !== 'overlayPlayBtn') || null;
-  }
-
-  function hideOldStartButtons(){
-    const old = getStartButton();
-    if (old) {
-      old.classList.add('old-start-hidden');
-      old.setAttribute('aria-hidden','true');
-      old.tabIndex = -1;
-    }
-  }
-
-  function startGameFromOverlay(){
-    overlay.style.display = 'none';
-    const old = getStartButton();
-    if (old) old.click();
-
-    // focus likely game input
-    setTimeout(() => {
-      const input = document.querySelector(
-        '#spaceInput,#zombieInput,#vampireInput,#typingInput,#wordInput,input[type="text"],input:not([type])'
-      );
-      if (input) input.focus();
-    }, 120);
-  }
-
-  playBtn.onclick = startGameFromOverlay;
-  hideOldStartButtons();
-
-  window.showGameOverlay = function(title, msg){
-    overlay.style.display = 'flex';
-    const titleEl = document.getElementById('overlayTitle');
-    const subEl = document.getElementById('overlaySubtitle');
-    if (titleEl) titleEl.textContent = title || 'GAME OVER';
-    if (subEl) subEl.textContent = msg || 'Try again and beat your score.';
-    playBtn.textContent = /over|again/i.test(title || '') ? 'PLAY AGAIN' : 'Start';
-    hideOldStartButtons();
-  };
-
-  // Keep old start hidden even after game scripts re-render/update.
-  setInterval(hideOldStartButtons, 1000);
-});
-</script>
-
-<script src="{{ url_for('static', filename='js/gameover_v24.js') }}"></script>
-<div id="pauseOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:99998;align-items:center;justify-content:center;">
-<div style="background:#111827;padding:30px;border-radius:20px;text-align:center;color:white;">
-<h1>⏸️ PAUSED</h1>
-<button onclick="resumeGame()">Resume</button>
-<button onclick="location.reload()">Restart</button>
-<button onclick="location.href='/'">Home</button>
-</div></div>
-<script src="{{ url_for('static', filename='js/pause_system.js') }}"></script>
-
-<script src="/static/js/mobile_typing_helper.js" defer></script>
-
-</body>
-</html>
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/typing_engine_v2.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/achievement_popup.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/mobile_typing_helper.js') }}" defer></script>
+{% endblock %}

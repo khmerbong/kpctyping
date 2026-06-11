@@ -2,7 +2,11 @@
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Login | KPC Typing</title><link rel="manifest" href="/static/manifest.json"><meta name="theme-color" content="#075ce8">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/design-system.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
 </head>
 <body>
 <nav class="auth-nav"><a href="/"><span class="kpc-brand-mark">KPC<small>TYPING</small></span></a><div><a href="/landing">Home</a><a href="/landing#games">Games</a><a href="/typing-test">Typing Test</a><a href="/leaderboard">Leaderboard</a><a href="/register">Register</a></div></nav>
 <main class="auth-shell"><section class="auth-card"><span class="auth-badge">Welcome Back</span><h1>Login</h1><p>Login to continue your typing journey</p>{% if error %}<div class="auth-error">{{ error }}</div>{% endif %}<form method="post" class="auth-form"><input type="hidden" name="csrf_token" value="{{ csrf_token_value }}"><label>Username or Email<input name="identity" required autocomplete="username" placeholder="Enter your username or email"></label><label>Password<input name="password" type="password" required autocomplete="current-password" placeholder="Enter your password"></label><button type="submit">Login</button></form><p class="auth-small">Don’t have an account? <a href="/register">Register here</a></p></section></main>
+
+<script src="/static/js/theme-toggle.js" defer></script>

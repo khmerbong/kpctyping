@@ -2,10 +2,13 @@
 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/design-system.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
 </head><body class="social-body">
 {% include 'social_nav.html' ignore missing %}
 <main class="social-shell">
 <section class="social-hero"><span class="social-badge">REAL PHASE 14</span><h1>Friends & Social System</h1><p>Search players, send friend requests, and build your typing community.</p><p>Pending requests: <b id="pendingCount">0</b></p></section>
 <section class="social-grid"><article class="social-card"><h3>Find Player</h3><input id="playerSearch" class="social-input" placeholder="Search username..." /><div id="searchResults"></div></article><article class="social-card"><h3>Your Friends</h3><div id="friendsList">Loading...</div></article></section>
 
+  <script src="/static/js/theme-toggle.js" defer></script>
 </body></html>

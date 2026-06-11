@@ -1,153 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H8Q99PGJYV"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-H8Q99PGJYV');
-    </script>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Typing Progress Dashboard - KPC Typing</title>
-
-    <meta name="description" content="Track your typing progress, XP, rank, achievements, daily challenges, accuracy, streak and weak keys on KPC Typing." />
-    <meta name="keywords" content="free typing game, online typing test, typing speed test, keyboard practice, typing lessons, WPM test, typing leaderboard, Khmer typing practice" />
-    <meta name="author" content="KPC Typing" />
-    <link rel="canonical" href="https://kpctyping.space/progress" />
-    <meta property="og:title" content="Typing Progress Dashboard - KPC Typing" />
-    <meta property="og:description" content="Track your typing progress, XP, rank, achievements, daily challenges, accuracy, streak and weak keys on KPC Typing." />
-    <meta property="og:url" content="https://kpctyping.space/progress" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="KPC Typing" />
-    <meta property="og:image" content="https://kpctyping.space/static/images/og-kpc-typing.png" />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="KPC Typing free typing practice website preview" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Typing Progress Dashboard - KPC Typing" />
-    <meta name="twitter:description" content="Track your typing progress, XP, rank, achievements, daily challenges, accuracy, streak and weak keys on KPC Typing." />
-    <meta name="twitter:image" content="https://kpctyping.space/static/images/og-kpc-typing.png" />
-    <meta name="twitter:image:alt" content="KPC Typing free typing practice website preview" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Typing Progress Dashboard - KPC Typing","url":"https://kpctyping.space/progress","description":"Track your typing progress, XP, rank, achievements, daily challenges, accuracy, streak and weak keys on KPC Typing.","image":"https://kpctyping.space/static/images/og-kpc-typing.png","inLanguage":"en","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"KPC Typing","url":"https://kpctyping.space"},"applicationCategory":"EducationalApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
-
-<meta name="csrf-token" content="{{ csrf_token }}">
-<link rel="manifest" href="/static/manifest.json">
-<meta name="theme-color" content="#5b7cfa">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="KPC Typing">
-
-<link rel="stylesheet" href="{{ url_for('static', filename='css/design-system.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
-</head>
-<body class="gamification-body">
-
-<section class="analytics-dashboard" id="analyticsDashboard" aria-label="Typing analytics dashboard">
-    <div class="analytics-hero">
-        <div>
-            <span class="analytics-badge">REAL PHASE 5.1</span>
-            <h2>Typing Analytics Dashboard</h2>
-            <p>Track XP, weak keys, accuracy, WPM, completion history and keyboard heatmap from your local practice data.</p>
+{% extends "base.html" %}
+{% block title %}Typing Progress Dashboard - KPC Typing{% endblock %}
+{% block description %}Track XP, rank, achievements, daily challenges, accuracy, streak and weak keys on KPC Typing.{% endblock %}
+{% block body_class %}kpc-dashboard-page{% endblock %}
+{% block head %}
+<link rel="canonical" href="https://kpctyping.space/progress">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+{% block content %}
+<section class="kpc-dashboard-shell" aria-label="Typing progress dashboard">
+  <div class="kpc-dashboard-hero">
+    <article class="kpc-hero-card">
+      <div class="kpc-hero-content">
+        <span class="kpc-kicker">🏆 Player Progress</span>
+        <h1>Build speed, accuracy, and confidence every day.</h1>
+        <p>Your 2026 dashboard brings XP, accuracy, streaks, weak keys, daily challenges, and achievements into one clean command center.</p>
+        <div class="kpc-hero-actions">
+          <a class="kpc-btn kpc-btn-xl" href="/training-mode">Start Practice</a>
+          <a class="kpc-btn kpc-btn-secondary kpc-btn-xl" href="/typing-test">Typing Test</a>
+          <a class="kpc-btn kpc-btn-ghost kpc-btn-xl" href="/ai-coach">AI Coach</a>
         </div>
-        <button class="analytics-reset" id="analyticsResetBtn" type="button">Reset Analytics</button>
-    </div>
+      </div>
+    </article>
+    <aside class="kpc-side-card" aria-label="XP progress">
+      <div class="kpc-xp-ring"><div><strong id="dashXP">0</strong><span>Total XP</span></div></div>
+      <div class="kpc-meta-row"><span class="kpc-mini-badge" id="dashRankBadge">Beginner</span><span class="kpc-mini-badge" id="dashNextRank">Next rank: Rookie</span></div>
+      <div class="kpc-progress-track" aria-label="XP progress"><div class="kpc-progress-fill" id="dashXPBar"></div></div>
+    </aside>
+  </div>
 
-    <div class="analytics-card-grid">
-        <article class="analytics-card"><span>Total XP</span><strong id="analyticsXP">0</strong><small>Academy reward points</small></article>
-        <article class="analytics-card"><span>Completed Lessons</span><strong id="analyticsCompleted">0/25</strong><small>Roadmap progress</small></article>
-        <article class="analytics-card"><span>Weakest Key</span><strong id="analyticsWeakest">None</strong><small id="analyticsWeakestDetail">No mistakes yet</small></article>
-        <article class="analytics-card"><span>Practice Streak</span><strong id="analyticsStreak">0 days</strong><small>Local daily activity</small></article>
-    </div>
+  <div class="kpc-stat-grid">
+    <article class="kpc-stat-card"><span>🎯 Accuracy</span><strong id="dashAccuracy">100%</strong><small>Live local progress</small></article>
+    <article class="kpc-stat-card"><span>🔥 Best Streak</span><strong id="dashBestStreak">0</strong><small>Longest clean run</small></article>
+    <article class="kpc-stat-card"><span>✅ Correct Keys</span><strong id="dashCorrect">0</strong><small>Total correct hits</small></article>
+    <article class="kpc-stat-card"><span>📚 Lessons Done</span><strong id="dashLessons">0</strong><small>Completed lessons</small></article>
+  </div>
 
-    <div class="analytics-grid">
-        <section class="analytics-panel">
-            <div class="analytics-panel-title"><h3>Keyboard Heatmap</h3><span>mistakes + hits</span></div>
-            <div class="analytics-keyboard" id="analyticsKeyboardHeatmap"></div>
-        </section>
+  <div class="kpc-section-title"><div><h2>Quick Actions</h2><p>Jump into the feature you need most.</p></div></div>
+  <div class="kpc-action-grid">
+    <a class="kpc-action-card" href="/daily-challenge"><span>📅</span><div><b>Daily Challenge</b><small>One focused task today</small></div></a>
+    <a class="kpc-action-card" href="/leaderboard"><span>🏆</span><div><b>Leaderboard</b><small>Compare your score</small></div></a>
+    <a class="kpc-action-card" href="/profile"><span>👤</span><div><b>Profile</b><small>Review your account</small></div></a>
+  </div>
 
-        <section class="analytics-panel">
-            <div class="analytics-panel-title"><h3>Weak-Key Report</h3><span>top errors</span></div>
-            <div class="analytics-table-wrap">
-                <table class="analytics-table">
-                    <thead><tr><th>Key</th><th>Miss</th><th>Hit</th><th>Error Rate</th></tr></thead>
-                    <tbody id="analyticsWeakKeyRows"></tbody>
-                </table>
-            </div>
-        </section>
-    </div>
+  <div class="kpc-section-title"><div><h2>Progress Center</h2><p>Challenges, rewards, and weak-key coaching.</p></div></div>
+  <div class="kpc-two-col">
+    <section class="kpc-glass-card">
+      <h2>📅 Daily Challenges</h2>
+      <div id="dailyChallengeList" class="challenge-list kpc-list-stack"><div class="kpc-empty-state">Loading today’s challenge...</div></div>
+    </section>
+    <section class="kpc-glass-card">
+      <h2>🎖 Achievements</h2>
+      <div id="achievementGallery" class="achievement-gallery kpc-list-stack"><div class="kpc-empty-state">Achievements will appear after practice.</div></div>
+    </section>
+  </div>
 
-    <div class="analytics-grid">
-        <section class="analytics-panel">
-            <div class="analytics-panel-title"><h3>Accuracy Trend</h3><span>last sessions</span></div>
-            <div class="analytics-bars" id="analyticsAccuracyTrend"></div>
-        </section>
+  <div class="kpc-section-title"><div><h2>Rank Ladder</h2><p>See where your XP is taking you next.</p></div></div>
+  <section class="kpc-glass-card"><div id="rankLadder" class="rank-ladder"><div class="kpc-empty-state">Rank ladder loading...</div></div></section>
 
-        <section class="analytics-panel">
-            <div class="analytics-panel-title"><h3>WPM Trend</h3><span>last sessions</span></div>
-            <div class="analytics-bars" id="analyticsWpmTrend"></div>
-        </section>
-    </div>
+  <div class="kpc-section-title"><div><h2>🤖 Weak Key AI</h2><p>Focus on the keys you miss most often.</p></div></div>
+  <section class="kpc-glass-card"><div id="v25WeakKeys"><div class="kpc-empty-state">No weak keys yet. Play a round to generate feedback.</div></div></section>
 </section>
-
-<main class="gamification-shell">
-    <nav class="academy-nav">
-        <a href="/">← Back Home</a>
-        <strong>KPC Typing Progress</strong>
-        <a href="/training-mode">Training Mode →</a>
-    </nav>
-
-    <section class="progress-hero">
-        <div>
-            <div class="rank-badge" id="dashRankBadge">Beginner</div>
-            <h1>🏆 Your Typing Progress</h1>
-            <p>Track XP, rank, daily challenges, achievements, accuracy, streak and lesson progress.</p>
-        </div>
-        <div class="xp-card">
-            <span>Total XP</span>
-            <strong id="dashXP">0</strong>
-            <div class="xp-bar"><div id="dashXPBar"></div></div>
-            <small id="dashNextRank">Next rank: Rookie</small>
-        </div>
-    </section>
-
-    <section class="progress-grid">
-        <article><span>🎯 Accuracy</span><strong id="dashAccuracy">100%</strong></article>
-        <article><span>🔥 Best Streak</span><strong id="dashBestStreak">0</strong></article>
-        <article><span>✅ Correct Keys</span><strong id="dashCorrect">0</strong></article>
-        <article><span>📚 Lessons Done</span><strong id="dashLessons">0</strong></article>
-    </section>
-
-    <section class="progress-two-col">
-        <div class="progress-panel">
-            <h2>📅 Daily Challenges</h2>
-            <div id="dailyChallengeList" class="challenge-list"></div>
-        </div>
-
-        <div class="progress-panel">
-            <h2>🎖 Achievements</h2>
-            <div id="achievementGallery" class="achievement-gallery"></div>
-        </div>
-    </section>
-
-    <section class="progress-panel">
-        <h2>📈 Rank Ladder</h2>
-        <div id="rankLadder" class="rank-ladder"></div>
-    </section>
-    <section class="progress-panel">
-        <h2>🤖 Weak Key AI</h2>
-        <p class="v25-panel-note">This shows the keys you miss most often, so the next practice can focus on your weak points.</p>
-        <div id="v25WeakKeys"></div>
-    </section>
-
-</main>
+{% endblock %}
+{% block scripts %}
 <script src="{{ url_for('static', filename='js/gamification.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/analytics_engine.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/analytics_dashboard.js') }}"></script>
-
+<script src="{{ url_for('static', filename='js/analytics_engine.js') }}"></script>
+<script src="{{ url_for('static', filename='js/analytics_dashboard.js') }}"></script>
 <script src="/static/js/mobile_typing_helper.js" defer></script>
-
-</body>
-</html>
+{% endblock %}
