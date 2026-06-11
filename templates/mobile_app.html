@@ -1,10 +1,18 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KPC Typing Mobile App</title><link rel="manifest" href="/static/manifest.json"><meta name="theme-color" content="#5b7cfa">
-
-<link rel="stylesheet" href="{{ url_for('static', filename='css/design-system.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
-
-  <script src="/static/js/theme-toggle.js" defer></script>
-  <script src="{{ url_for('static', filename='js/mobile_nav.js') }}" defer></script>
-</body></html>
+{% extends "base.html" %}
+{% block title %}Install KPC Typing App{% endblock %}
+{% block body_class %}pwa-install-page{% endblock %}
+{% block content %}
+<section class="kpc-container" style="padding:34px 16px 90px;">
+  <div class="kpc-card" style="max-width:860px;margin:auto;display:grid;gap:18px;">
+    <span class="kpc-badge">PWA Ready</span>
+    <h1 style="font-size:clamp(32px,6vw,56px);margin:0;">Install KPC Typing</h1>
+    <p style="font-size:18px;color:var(--kpc-muted,#64748b);max-width:680px;line-height:1.7;">Use KPCTyping like a mobile app. Core practice pages, Typing Test, Training Mode, Leaderboard and AI Coach are cached for faster loading and basic offline use.</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;"><button class="kpc-btn" data-pwa-install>Install App</button><a class="kpc-btn kpc-btn-secondary" href="/typing-test">Open Typing Test</a><a class="kpc-btn kpc-btn-ghost" href="/offline.html">Preview Offline Page</a></div>
+    <div class="kpc-grid kpc-grid-3" style="margin-top:14px;">
+      <article class="kpc-panel"><h3>⚡ Faster loads</h3><p>Static assets use cache-first behavior after first visit.</p></article>
+      <article class="kpc-panel"><h3>📴 Offline fallback</h3><p>When the network drops, users get a clean offline page instead of a browser error.</p></article>
+      <article class="kpc-panel"><h3>📱 App feel</h3><p>Standalone display, app icon, shortcuts and mobile-safe layout.</p></article>
+    </div>
+  </div>
+</section>
+{% endblock %}

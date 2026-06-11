@@ -8,6 +8,11 @@
   <meta name="description" content="{% block description %}Practice typing, play typing games, track progress, and climb the leaderboard with KPC Typing.{% endblock %}">
   <link rel="manifest" href="/static/manifest.json">
   <meta name="theme-color" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="KPC Typing">
+  <link rel="icon" href="/static/icons/icon-192.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/static/icons/icon-192.svg">
   <link rel="preload" href="{{ url_for('static', filename='css/design-system.css') }}" as="style">
   <link rel="preload" href="{{ url_for('static', filename='css/components.css') }}" as="style">
   <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -17,9 +22,14 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/mobile.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/performance.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/security.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/mobile_pwa.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/final_release.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/emergency-ui-fix.css') }}">
   {% block head %}{% endblock %}
 </head>
 <body class="kpc-page {% block body_class %}{% endblock %}">
+  <a class="kpc-skip-link" href="#main-content">Skip to content</a>
   <div class="kpc-app-shell">
     <header class="kpc-navbar">
       <div class="kpc-container kpc-nav-inner">
@@ -41,9 +51,12 @@
     <footer class="kpc-footer"><div class="kpc-container kpc-footer-inner"><a class="kpc-brand" href="/"><span class="kpc-brand-mark">KPC<small>TYPING</small></span></a><span>© 2026 KPC Typing. All rights reserved.</span><div><a href="/landing">About</a><a href="/leaderboard">Leaderboard</a><a href="/typing-test">Typing Test</a></div></div></footer>
     <nav class="kpc-bottom-nav" aria-label="Mobile navigation"><a href="/landing"><span>🏠</span>Home</a><a href="/typing-test"><span>⌨️</span>Test</a><a href="/training-mode"><span>🎓</span>Practice</a><a href="/leaderboard"><span>🏆</span>Rank</a></nav>
   </div>
+  <script src="/static/js/security_fetch.js" defer></script>
   <script src="/static/js/theme-toggle.js" defer></script>
   <script src="{{ url_for('static', filename='js/performance_loader.js') }}" defer></script>
   <script src="{{ url_for('static', filename='js/mobile_nav.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/pwa_install.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/final_release.js') }}" defer></script>
   {% block scripts %}{% endblock %}
 </body>
 </html>

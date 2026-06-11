@@ -1,0 +1,32 @@
+/* REAL PHASE 8 — Security UI polish */
+.auth-error,
+.kpc-security-alert {
+  border: 1px solid rgba(239, 68, 68, .35);
+  background: rgba(239, 68, 68, .10);
+  color: #991b1b;
+  border-radius: 14px;
+  padding: .85rem 1rem;
+  font-weight: 700;
+}
+[data-theme="dark"] .auth-error,
+[data-theme="dark"] .kpc-security-alert {
+  color: #fecaca;
+  background: rgba(239, 68, 68, .16);
+}
+.kpc-security-note {
+  display: flex;
+  gap: .65rem;
+  align-items: flex-start;
+  border: 1px solid rgba(37, 99, 235, .16);
+  background: rgba(37, 99, 235, .06);
+  color: var(--kpc-text-muted, #475569);
+  border-radius: 16px;
+  padding: .85rem 1rem;
+  font-size: .92rem;
+  line-height: 1.45;
+}
+.kpc-password-rules {
+  margin: .35rem 0 0;
+  color: var(--kpc-text-muted, #64748b);
+  font-size: .85rem;
+}

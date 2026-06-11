@@ -1,3 +1,11 @@
+# KPCTyping 2026 Final Production Release
+
+This package includes UI/UX updates from Phase 1 through Phase 10, including dashboard redesign, Typing Test 2026, AI Coach, Social/Tournament, Mobile, Performance, Security, PWA/offline mode, and final production documentation.
+
+See `DEPLOY_GUIDE.md`, `CHANGELOG.md`, `FINAL_TEST_CHECKLIST.md`, and `FINAL_PRODUCTION_RELEASE_REPORT.md`.
+
+---
+
 # KPCTyping28 — Production Ready Build
 
 KPCTyping28 is a Flask typing platform with authentication, leaderboards, multiplayer race, tournaments, friends/social pages, analytics, XP/career progress, AI coach, and PWA support.

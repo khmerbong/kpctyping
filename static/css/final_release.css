@@ -1,0 +1,13 @@
+/* PHASE 10 — Production Release final polish */
+:root{--kpc-release-ring:0 0 0 3px rgba(37,99,235,.24)}
+.kpc-skip-link{position:absolute;left:1rem;top:-4rem;z-index:9999;background:#111827;color:#fff;padding:.75rem 1rem;border-radius:.75rem;text-decoration:none;box-shadow:0 10px 25px rgba(0,0,0,.18)}
+.kpc-skip-link:focus{top:1rem}
+:focus-visible{outline:none;box-shadow:var(--kpc-release-ring)}
+.kpc-btn,.kpc-card,.kpc-panel,.kpc-nav a,.kpc-bottom-nav a{transition:transform .18s ease,box-shadow .18s ease,background-color .18s ease,color .18s ease,border-color .18s ease}
+.kpc-btn:active,.kpc-bottom-nav a:active{transform:translateY(1px) scale(.99)}
+.kpc-main{min-height:calc(100vh - 180px)}
+.kpc-footer a,.kpc-nav a{text-underline-offset:4px}
+.kpc-production-badge{display:inline-flex;align-items:center;gap:.4rem;border:1px solid rgba(16,185,129,.35);background:rgba(16,185,129,.1);color:#047857;border-radius:999px;padding:.35rem .7rem;font-size:.82rem;font-weight:700}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+@media (max-width:768px){.kpc-main{padding-bottom:5.5rem}.kpc-footer{padding-bottom:5.5rem}.kpc-brand-text{max-width:9rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
+@media print{.kpc-navbar,.kpc-bottom-nav,.kpc-footer,.kpc-theme-toggle{display:none!important}.kpc-main{padding:0!important}.kpc-card,.kpc-panel{box-shadow:none!important;border:1px solid #ddd!important}}

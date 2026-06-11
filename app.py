@@ -21,6 +21,7 @@ app.config.update(
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE="Lax",
     SESSION_COOKIE_SECURE=os.environ.get("FLASK_ENV") == "production",
+    SESSION_REFRESH_EACH_REQUEST=True,
     PERMANENT_SESSION_LIFETIME=timedelta(days=7),
     JSON_SORT_KEYS=False,
 )
@@ -479,19 +480,65 @@ def _validate_csrf():
     return bool(token and secrets.compare_digest(token, session.get("csrf_token", "")))
 
 def _check_score_rate_limit(limit_seconds=3):
+    return _rate_limit_allowed("submit_score", max_attempts=1, window_seconds=limit_seconds)
+
+def _rate_limit_allowed(endpoint, max_attempts=5, window_seconds=300):
+    """Small SQLite-backed limiter for auth and score endpoints. Returns False when too many recent hits exist."""
     ip_hash = _client_ip_hash()
-    cutoff = (datetime.utcnow() - timedelta(hours=1)).strftime("%Y-%m-%d %H:%M:%S")
+    cutoff_dt = datetime.utcnow() - timedelta(seconds=window_seconds)
+    cutoff = cutoff_dt.strftime("%Y-%m-%d %H:%M:%S")
     now = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
     with get_db() as conn:
-        conn.execute("DELETE FROM rate_limits WHERE created_at < ?", (cutoff,))
-        row = conn.execute("SELECT created_at FROM rate_limits WHERE ip_hash = ? ORDER BY created_at DESC LIMIT 1", (ip_hash,)).fetchone()
-        if row:
-            last = datetime.strptime(row["created_at"], "%Y-%m-%d %H:%M:%S")
-            if (datetime.utcnow() - last).total_seconds() < limit_seconds:
-                return False
-        conn.execute("INSERT INTO rate_limits (ip_hash, endpoint, created_at) VALUES (?, ?, ?)", (ip_hash, "submit_score", now))
+        conn.execute("DELETE FROM rate_limits WHERE created_at < ?", ((datetime.utcnow() - timedelta(hours=6)).strftime("%Y-%m-%d %H:%M:%S"),))
+        count = conn.execute(
+            "SELECT COUNT(*) AS c FROM rate_limits WHERE ip_hash = ? AND endpoint = ? AND created_at >= ?",
+            (ip_hash, endpoint, cutoff),
+        ).fetchone()["c"]
+        if count >= max_attempts:
+            _record_security_event(conn, "rate_limited", endpoint, f"{count}/{max_attempts} attempts in {window_seconds}s")
+            conn.commit()
+            return False
+        conn.execute("INSERT INTO rate_limits (ip_hash, endpoint, created_at) VALUES (?, ?, ?)", (ip_hash, endpoint, now))
         conn.commit()
     return True
+
+def _record_security_event(conn, event_type, endpoint, detail="", user_id=None):
+    try:
+        conn.execute(
+            "INSERT INTO security_events (ip_hash, user_id, event_type, endpoint, detail, created_at) VALUES (?, ?, ?, ?, ?, ?)",
+            (_client_ip_hash(), user_id or session.get("user_id"), event_type[:60], endpoint[:120], str(detail)[:500], datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")),
+        )
+    except Exception:
+        # Security logging should never break the user-facing flow.
+        pass
+
+def _password_strength_error(password):
+    if len(password or "") < 10:
+        return "Password must be at least 10 characters."
+    checks = [
+        any(c.islower() for c in password),
+        any(c.isupper() for c in password),
+        any(c.isdigit() for c in password),
+        any(not c.isalnum() for c in password),
+    ]
+    if sum(checks) < 3:
+        return "Password should include at least 3 of: lowercase, uppercase, number, symbol."
+    return ""
+
+def _safe_next_url(default="/"):
+    target = request.args.get("next") or request.form.get("next") or default
+    parsed = urlparse(target)
+    if parsed.netloc or parsed.scheme:
+        return default
+    return target if target.startswith("/") else default
+
+def _rotate_session(user_id, username):
+    csrf = session.get("csrf_token") or secrets.token_urlsafe(32)
+    session.clear()
+    session["csrf_token"] = csrf
+    session["user_id"] = user_id
+    session["username"] = username
+    session.permanent = True
 
 
 GAMES = [
@@ -550,7 +597,19 @@ def init_db():
                 created_at TEXT NOT NULL
             )
         """)
-        conn.execute("CREATE INDEX IF NOT EXISTS idx_rate_limits_ip_created ON rate_limits (ip_hash, created_at)")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_rate_limits_ip_created ON rate_limits (ip_hash, endpoint, created_at)")
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS security_events (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                ip_hash TEXT NOT NULL,
+                user_id INTEGER,
+                event_type TEXT NOT NULL,
+                endpoint TEXT NOT NULL,
+                detail TEXT DEFAULT '',
+                created_at TEXT NOT NULL
+            )
+        """)
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_security_events_type_created ON security_events (event_type, created_at)")
         conn.commit()
 
 def clean_game(value):
@@ -684,6 +743,8 @@ def register():
         return render_template("register.html")
     if not _validate_csrf():
         return render_template("register.html", error="Security token expired. Please try again."), 400
+    if not _rate_limit_allowed("register", max_attempts=5, window_seconds=900):
+        return render_template("register.html", error="Too many registration attempts. Please wait and try again."), 429
 
     username = sanitize_player_name(request.form.get("username", ""))
     email = (request.form.get("email", "") or "").strip().lower()
@@ -694,8 +755,9 @@ def register():
         return render_template("register.html", error="Username must be at least 3 characters."), 400
     if email and not re.match(r"^[^@\s]+@[^@\s]+\.[^@\s]+$", email):
         return render_template("register.html", error="Please enter a valid email address."), 400
-    if len(password) < 8:
-        return render_template("register.html", error="Password must be at least 8 characters."), 400
+    strength_error = _password_strength_error(password)
+    if strength_error:
+        return render_template("register.html", error=strength_error), 400
     if password != confirm:
         return render_template("register.html", error="Passwords do not match."), 400
 
@@ -713,10 +775,8 @@ def register():
     except sqlite3.IntegrityError:
         return render_template("register.html", error="Username or email already exists."), 409
 
-    session["user_id"] = user_id
-    session["username"] = username
-    session.permanent = True
-    return redirect("/profile")
+    _rotate_session(user_id, username)
+    return redirect(_safe_next_url("/profile"))
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -724,6 +784,8 @@ def login():
         return render_template("login.html")
     if not _validate_csrf():
         return render_template("login.html", error="Security token expired. Please try again."), 400
+    if not _rate_limit_allowed("login", max_attempts=8, window_seconds=900):
+        return render_template("login.html", error="Too many login attempts. Please wait and try again."), 429
 
     identity = (request.form.get("identity", "") or "").strip()
     password = request.form.get("password", "")
@@ -734,6 +796,8 @@ def login():
         (identity, identity.lower())
     ).fetchone()
     if not user or not check_password_hash(user["password_hash"], password):
+        _record_security_event(conn, "login_failed", "/login", identity[:80])
+        conn.commit()
         conn.close()
         return render_template("login.html", error="Invalid username/email or password."), 401
 
@@ -742,15 +806,16 @@ def login():
     conn.commit()
     conn.close()
 
-    session["user_id"] = user["id"]
-    session["username"] = user["username"]
-    session.permanent = True
-    return redirect("/profile")
+    _record_security_event(conn, "login_success", "/login", user["username"], user_id=user["id"])
+    conn.commit()
+    _rotate_session(user["id"], user["username"])
+    return redirect(_safe_next_url("/profile"))
 
 @app.route("/logout")
 def logout():
-    session.pop("user_id", None)
-    session.pop("username", None)
+    csrf = session.get("csrf_token") or secrets.token_urlsafe(32)
+    session.clear()
+    session["csrf_token"] = csrf
     return redirect("/")
 
 @app.route("/profile")
@@ -2614,14 +2679,18 @@ def mobile_app_page():
 @app.route("/api/pwa/status")
 def pwa_status():
     return jsonify({
-        "phase": "12",
+        "phase": "9",
+        "name": "PWA & Offline Mode",
         "pwa": True,
         "manifest": "/static/manifest.json",
         "service_worker": "/service-worker.js",
         "offline_page": "/offline.html",
         "mobile_navigation": True,
         "touch_keyboard": True,
-        "offline_cache_pages": ["/", "/training-mode", "/career", "/ai-coach", "/analytics-pro", "/multiplayer-race"]
+        "offline_cache_pages": ["/", "/landing", "/typing-test", "/training-mode", "/leaderboard", "/profile", "/friends", "/tournaments", "/ai-coach", "/mobile-app"],
+        "cache_strategy": {"pages": "network-first", "static_assets": "stale-while-revalidate"},
+        "install_prompt": True,
+        "offline_action_queue": True
     })
 
 @app.route("/sitemap.xml")
@@ -2677,6 +2746,54 @@ def api_health():
         "status": "healthy",
         "app": "KPCTyping",
         "database": database_engine(),
+        "timestamp": datetime.utcnow().isoformat() + "Z"
+    })
+
+
+# REAL PHASE 8: User-friendly secure error pages and security status endpoint.
+@app.errorhandler(404)
+def not_found_error(error):
+    if request.path.startswith('/api/'):
+        return jsonify({"ok": False, "error": "not_found"}), 404
+    return render_template("404.html"), 404
+
+@app.errorhandler(413)
+def payload_too_large(error):
+    return jsonify({"ok": False, "error": "payload_too_large", "message": "Upload is too large."}), 413
+
+@app.errorhandler(429)
+def too_many_requests(error):
+    if request.path.startswith('/api/'):
+        return jsonify({"ok": False, "error": "rate_limited"}), 429
+    return render_template("500.html"), 429
+
+@app.errorhandler(500)
+def internal_error(error):
+    if request.path.startswith('/api/'):
+        return jsonify({"ok": False, "error": "server_error"}), 500
+    return render_template("500.html"), 500
+
+@app.route("/api/security/status")
+def api_security_status():
+    return jsonify({
+        "ok": True,
+        "phase": "8",
+        "name": "Security Hardening",
+        "csrf": "enabled",
+        "same_origin_post_guard": "enabled",
+        "auth_rate_limit": "enabled",
+        "score_rate_limit": "enabled",
+        "session_cookie_http_only": bool(app.config.get("SESSION_COOKIE_HTTPONLY")),
+        "session_cookie_same_site": app.config.get("SESSION_COOKIE_SAMESITE"),
+        "session_cookie_secure_in_production": True,
+        "security_headers": [
+            "Content-Security-Policy",
+            "X-Content-Type-Options",
+            "X-Frame-Options",
+            "Referrer-Policy",
+            "Permissions-Policy",
+            "Strict-Transport-Security over HTTPS"
+        ],
         "timestamp": datetime.utcnow().isoformat() + "Z"
     })
 

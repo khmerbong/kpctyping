@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Something Went Wrong · KPC Typing{% endblock %}
+{% block content %}
+<section class="kpc-container" style="padding:64px 0;max-width:760px;text-align:center">
+  <div class="kpc-card kpc-panel" style="padding:36px">
+    <div style="font-size:56px">🛡️</div>
+    <h1>Something went wrong</h1>
+    <p class="kpc-muted">The app protected your session. Please refresh or return home.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:22px">
+      <a class="kpc-btn" href="/">Back Home</a>
+      <a class="kpc-btn kpc-btn-secondary" href="/api/health">Health Check</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

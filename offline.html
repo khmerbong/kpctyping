@@ -1,1 +1,25 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KPC Typing Offline</title><link rel="stylesheet" href="/static/css/mobile_pwa.css"></head><body class="pwa-offline"><main class="pwa-card"><h1>⌨️ KPC Typing Offline</h1><p>You are offline. Basic cached pages and lessons can still open after your first visit.</p><a href="/training-mode">Open Training Mode</a><a href="/">Home</a></main></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#08111f">
+  <title>KPC Typing Offline</title>
+  <link rel="manifest" href="/static/manifest.json">
+  <link rel="stylesheet" href="/static/css/mobile_pwa.css">
+</head>
+<body class="pwa-offline">
+  <main class="pwa-card">
+    <span class="pwa-status-pill">Offline ready</span>
+    <h1>⌨️ KPC Typing</h1>
+    <p>You are offline right now. Cached practice pages can still open after your first visit. Your saved offline actions will sync when the connection returns.</p>
+    <div class="pwa-actions">
+      <a href="/typing-test">Typing Test</a>
+      <a href="/training-mode">Training Mode</a>
+      <a class="secondary" href="/leaderboard">Leaderboard</a>
+      <button type="button" onclick="location.reload()">Try Again</button>
+    </div>
+  </main>
+  <script src="/static/js/pwa_install.js" defer></script>
+</body>
+</html>
