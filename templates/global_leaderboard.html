@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>Global Leaderboard - KPCTyping</title>
+  <link rel="stylesheet" href="/static/css/mobile_pwa.css">
+  <link rel="stylesheet" href="/static/css/global_leaderboard.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/kpctyping_mockup2_redesign.css') }}">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpc_design_system_2026.css') }}">
+</head>
+<body class="kpc-mockup2-page kpc-leaderboard-page phase13-page">
+  <main class="kpc-shell lb-shell">
+    <nav class="kpc-topbar">
+      <a class="kpc-brand" href="/"><span class="kpc-logo">⌨️</span><strong>KPCTYPING</strong></a>
+      <div class="kpc-navlinks">
+        <a href="/">Home</a><a href="/training-mode">Practice</a><a class="active" href="/global-leaderboard">Leaderboard</a><a href="/tournaments">Tournament</a><a href="/ai-coach">AI Coach</a>
+      </div>
+      <div class="kpc-nav-actions"><a class="kpc-btn kpc-btn-ghost" href="/profile">Profile</a></div>
+    </nav>
+
+    <section class="kpc-leaderboard-panel">
+      <div class="kpc-section-head centered">
+        <span class="kpc-pill">Global Competition</span>
+        <h1>Global Leaderboard</h1>
+        <p>World, country, weekly, monthly and season rankings for KPCTyping players.</p>
+      </div>
+
+      <div class="kpc-lb-tabs">
+        <button class="active" type="button">Global</button>
+        <a href="/country-leaderboard">Country</a>
+        <a href="/hall-of-fame">Hall of Fame</a>
+        <a href="/career">Career</a>
+      </div>
+
+      <section class="kpc-podium" id="leaderboardPodium">
+        <article class="podium-card silver"><div class="medal">2</div><div class="avatar">?</div><h3>Loading</h3><p>-- WPM</p><strong>2</strong></article>
+        <article class="podium-card gold"><div class="medal">1</div><div class="avatar">?</div><h3>Loading</h3><p>-- WPM</p><strong>1</strong></article>
+        <article class="podium-card bronze"><div class="medal">3</div><div class="avatar">?</div><h3>Loading</h3><p>-- WPM</p><strong>3</strong></article>
+      </section>
+
+      <section class="lb-controls card kpc-lb-controls">
+        <label>Period
+          <select id="periodSelect">
+            <option value="all">All Time</option>
+            <option value="weekly">This Week</option>
+            <option value="monthly">This Month</option>
+            <option value="season">Current Season</option>
+          </select>
+        </label>
+        <button id="refreshLeaderboard">Refresh</button>
+      </section>
+
+      <section class="card kpc-table-card">
+        <h2>Top Players</h2>
+        <div class="table-wrap">
+          <table class="lb-table">
+            <thead><tr><th>#</th><th>Player</th><th>Country</th><th>WPM</th><th>Accuracy</th><th>XP</th><th>Rank</th></tr></thead>
+            <tbody id="leaderboardRows"><tr><td colspan="7">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card submit-card kpc-submit-card">
+        <h2>Submit Test Score</h2>
+        <p>This form is useful for local testing. Game integrations can call the same API after a verified typing session.</p>
+        <div class="submit-grid">
+          <input id="submitUsername" placeholder="Username" value="{{ current_user.username if current_user else 'Guest' }}">
+          <input id="submitCountry" placeholder="Country" value="Cambodia">
+          <input id="submitWpm" type="number" placeholder="WPM" min="0" max="220">
+          <input id="submitAccuracy" type="number" placeholder="Accuracy" min="40" max="100">
+          <input id="submitScore" type="number" placeholder="Score">
+          <button id="submitGlobalScore">Submit Score</button>
+        </div>
+        <p id="submitMessage" class="muted"></p>
+      </section>
+    </section>
+  </main>
+  <script>window.PHASE13_DEFAULT_PERIOD = "{{ default_period|default('all') }}";</script>
+  <script src="/static/js/global_leaderboard.js"></script>
+  <script src="{{ url_for('static', filename='js/kpctyping_mockup2_redesign.js') }}" defer></script>
+
+<script src="{{ url_for('static', filename='js/kpc_svg_icon_system_2026.js') }}" defer></script>
+</body>
+</html>

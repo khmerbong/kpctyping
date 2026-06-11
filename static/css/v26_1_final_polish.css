@@ -1,0 +1,158 @@
+/* V26.1 Final Polish: clean release UI, responsive layout, smoother motion */
+:root{
+  --kpc-final-radius:18px;
+  --kpc-final-gap:16px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{min-height:100vh}
+a,button,.key,.v26-theme-btn,.v26-skin-btn{transition:transform .16s ease, box-shadow .16s ease, background .16s ease, border-color .16s ease, opacity .16s ease}
+button:active,.key:active,.v26-theme-btn:active,.v26-skin-btn:active{transform:scale(.98)}
+button:focus-visible,a:focus-visible,.key:focus-visible{
+  outline:3px solid rgba(59,130,246,.7);
+  outline-offset:3px;
+}
+
+/* Make main cards feel consistent across themes */
+.v43-dashboard,.v43-focus,.v43-card,.daily-card,.progress-card,.leaderboard-card,.game-card{
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.v43-card,.daily-card,.progress-card,.leaderboard-card,.game-card{
+  border-radius:var(--kpc-final-radius);
+}
+
+/* Training page spacing */
+.v43-app{
+  gap:var(--kpc-final-gap);
+}
+.v43-focus{
+  min-width:0;
+}
+.v43-focus header,.v43-topbar{
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+/* Keyboard responsiveness */
+.keyboard,.v43-keyboard,#keyboard,.keyboard-coach{
+  max-width:100%;
+  overflow-x:auto;
+  padding-bottom:6px;
+}
+.key,.v43-key{
+  min-height:42px;
+}
+
+/* Theme Center mobile polish */
+.v26-theme-center{
+  max-width:min(360px, calc(100vw - 20px));
+}
+.v26-theme-grid{
+  gap:8px;
+}
+.v26-theme-btn small{
+  line-height:1.1;
+}
+
+/* Smooth lesson/progress animations */
+.v43-mini-progress i,.lesson-progress-fill,.progress-fill,.xp-fill{
+  transition:width .35s ease;
+}
+.achievement-popup,.xp-toast,.badge-unlock{
+  animation:kpcFinalPop .32s ease both;
+}
+@keyframes kpcFinalPop{
+  from{transform:translateY(8px) scale(.96);opacity:0}
+  to{transform:translateY(0) scale(1);opacity:1}
+}
+
+/* Mobile layout */
+@media (max-width: 1024px){
+  .v43-app{
+    grid-template-columns:1fr !important;
+    display:grid;
+    padding:12px;
+  }
+  .v43-dashboard{
+    position:relative !important;
+    width:100% !important;
+    max-height:none !important;
+  }
+  .v43-left{
+    order:2;
+  }
+  .v43-focus{
+    order:1;
+  }
+  .v26-theme-center{
+    right:10px;
+    bottom:10px;
+  }
+}
+@media (max-width: 768px){
+  body{
+    font-size:15px;
+  }
+  .v43-app{
+    padding:10px;
+    gap:12px;
+  }
+  .v43-focus,.v43-dashboard{
+    border-radius:16px !important;
+  }
+  .v43-menu-title{
+    font-size:16px;
+  }
+  .v43-dashboard a{
+    padding:10px 12px;
+  }
+  .v43-mini-grid{
+    grid-template-columns:1fr 1fr;
+  }
+  .v26-theme-center{
+    left:10px;
+    right:10px;
+    max-width:none;
+  }
+  .v26-theme-center.collapsed .v26-theme-body{
+    display:none;
+  }
+  .v26-theme-head{
+    cursor:pointer;
+  }
+}
+@media (max-width: 480px){
+  .v43-app{
+    padding:8px;
+  }
+  .v43-focus header h1,
+  h1{
+    font-size:clamp(22px,7vw,34px) !important;
+  }
+  .v43-card{
+    padding:12px !important;
+  }
+  .key,.v43-key{
+    min-width:32px;
+    min-height:36px;
+    font-size:13px;
+  }
+  .v26-theme-grid{
+    grid-template-columns:1fr 1fr !important;
+  }
+  .v26-theme-btn{
+    padding:8px !important;
+    font-size:12px !important;
+  }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce){
+  *{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+    scroll-behavior:auto !important;
+  }
+}

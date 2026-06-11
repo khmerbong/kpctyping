@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+.env
+.venv/
+venv/
+leaderboard.db
+*.sqlite3
+.DS_Store
+.idea/
+.vscode/
+
+# Production/local runtime cleanup
+instance/
+.pytest_cache/
+*.log
+*.db
+*.db-journal
+.env.*
+!.env.example

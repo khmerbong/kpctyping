@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>Tournament Detail | KPC Typing</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/tournaments.css') }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpctyping_mockup2_redesign.css') }}">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpc_design_system_2026.css') }}">
+</head>
+<body class="tour-body">
+<nav class="tour-nav"><a href="/tournaments">← Tournaments</a><a href="/champions">Champions</a></nav>
+<main class="tour-shell" data-tournament-id="{{ tournament_id }}">
+  <section class="tour-hero compact">
+    <span class="phase-pill">Live Bracket</span>
+    <h1 id="tourTitle">Tournament</h1>
+    <p id="tourMeta">Loading...</p>
+    <div class="action-row">
+      <input id="guestName" placeholder="Guest name" maxlength="30">
+      <button id="joinTournamentBtn">Join</button>
+      <button id="startTournamentBtn">Generate Bracket</button>
+    </div>
+    <pre id="tourStatus"></pre>
+  </section>
+  <section class="tour-panel"><h2>Players</h2><div id="playersList" class="player-list"></div></section>
+  <section class="tour-panel"><h2>Bracket Matches</h2><div id="matchesList" class="match-list"></div></section>
+  <section class="tour-panel"><h2>Results</h2><div id="resultsList" class="player-list"></div></section>
+</main>
+<script src="{{ url_for('static', filename='js/tournament_detail.js') }}"></script>
+<script src="{{ url_for('static', filename='js/kpctyping_mockup2_redesign.js') }}" defer></script>
+
+<script src="{{ url_for('static', filename='js/kpc_svg_icon_system_2026.js') }}" defer></script>
+</body>
+</html>

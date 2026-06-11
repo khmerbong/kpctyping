@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KPCTyping Deploy Status</title>
+  <style>
+    body{font-family:system-ui,Arial,sans-serif;background:#0f172a;color:#e5e7eb;margin:0;padding:24px}
+    .card{max-width:980px;margin:auto;background:#111827;border:1px solid #334155;border-radius:18px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+    h1{margin-top:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.box{background:#020617;border:1px solid #1e293b;border-radius:14px;padding:16px}.ok{color:#22c55e}.warn{color:#f59e0b}code{background:#020617;padding:2px 6px;border-radius:6px}</style>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpctyping_mockup2_redesign.css') }}">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpc_design_system_2026.css') }}">
+</head>
+<body>
+  <div class="card">
+    <h1>KPCTyping Deploy Status</h1>
+    <p>Phase 16 deployment readiness page for audit, PostgreSQL migration, and cloud smoke testing.</p>
+    <div class="grid" id="deployGrid"></div>
+  </div>
+<script>
+fetch('/api/deploy/status').then(r=>r.json()).then(d=>{
+  document.getElementById('deployGrid').innerHTML = `
+    <div class="box"><b>Phase</b><br>${d.phase} - ${d.name}</div>
+    <div class="box"><b>Database</b><br><span class="${d.database_url_configured?'ok':'warn'}">${d.database_engine}</span></div>
+    <div class="box"><b>Env Required</b><br>${d.required_env.map(x=>`<code>${x}</code>`).join(' ')}</div>
+    <div class="box"><b>Deploy Files</b><br>${d.deploy_files.map(x=>`<code>${x}</code>`).join('<br>')}</div>
+  `;
+});
+</script>
+<script src="{{ url_for('static', filename='js/kpctyping_mockup2_redesign.js') }}" defer></script>
+
+<script src="{{ url_for('static', filename='js/kpc_svg_icon_system_2026.js') }}" defer></script>
+</body>
+</html>

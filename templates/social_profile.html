@@ -1,0 +1,8 @@
+<!DOCTYPE html><html lang="en"><head>{% include 'social_head.html' ignore missing %}<title>Player Social Profile | KPC Typing</title><link rel="stylesheet" href="{{ url_for('static', filename='css/kpctyping_mockup2_redesign.css') }}">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpc_design_system_2026.css') }}">
+</head><body class="social-body">
+{% include 'social_nav.html' ignore missing %}<main class="social-shell"><section class="social-hero"><span class="social-badge">PLAYER PROFILE</span><h1>Social Profile</h1><p>Public player stats and recent social activity.</p></section><section id="socialProfile" data-username="{{ profile_username }}">Loading...</section></main><script src="{{ url_for('static', filename='js/social.js') }}"></script><script src="{{ url_for('static', filename='js/kpctyping_mockup2_redesign.js') }}" defer></script>
+
+<script src="{{ url_for('static', filename='js/kpc_svg_icon_system_2026.js') }}" defer></script>
+</body></html>

@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: kpctyping
+    env: python
+    plan: starter
+    buildCommand: pip install -r requirements-prod.txt
+    startCommand: gunicorn --workers 2 --timeout 120 app:app
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: FLASK_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: kpctyping-postgres
+          property: connectionString
+
+databases:
+  - name: kpctyping-postgres
+    plan: starter

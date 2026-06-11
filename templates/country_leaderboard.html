@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Country Leaderboard - KPCTyping</title>
+  <link rel="stylesheet" href="/static/css/mobile_pwa.css">
+  <link rel="stylesheet" href="/static/css/global_leaderboard.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpctyping_mockup2_redesign.css') }}">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpc_design_system_2026.css') }}">
+</head>
+<body class="phase13-page">
+  <main class="lb-shell">
+    <section class="lb-hero">
+      <div>
+        <p class="eyebrow">REAL PHASE 13</p>
+        <h1>🏆 Country Leaderboard</h1>
+        <p>Compare players by country, period and ranking strength.</p>
+      </div>
+      <nav class="lb-actions"><a href="/global-leaderboard">Global</a><a href="/hall-of-fame">Hall of Fame</a></nav>
+    </section>
+    <section class="lb-controls card">
+      <label>Country <input id="countryInput" value="Cambodia"></label>
+      <label>Period <select id="countryPeriod"><option value="all">All Time</option><option value="weekly">This Week</option><option value="monthly">This Month</option><option value="season">Season</option></select></label>
+      <button id="refreshCountry">Refresh</button>
+    </section>
+    <section class="card">
+      <h2 id="countryTitle">Cambodia Top Players</h2>
+      <div class="table-wrap"><table class="lb-table"><thead><tr><th>#</th><th>Player</th><th>WPM</th><th>Accuracy</th><th>XP</th><th>Rank</th></tr></thead><tbody id="countryRows"><tr><td colspan="6">Loading...</td></tr></tbody></table></div>
+    </section>
+  </main>
+  <script src="/static/js/country_leaderboard.js"></script>
+<script src="{{ url_for('static', filename='js/kpctyping_mockup2_redesign.js') }}" defer></script>
+
+<script src="{{ url_for('static', filename='js/kpc_svg_icon_system_2026.js') }}" defer></script>
+</body>
+</html>

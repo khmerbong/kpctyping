@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Coach - KPC Typing</title>
+    <meta name="description" content="Smart AI Coach for KPC Typing. Analyze weak keys, slow keys, accuracy, and recommended practice lessons." />
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ai_coach.css') }}" />
+
+<!-- REAL PHASE 12: Mobile Experience + PWA -->
+<link rel="manifest" href="/static/manifest.json">
+<meta name="theme-color" content="#5b7cfa">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="KPC Typing">
+<link rel="stylesheet" href="/static/css/mobile_pwa.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpctyping_mockup2_redesign.css') }}">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpc_design_system_2026.css') }}">
+</head>
+<body class="ai-coach-body">
+<main class="ai-coach-shell">
+    <header class="ai-coach-hero">
+        <a class="ai-back" href="/training-mode">← Back to Lessons</a>
+        <span class="ai-badge">REAL PHASE 8</span>
+        <h1>Smart AI Coach</h1>
+        <p>Tracks weak keys, slow keys, accuracy per key, and creates a custom practice lesson for your next session.</p>
+        <div class="ai-actions">
+            <button id="aiRefreshBtn" type="button">Refresh Coach</button>
+            <a href="/training-mode">Start Training</a>
+        </div>
+    </header>
+
+    <section class="ai-summary-grid">
+        <article><span>Total Keys</span><strong id="aiTotalKeys">0</strong></article>
+        <article><span>Accuracy</span><strong id="aiAccuracy">100%</strong></article>
+        <article><span>Wrong Keys</span><strong id="aiWrongKeys">0</strong></article>
+        <article><span>Slow Keys</span><strong id="aiSlowKeys">0</strong></article>
+    </section>
+
+    <section class="ai-main-grid">
+        <article class="ai-card">
+            <h2>Coach Message</h2>
+            <p id="aiCoachMessage">Loading coach...</p>
+        </article>
+        <article class="ai-card">
+            <h2>Recommended Practice</h2>
+            <div id="aiRecommendedLesson" class="ai-practice-text">Loading...</div>
+        </article>
+    </section>
+
+    <section class="ai-main-grid">
+        <article class="ai-card">
+            <h2>Weak Keys</h2>
+            <div id="aiWeakKeys" class="ai-key-list"></div>
+        </article>
+        <article class="ai-card">
+            <h2>Slow Keys</h2>
+            <div id="aiSlowKeyList" class="ai-key-list"></div>
+        </article>
+    </section>
+
+    <section class="ai-card">
+        <h2>Recent Practice Sessions</h2>
+        <div id="aiSessions" class="ai-session-list"></div>
+    </section>
+<p style="text-align:center;margin:24px"><a href="/career">🏆 Open Career Dashboard</a></p>
+</main>
+<script src="{{ url_for('static', filename='js/ai_coach.js') }}"></script>
+
+<!-- REAL PHASE 12: PWA registration and mobile touch helpers -->
+<script src="/static/js/mobile_typing_helper.js" defer></script>
+<script src="/static/js/pwa_install.js" defer></script>
+<script src="{{ url_for('static', filename='js/kpctyping_mockup2_redesign.js') }}" defer></script>
+
+<script src="{{ url_for('static', filename='js/kpc_svg_icon_system_2026.js') }}" defer></script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H8Q99PGJYV"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-H8Q99PGJYV');</script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Typing Training Mode - KPC Typing</title>
+
+    <meta name="description" content="Learn keyboard skills with KPC Typing training mode, guided lessons, symbols, finger practice, focus mode and typing roadmap." />
+    <meta name="keywords" content="free typing game, online typing test, typing speed test, keyboard practice, typing lessons, WPM test, typing leaderboard, Khmer typing practice" />
+    <meta name="author" content="KPC Typing" />
+    <link rel="canonical" href="https://kpctyping.space/training-mode" />
+    <meta property="og:title" content="Typing Training Mode - KPC Typing" />
+    <meta property="og:description" content="Learn keyboard skills with KPC Typing training mode, guided lessons, symbols, finger practice, focus mode and typing roadmap." />
+    <meta property="og:url" content="https://kpctyping.space/training-mode" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="KPC Typing" />
+    <meta property="og:image" content="https://kpctyping.space/static/images/og-kpc-typing.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="KPC Typing free typing practice website preview" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Typing Training Mode - KPC Typing" />
+    <meta name="twitter:description" content="Learn keyboard skills with KPC Typing training mode, guided lessons, symbols, finger practice, focus mode and typing roadmap." />
+    <meta name="twitter:image" content="https://kpctyping.space/static/images/og-kpc-typing.png" />
+    <meta name="twitter:image:alt" content="KPC Typing free typing practice website preview" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Typing Training Mode - KPC Typing","url":"https://kpctyping.space/training-mode","description":"Learn keyboard skills with KPC Typing training mode, guided lessons, symbols, finger practice, focus mode and typing roadmap.","image":"https://kpctyping.space/static/images/og-kpc-typing.png","inLanguage":"en","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"KPC Typing","url":"https://kpctyping.space"},"learningResourceType":"Typing lesson","educationalUse":"Practice","audience":{"@type":"EducationalAudience","educationalRole":"student"}}</script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/gamification.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/v43_focus_lesson.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/v47_2_space_flow_fix.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lesson_engine.css') }}" />
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/v48_smart_learning.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/training_academy.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/v25_phase2.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/v26_theme_center.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/v26_1_final_polish.css') }}" />
+    <meta name="csrf-token" content="{{ csrf_token }}">
+
+<!-- REAL PHASE 12: Mobile Experience + PWA -->
+<link rel="manifest" href="/static/manifest.json">
+<meta name="theme-color" content="#5b7cfa">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="KPC Typing">
+<link rel="stylesheet" href="/static/css/mobile_pwa.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpctyping_mockup2_redesign.css') }}">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpc_design_system_2026.css') }}">
+</head>
+<body class="v43-body">
+<main class="v43-app">
+    <aside class="v43-dashboard v43-left">
+        <div class="v43-menu-title">🎓 ACADEMY</div>
+        <a class="active" href="/training-mode">📖 Lessons</a>
+        <a href="/progress">📊 Progress</a>
+        <a href="/ai-coach">🤖 AI Coach</a>
+        <a href="/career">🏆 Career</a>
+        <a href="/progress">🏆 Achievements</a>
+        <a href="/daily-challenge">📅 Daily Challenge</a>
+        <a href="/landing">🎮 Games</a>
+        <a href="/leaderboard">👑 Leaderboard</a>
+        <div class="v43-card"><h3>Next Unlock</h3><strong>Zombie Typing</strong><p>Unlock at Level 10</p><div class="v43-mini-progress"><i></i></div></div>
+        <div class="v43-card"><h3>Typing Stats</h3><div class="v43-mini-grid"><span><b id="v43DashAccuracy">100%</b><small>Accuracy</small></span><span><b id="v43DashXP">0</b><small>XP</small></span></div></div>
+    </aside>
+
+    <section class="v43-focus">
+        <header class="v43-header">
+            <a href="/landing" class="v43-back">← Dashboard</a>
+            <div><span class="v43-eyebrow">Professional Focus Lesson</span><h1><span id="lessonName">L1</span> • <span id="phaseName">Home Row</span></h1></div>
+            <div class="v43-head-stats"><span>⭐ XP <b id="xpValue">0</b></span><span>🎯 Accuracy <b id="accuracyValue">100%</b></span><span>🔥 Combo <b id="v43Combo">0</b></span></div>
+        </header>
+
+        <section class="v43-progress-wrap"><div class="v43-progress-meta"><span id="v43ProgressLabel">Lesson Progress</span><b id="v43ProgressText">0%</b></div><div class="v43-progress"><i id="v43ProgressBar"></i></div></section>
+
+
+        <section class="phase41-learning-panel" id="phase41LearningPanel" aria-label="4 minute learning system">
+            <div class="phase41-panel-header">
+                <div>
+                    <span class="phase41-badge">REAL PHASE 4.1</span>
+                    <h2>4-Minute Learning Engine</h2>
+                    <p>Practice until the timer finishes. Accuracy, XP, weak keys and unlock progress are saved locally.</p>
+                </div>
+                <div class="phase41-timer-card">
+                    <span>Lesson Timer</span>
+                    <strong id="phase41Timer">04:00</strong>
+                    <small id="phase41TimerState">Ready</small>
+                </div>
+            </div>
+
+            <div class="phase41-grid">
+                <article class="phase41-card">
+                    <span>Current Lesson</span>
+                    <strong id="phase41CurrentLesson">Level 1</strong>
+                    <small id="phase41LessonGoal">Accuracy before speed.</small>
+                </article>
+                <article class="phase41-card">
+                    <span>XP Reward</span>
+                    <strong id="phase41XPReward">+25 XP</strong>
+                    <small>Bonus unlocks after completion.</small>
+                </article>
+                <article class="phase41-card">
+                    <span>Weak Key</span>
+                    <strong id="phase41WeakKey">None</strong>
+                    <small id="phase41WeakDetail">Mistakes will appear here.</small>
+                </article>
+                <article class="phase41-card">
+                    <span>Unlock Status</span>
+                    <strong id="phase41UnlockStatus">Level 1 / 25</strong>
+                    <small id="phase41UnlockDetail">Complete this lesson to unlock next.</small>
+                </article>
+            </div>
+
+            <div class="phase41-roadmap-wrap">
+                <div class="phase41-roadmap-title">
+                    <strong>Lesson Roadmap</strong>
+                    <span id="phase41RoadmapSummary">25 levels</span>
+                </div>
+                <div class="phase41-roadmap" id="phase41Roadmap"></div>
+            </div>
+
+            <div class="phase41-guide-grid">
+                <div class="phase41-finger-guide">
+                    <strong>Finger Guide</strong>
+                    <div id="phase41FingerGuide">Watch the next key to see the correct finger.</div>
+                </div>
+                <div class="phase41-key-preview">
+                    <strong>Next Key</strong>
+                    <div id="phase41NextKey">F</div>
+                </div>
+                <div class="phase41-actions">
+                    <button id="phase41RestartTimer" type="button">Restart 4-Min Timer</button>
+                    <button id="phase41ResetProgress" type="button">Reset Local Progress</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="v43-target-panel">
+            <div class="v43-target-label">Target</div>
+            <div id="targetKey" class="target-key v43-target">F</div>
+            <div id="currentKeysBox" class="v35-current-keys v43-preview"></div>
+            <p id="levelGoal" class="v43-goal">Watch the highlighted key and type slowly.</p>
+        </section>
+
+        <section class="v43-keyboard-panel">
+            <div class="v43-keyboard-top"><strong>LIVE KEYBOARD</strong><span id="v43CoachLine">Use the correct finger. Accuracy before speed.</span></div>
+            <div class="v43-keyboard-stage"><div id="keyboard" class="keyboard keyboard-pro v43-keyboard"></div><div id="v43GhostFinger" class="v43-ghost-finger"></div></div>
+            <div class="v43-hands">
+                <div class="v43-hand-card"><img src="/static/images/v43/left_hand_focus.svg" alt="Left hand" /><strong>LEFT HAND</strong></div>
+                <div class="v43-hand-card"><img src="/static/images/v43/right_hand_focus.svg" alt="Right hand" /><strong>RIGHT HAND</strong></div>
+            </div>
+        </section>
+
+        <section class="v43-input-panel">
+            <input id="academyInput" autocomplete="off" spellcheck="false" placeholder="Start typing here..." />
+            <div id="fingerName" class="finger-pill v43-finger">LEFT INDEX</div>
+            <div id="feedbackText" class="feedback-text v43-feedback">Ready. Watch the glowing key.</div>
+            <div class="v43-actions"><button id="restartLessonBtn" type="button">Retry Lesson</button><button id="nextLessonBtn" type="button">Next Lesson</button><a href="/">Back To Dashboard</a></div>
+        </section>
+
+        <section class="progress-map v43-hidden-map" id="progressMap"></section>
+        <section class="lesson-roadmap v43-hidden-roadmap"><div class="lesson-grid" id="lessonGrid"></div></section>
+        <button id="memoryModeBtn" type="button" class="v43-hidden-btn">Memory Mode</button>
+        <div class="achievement-strip" id="achievementStrip"></div>
+    </section>
+
+    <aside class="v43-dashboard v43-right">
+        <div class="v43-card"><h3>Level Roadmap</h3><ul class="v43-list"><li><b>1-5</b> Home Row</li><li><b>6-10</b> Top Row</li><li><b>11-15</b> Bottom Row</li><li><b>16-20</b> Numbers</li><li><b>21-25</b> Symbols</li><li><b>26-30</b> English</li><li><b>31-35</b> Khmer</li><li><b>36-40</b> Mixed Mastery</li></ul></div>
+        <div class="v43-card"><h3>Tips</h3><p>Keep wrists straight.</p><p>Use the correct finger.</p><p>Accuracy before speed.</p></div>
+    </aside>
+
+    <section class="academy-complete hidden" id="completeBox"><h2>🎉 Lesson Complete!</h2><p id="completeText">Accuracy, XP and progress saved.</p><div class="v43-complete-actions"><button id="v43PopupNext" type="button">Next Lesson</button><button id="v43PopupRetry" type="button">Retry Lesson</button><a href="/">Back To Dashboard</a></div></section>
+<div data-mobile-keyboard></div>
+</main>
+<script src="{{ url_for('static', filename='js/gamification.js') }}"></script>
+<script src="{{ url_for('static', filename='js/training_academy.js') }}"></script>
+<script src="{{ url_for('static', filename='js/v43_focus_lesson.js') }}"></script>
+<script src="{{ url_for('static', filename='js/v47_2_space_flow_fix.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/v48_smart_learning.js') }}"></script>
+<script src="{{ url_for('static', filename='js/lesson_engine.js') }}"></script>
+<script src="{{ url_for('static', filename='js/ai_coach_tracker.js') }}"></script>
+<script src="{{ url_for('static', filename='js/v26_theme_center.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/v26_1_final_polish.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/career_client.js') }}"></script>
+
+<!-- REAL PHASE 12: PWA registration and mobile touch helpers -->
+<script src="/static/js/mobile_typing_helper.js" defer></script>
+<script src="/static/js/pwa_install.js" defer></script>
+<script src="{{ url_for('static', filename='js/kpctyping_mockup2_redesign.js') }}" defer></script>
+
+<script src="{{ url_for('static', filename='js/kpc_svg_icon_system_2026.js') }}" defer></script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>KPC Typing - Free Online Typing Games & Speed Test</title>
+  <meta name="description" content="Master your typing with KPC Typing. Practice speed tests, Coach Notes, analytics, multiplayer races, leaderboard and typing games." />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/gamification.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/v36_pro_ui.css') }}" />
+  <link rel="stylesheet" href="/static/css/mobile_pwa.css">
+  <link rel="manifest" href="/static/manifest.json">
+  <meta name="theme-color" content="#050816">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/kpctyping_mockup2_redesign.css') }}">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpc_design_system_2026.css') }}">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/human_made_ui.css') }}">
+</head>
+<body class="kpc-mockup2-page kpc-home-page">
+  <main class="kpc-shell">
+    <nav class="kpc-topbar">
+      <a class="kpc-brand" href="/"><span class="kpc-logo">⌨️</span><strong>KPCTYPING</strong></a>
+      <div class="kpc-navlinks">
+        <a class="active" href="/">Home</a>
+        <a href="/training-mode">Practice</a>
+        <a href="/multiplayer-race">Multiplayer</a>
+        <a href="/global-leaderboard">Leaderboard</a>
+        <a href="/tournaments">Tournament</a>
+        <a href="/ai-coach">Coach Notes</a>
+      </div>
+      <div class="kpc-nav-actions">
+        {% if current_user %}
+          <a class="kpc-avatar-link" href="/profile"><span class="kpc-avatar-mini">{{ current_user.username[0]|upper }}</span></a>
+        {% else %}
+          <a class="kpc-btn kpc-btn-ghost" href="/login">Login</a>
+          <a class="kpc-btn kpc-btn-primary" href="/register">Register</a>
+        {% endif %}
+      </div>
+    </nav>
+
+    <section class="kpc-hero-redesign">
+      <div class="kpc-hero-copy">
+        <span class="kpc-pill">Made for daily typing practice</span>
+        <h1>Practice typing every day.<br><span>Get a little faster.</span></h1>
+        <p>A clean typing space for practice, games, progress notes, and friendly score tracking.</p>
+        <div class="kpc-hero-actions">
+          <a class="kpc-btn kpc-btn-primary" href="/training-mode">Start practice</a>
+          <a class="kpc-btn kpc-btn-ghost" href="/typing-test">Quick test</a>
+          <a class="kpc-btn kpc-btn-ghost" href="/global-leaderboard">Leaderboard</a>
+        </div>
+        <div class="kpc-stat-strip">
+          <article><strong>Daily</strong><span>Practice</span></article>
+          <article><strong>Clean</strong><span>Lessons</span></article>
+          <article><strong>Track</strong><span>Progress</span></article>
+        </div>
+      </div>
+
+      <div class="kpc-hero-visual" aria-label="Typing dashboard preview">
+        <div class="kpc-floating-card kpc-card-wpm"><span>WPM</span><strong>98</strong></div>
+        <div class="kpc-floating-card kpc-card-accuracy"><span>Accuracy</span><strong>96%</strong></div>
+        <div class="kpc-laptop">
+          <div class="kpc-laptop-screen">
+            <p>The <b>quick</b> brown fox</p>
+            <p>jumps over the lazy dog</p>
+            <div class="kpc-progress-line"><span></span></div>
+          </div>
+          <div class="kpc-keyboard-grid">
+            {% for i in range(36) %}<i></i>{% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="kpc-section">
+      <div class="kpc-section-head centered">
+        <h2>Why people use KPC Typing</h2>
+        <p>Simple tools, clear feedback, and no clutter.</p>
+      </div>
+      <div class="kpc-feature-grid">
+        <a href="/ai-coach" class="kpc-feature-card"><span>🧠</span><h3>Coach Notes</h3><p>Small tips after practice so you know what to fix next.</p></a>
+        <a href="/analytics-pro" class="kpc-feature-card"><span>📈</span><h3>Progress</h3><p>See speed, accuracy, and habits over time.</p></a>
+        <a href="/multiplayer-race" class="kpc-feature-card"><span>👥</span><h3>Multiplayer</h3><p>Race friends or practice against the clock.</p></a>
+        <a href="/tournaments" class="kpc-feature-card"><span>🏆</span><h3>Tournaments</h3><p>Join small challenges and keep your streak alive.</p></a>
+        <a href="/career" class="kpc-feature-card"><span>🚀</span><h3>Level Path</h3><p>Build a typing habit one session at a time.</p></a>
+      </div>
+    </section>
+
+    <section class="kpc-section kpc-games-section">
+      <div class="kpc-section-head">
+        <div><span class="kpc-pill">Practice corner</span><h2>Pick a practice mode</h2></div>
+        <p>Choose a quick game and warm up your fingers.</p>
+      </div>
+      <div class="kpc-game-grid">
+        {% for game in games %}
+        <a class="kpc-game-card {% if game.url == '#' %}disabled{% endif %}" href="{{ game.url }}">
+          <div class="kpc-game-art"><span>{{ game.emoji }}</span></div>
+          <div class="kpc-game-body">
+            <small>{{ game.status }}</small>
+            <h3>{{ game.title }}</h3>
+            <p>{{ game.desc }}</p>
+            <b>Play Free →</b>
+          </div>
+        </a>
+        {% endfor %}
+        <a class="kpc-game-card" href="/training-mode"><div class="kpc-game-art"><span>🎓</span></div><div class="kpc-game-body"><small>Academy</small><h3>Beginner Academy</h3><p>Learn typing step by step with guided lessons.</p><b>Start Learning →</b></div></a>
+      </div>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/player_profile.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/achievement_popup.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/letter_feedback.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/gameover_v24.js') }}"></script>
+  <script src="/static/js/mobile_typing_helper.js" defer></script>
+  <script src="/static/js/pwa_install.js" defer></script>
+  <script src="{{ url_for('static', filename='js/kpctyping_mockup2_redesign.js') }}" defer></script>
+
+<script src="{{ url_for('static', filename='js/kpc_svg_icon_system_2026.js') }}" defer></script>
+</body>
+</html>

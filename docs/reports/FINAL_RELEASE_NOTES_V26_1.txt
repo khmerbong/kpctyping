@@ -1,0 +1,34 @@
+KPC Typing Academy v1.0 / V26.1 Final Polish
+
+Updated:
+- Clean release package prepared.
+- Removed development junk from final ZIP output: .git, venv, __pycache__, *.pyc, leaderboard.db.
+- Added final responsive polish CSS for desktop, tablet, and mobile.
+- Added smoother UI transitions and safer focus styles.
+- Added final theme defaults: Theme #2 Clean Light + Classic keyboard skin.
+- Added mobile Theme Center behavior.
+- Pinned production dependencies in requirements.txt.
+- Added .gitignore for future clean releases.
+
+Final QA Checklist:
+1. Run locally:
+   pip install -r requirements.txt
+   python app.py
+
+2. Test pages:
+   /
+   /training-mode
+   /progress
+   /daily-challenge
+   /leaderboard
+   /typing-test
+
+3. Test features:
+   - Theme #2 loads by default.
+   - Theme 1-6 switch correctly.
+   - Keyboard skin saves after reload.
+   - XP / achievements / daily mission still work.
+   - Lesson progress works on desktop and mobile.
+
+Release name:
+KPC Typing Academy v1.0

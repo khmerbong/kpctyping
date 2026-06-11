@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>Multiplayer Typing Race | KPC Typing</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/multiplayer_race.css') }}">
+
+<!-- REAL PHASE 12: Mobile Experience + PWA -->
+<link rel="manifest" href="/static/manifest.json">
+<meta name="theme-color" content="#5b7cfa">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="KPC Typing">
+<link rel="stylesheet" href="/static/css/mobile_pwa.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpctyping_mockup2_redesign.css') }}">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpc_design_system_2026.css') }}">
+</head>
+<body>
+<div class="race-wrap">
+  <div class="race-hero">
+    <h1>🏁 Multiplayer Typing Race</h1>
+    <p>Create a race room, share the code, and compete with friends using live polling updates.</p>
+    <div class="race-grid">
+      <div class="race-card">
+        <h2>Create Room</h2>
+        <input id="playerName" placeholder="Your display name">
+        <input id="raceTitle" placeholder="Race title" value="Typing Race">
+        <textarea id="raceCustomPrompt" placeholder="Optional custom race text"></textarea>
+        <button id="createRace" class="race-btn">Create Race</button>
+      </div>
+      <div class="race-card">
+        <h2>Join Room</h2>
+        <input id="joinCode" placeholder="Room code">
+        <button id="joinRace" class="race-btn secondary">Join Race</button>
+      </div>
+    </div>
+    <div id="raceRoom" class="race-room race-card">
+      <div class="race-stats"><span class="race-pill">Room: <b id="raceCode" class="race-code"></b></span><span class="race-pill">Status: <b id="raceStatus">waiting</b></span><span class="race-pill">Players: <b id="playerCount">0/10</b></span></div>
+      <button id="startRace" class="race-btn">Start Race</button>
+      <div id="racePrompt" class="race-prompt"></div>
+      <textarea id="raceInput" class="race-input" placeholder="Start typing here when the race is running..." disabled></textarea>
+      <h2>Live Players</h2>
+      <div id="players"></div>
+    </div>
+  </div>
+</div>
+<script src="{{ url_for('static', filename='js/multiplayer_race.js') }}"></script>
+
+<!-- REAL PHASE 12: PWA registration and mobile touch helpers -->
+<script src="/static/js/mobile_typing_helper.js" defer></script>
+<script src="/static/js/pwa_install.js" defer></script>
+<script src="{{ url_for('static', filename='js/kpctyping_mockup2_redesign.js') }}" defer></script>
+
+<script src="{{ url_for('static', filename='js/kpc_svg_icon_system_2026.js') }}" defer></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hall of Champions | KPC Typing</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/tournaments.css') }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpctyping_mockup2_redesign.css') }}">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpc_design_system_2026.css') }}">
+</head>
+<body class="tour-body">
+<nav class="tour-nav"><a href="/">KPC Typing</a><a href="/tournaments">Tournaments</a></nav>
+<main class="tour-shell">
+  <section class="tour-hero"><span class="phase-pill">Hall of Champions</span><h1>Tournament Winners</h1><p>Completed tournament champions and season legends.</p></section>
+  <section id="championsList" class="tour-grid"></section>
+</main>
+<script src="{{ url_for('static', filename='js/champions.js') }}"></script>
+<script src="{{ url_for('static', filename='js/kpctyping_mockup2_redesign.js') }}" defer></script>
+
+<script src="{{ url_for('static', filename='js/kpc_svg_icon_system_2026.js') }}" defer></script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+/* V33 Real Gamification */
+.gamification-body{
+  margin:0;
+  min-height:100vh;
+  background:radial-gradient(circle at top,#1e3a8a 0,#0f172a 45%,#020617 100%);
+  color:white;
+  font-family:Arial,Helvetica,sans-serif;
+}
+.gamification-shell{
+  width:min(1180px,94%);
+  margin:0 auto;
+  padding:34px 0 70px;
+}
+.progress-hero{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:22px;
+  align-items:center;
+  padding:34px;
+  border-radius:30px;
+  background:linear-gradient(135deg,rgba(15,23,42,.95),rgba(30,41,59,.88));
+  border:1px solid rgba(56,189,248,.25);
+  box-shadow:0 24px 70px rgba(0,0,0,.38);
+}
+.progress-hero h1{
+  margin:14px 0;
+  font-size:clamp(38px,6vw,72px);
+  color:#fbbf24;
+}
+.rank-badge{
+  display:inline-block;
+  padding:9px 15px;
+  border-radius:999px;
+  background:rgba(251,191,36,.16);
+  border:1px solid rgba(251,191,36,.35);
+  color:#fde68a;
+  font-weight:1000;
+}
+.xp-card{
+  padding:24px;
+  border-radius:24px;
+  background:#020617;
+  border:1px solid rgba(148,163,184,.18);
+}
+.xp-card span{color:#94a3b8}
+.xp-card strong{display:block;font-size:54px;color:#38bdf8;margin:8px 0}
+.xp-bar,.daily-bar{
+  height:12px;
+  border-radius:999px;
+  background:#111827;
+  overflow:hidden;
+  border:1px solid rgba(148,163,184,.16);
+}
+.xp-bar div,.daily-bar i{
+  display:block;
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#22c55e,#38bdf8,#fbbf24);
+}
+.progress-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin:22px 0;
+}
+.progress-grid article,.progress-panel{
+  background:rgba(15,23,42,.82);
+  border:1px solid rgba(148,163,184,.18);
+  border-radius:24px;
+  padding:22px;
+  box-shadow:0 18px 50px rgba(0,0,0,.25);
+}
+.progress-grid article span{display:block;color:#94a3b8;font-weight:800}
+.progress-grid article strong{display:block;color:#22d3ee;font-size:34px;margin-top:8px}
+.progress-two-col{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  margin-bottom:18px;
+}
+.daily-item{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:14px;
+  align-items:center;
+  background:#020617;
+  border:1px solid rgba(148,163,184,.15);
+  border-radius:18px;
+  padding:14px;
+  margin-bottom:10px;
+}
+.daily-item strong{display:block;color:#e2e8f0}
+.daily-item span{display:block;color:#94a3b8;font-size:13px;margin:4px 0 8px}
+.daily-item button{
+  border:0;
+  border-radius:12px;
+  padding:10px 14px;
+  font-weight:900;
+  background:linear-gradient(135deg,#fbbf24,#f97316);
+  color:#111827;
+  cursor:pointer;
+}
+.daily-item button:disabled{opacity:.45;cursor:not-allowed}
+.achievement-gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:12px;
+}
+.achievement-tile{
+  padding:14px;
+  border-radius:18px;
+  background:#020617;
+  border:1px solid rgba(148,163,184,.15);
+  min-height:120px;
+}
+.achievement-tile b{font-size:32px;display:block}
+.achievement-tile strong{display:block;color:#e2e8f0;margin-top:6px}
+.achievement-tile span{display:block;color:#94a3b8;font-size:12px;margin-top:4px}
+.achievement-tile.locked{filter:grayscale(1);opacity:.48}
+.achievement-tile.unlocked{
+  border-color:rgba(251,191,36,.45);
+  box-shadow:0 0 24px rgba(251,191,36,.10);
+}
+.rank-ladder{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:12px;
+}
+.rank-step{
+  text-align:center;
+  border-radius:18px;
+  background:#020617;
+  border:1px solid rgba(148,163,184,.15);
+  padding:16px;
+  opacity:.6;
+}
+.rank-step.done{
+  opacity:1;
+  border-color:rgba(34,197,94,.45);
+  background:rgba(34,197,94,.08);
+}
+.rank-step b{font-size:32px;display:block}
+.rank-step strong{display:block;color:#e2e8f0}
+.rank-step span{color:#94a3b8;font-size:12px}
+.kpc-toast{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:999999;
+  transform:translateY(30px);
+  opacity:0;
+  padding:14px 18px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+  border:1px solid rgba(56,189,248,.28);
+  color:#fff;
+  font-weight:900;
+  box-shadow:0 18px 60px rgba(0,0,0,.38);
+  transition:.25s ease;
+}
+.kpc-toast.show{transform:translateY(0);opacity:1}
+.progress-card-v33{border-color:rgba(251,191,36,.45)!important;box-shadow:0 0 28px rgba(251,191,36,.12)}
+@media(max-width:900px){
+  .progress-hero,.progress-two-col{grid-template-columns:1fr}
+  .progress-grid{grid-template-columns:repeat(2,1fr)}
+}

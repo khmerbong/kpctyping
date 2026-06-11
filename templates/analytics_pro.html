@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>Pro Analytics | KPC Typing</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/analytics_pro.css') }}" />
+
+<!-- REAL PHASE 12: Mobile Experience + PWA -->
+<link rel="manifest" href="/static/manifest.json">
+<meta name="theme-color" content="#5b7cfa">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="KPC Typing">
+<link rel="stylesheet" href="/static/css/mobile_pwa.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpctyping_mockup2_redesign.css') }}">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpc_design_system_2026.css') }}">
+</head>
+<body class="analytics-pro-body">
+<nav class="analytics-pro-nav">
+  <a href="/">KPC Typing</a>
+  <div>
+    <a href="/training-mode">Training</a>
+    <a href="/ai-coach">AI Coach</a>
+    <a href="/career">Career</a>
+    <a href="/analytics-pro" class="active">Analytics Pro</a>
+    <a href="/profile">Profile</a>
+  </div>
+</nav>
+<main class="analytics-pro-shell">
+  <section class="analytics-hero">
+    <span class="analytics-badge">REAL PHASE 10</span>
+    <h1>Professional Analytics Dashboard</h1>
+    <p>Track speed, accuracy, practice time, weak keys, AI Coach data, and career progress from real saved sessions.</p>
+    <div class="hero-actions">
+      <button id="refreshAnalytics">Refresh</button>
+      <button id="seedDemoSession">Add Test Session</button>
+    </div>
+    <pre id="analyticsStatus">Loading analytics...</pre>
+  </section>
+
+  <section class="metric-grid">
+    <article><span>Best WPM</span><strong id="bestWpm">0</strong></article>
+    <article><span>Average WPM</span><strong id="avgWpm">0</strong></article>
+    <article><span>Best Accuracy</span><strong id="bestAccuracy">0%</strong></article>
+    <article><span>Average Accuracy</span><strong id="avgAccuracy">0%</strong></article>
+    <article><span>Sessions</span><strong id="sessionCount">0</strong></article>
+    <article><span>Practice Minutes</span><strong id="practiceMinutes">0</strong></article>
+  </section>
+
+  <section class="analytics-grid">
+    <article class="analytics-card wide">
+      <h2>Speed Trend</h2>
+      <div id="speedChart" class="bar-chart"></div>
+    </article>
+    <article class="analytics-card wide">
+      <h2>Accuracy Trend</h2>
+      <div id="accuracyChart" class="bar-chart"></div>
+    </article>
+    <article class="analytics-card">
+      <h2>Weak Key Heatmap</h2>
+      <div id="weakHeatmap" class="heatmap"></div>
+    </article>
+    <article class="analytics-card">
+      <h2>AI Coach Summary</h2>
+      <ul id="aiCoachList" class="summary-list"></ul>
+    </article>
+    <article class="analytics-card wide">
+      <h2>Recent Sessions</h2>
+      <div class="session-table-wrap">
+        <table class="session-table">
+          <thead><tr><th>Date</th><th>Mode</th><th>Lesson</th><th>WPM</th><th>Accuracy</th><th>Weak Keys</th></tr></thead>
+          <tbody id="recentSessions"></tbody>
+        </table>
+      </div>
+    </article>
+  </section>
+</main>
+<script src="{{ url_for('static', filename='js/analytics_pro.js') }}"></script>
+
+<!-- REAL PHASE 12: PWA registration and mobile touch helpers -->
+<script src="/static/js/mobile_typing_helper.js" defer></script>
+<script src="/static/js/pwa_install.js" defer></script>
+<script src="{{ url_for('static', filename='js/kpctyping_mockup2_redesign.js') }}" defer></script>
+
+<script src="{{ url_for('static', filename='js/kpc_svg_icon_system_2026.js') }}" defer></script>
+</body>
+</html>

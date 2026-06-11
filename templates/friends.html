@@ -1,0 +1,12 @@
+<!DOCTYPE html><html lang="en"><head>{% include 'social_head.html' ignore missing %}<title>Friends | KPC Typing</title><link rel="stylesheet" href="{{ url_for('static', filename='css/kpctyping_mockup2_redesign.css') }}">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpc_design_system_2026.css') }}">
+</head><body class="social-body">
+{% include 'social_nav.html' ignore missing %}
+<main class="social-shell">
+<section class="social-hero"><span class="social-badge">REAL PHASE 14</span><h1>Friends & Social System</h1><p>Search players, send friend requests, and build your typing community.</p><p>Pending requests: <b id="pendingCount">0</b></p></section>
+<section class="social-grid"><article class="social-card"><h3>Find Player</h3><input id="playerSearch" class="social-input" placeholder="Search username..." /><div id="searchResults"></div></article><article class="social-card"><h3>Your Friends</h3><div id="friendsList">Loading...</div></article></section>
+</main><script src="{{ url_for('static', filename='js/social.js') }}"></script><script src="{{ url_for('static', filename='js/kpctyping_mockup2_redesign.js') }}" defer></script>
+
+<script src="{{ url_for('static', filename='js/kpc_svg_icon_system_2026.js') }}" defer></script>
+</body></html>

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hall of Fame - KPCTyping</title>
+  <link rel="stylesheet" href="/static/css/mobile_pwa.css">
+  <link rel="stylesheet" href="/static/css/global_leaderboard.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpctyping_mockup2_redesign.css') }}">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpc_design_system_2026.css') }}">
+</head>
+<body class="phase13-page">
+  <main class="lb-shell">
+    <section class="lb-hero"><div><p class="eyebrow">REAL PHASE 13</p><h1>👑 Hall of Fame</h1><p>Best records ever submitted to the verified leaderboard system.</p></div><nav class="lb-actions"><a href="/global-leaderboard">Global</a><a href="/country-leaderboard">Country</a></nav></section>
+    <section class="hof-grid" id="hofGrid"><div class="card">Loading...</div></section>
+  </main>
+  <script src="/static/js/hall_of_fame.js"></script>
+<script src="{{ url_for('static', filename='js/kpctyping_mockup2_redesign.js') }}" defer></script>
+
+<script src="{{ url_for('static', filename='js/kpc_svg_icon_system_2026.js') }}" defer></script>
+</body>
+</html>

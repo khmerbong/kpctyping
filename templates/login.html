@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign in | KPC Typing</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}" />
+
+<!-- REAL PHASE 12: Mobile Experience + PWA -->
+<link rel="manifest" href="/static/manifest.json">
+<meta name="theme-color" content="#5b7cfa">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="KPC Typing">
+<link rel="stylesheet" href="/static/css/mobile_pwa.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpctyping_mockup2_redesign.css') }}">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpc_design_system_2026.css') }}">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/human_made_ui.css') }}">
+</head>
+<body>
+<nav class="auth-nav">
+    <a href="/">KPC Typing</a>
+    <div>
+        <a href="/training-mode">Training</a>
+        <a href="/progress">Progress</a>
+        <a href="/leaderboard">Leaderboard</a>
+        {% if current_user %}
+            <a href="/profile">Profile</a>
+            <a href="/logout">Logout</a>
+        {% else %}
+            <a href="/login">Sign in</a>
+            <a href="/register">Register</a>
+        {% endif %}
+    </div>
+</nav>
+<main class="auth-shell">
+    <section class="auth-card">
+        <span class="auth-badge">Welcome back</span>
+        <h1>Sign in</h1>
+        <p>Continue from where you left off and keep your practice history together.</p>
+        {% if error %}<div class="auth-error">{{ error }}</div>{% endif %}
+        <form method="post" class="auth-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token_value }}" />
+            <label>Username or email
+                <input name="identity" required autocomplete="username" />
+            </label>
+            <label>Password
+                <input name="password" type="password" required autocomplete="current-password" />
+            </label>
+            <button type="submit">Sign in</button>
+        </form>
+        <p class="auth-small">New here? <a href="/register">Create an account</a></p>
+    </section>
+</main>
+<script src="{{ url_for('static', filename='js/auth_ui.js') }}"></script>
+
+<!-- REAL PHASE 12: PWA registration and mobile touch helpers -->
+<script src="/static/js/mobile_typing_helper.js" defer></script>
+<script src="/static/js/pwa_install.js" defer></script>
+<script src="{{ url_for('static', filename='js/kpctyping_mockup2_redesign.js') }}" defer></script>
+
+<script src="{{ url_for('static', filename='js/kpc_svg_icon_system_2026.js') }}" defer></script>
+</body>
+</html>

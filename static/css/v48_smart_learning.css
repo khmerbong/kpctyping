@@ -1,0 +1,12 @@
+
+.v48-finger-hint{
+ position:fixed;top:90px;right:20px;z-index:9999;
+ background:#0f172a;color:#fff;padding:10px 14px;border-radius:12px;
+ border:1px solid #334155;font-weight:bold;
+}
+.v48-pause-tip{
+ position:fixed;left:50%;top:120px;transform:translateX(-50%);
+ background:#111827;color:white;padding:12px 18px;border-radius:12px;
+ display:none;z-index:9999;
+}
+.v48-pause-tip.show{display:block;}

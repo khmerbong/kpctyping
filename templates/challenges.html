@@ -1,0 +1,8 @@
+<!DOCTYPE html><html lang="en"><head>{% include 'social_head.html' ignore missing %}<title>Private Challenges | KPC Typing</title><link rel="stylesheet" href="{{ url_for('static', filename='css/kpctyping_mockup2_redesign.css') }}">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpc_design_system_2026.css') }}">
+</head><body class="social-body">
+{% include 'social_nav.html' ignore missing %}<main class="social-shell"><section class="social-hero"><span class="social-badge">1V1 CHALLENGES</span><h1>Private Challenges</h1><p>Challenge a friend to a private typing duel.</p></section><section class="social-grid"><article class="social-card"><h3>Create Challenge</h3><input id="challengeUser" class="social-input" placeholder="Friend username" /><select id="challengeMode"><option value="best_of_1">Best of 1</option><option value="best_of_3">Best of 3</option><option value="best_of_5">Best of 5</option></select><textarea id="challengePrompt" placeholder="Challenge text...">Practice builds speed. Focus on clean accuracy first, then let your fingers move faster with confidence.</textarea><button onclick="createChallenge()">Send Challenge</button></article><article class="social-card"><h3>Your Challenges</h3><div id="challengeList">Loading...</div></article></section></main><script src="{{ url_for('static', filename='js/social.js') }}"></script><script src="{{ url_for('static', filename='js/kpctyping_mockup2_redesign.js') }}" defer></script>
+
+<script src="{{ url_for('static', filename='js/kpc_svg_icon_system_2026.js') }}" defer></script>
+</body></html>

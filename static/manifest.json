@@ -1,0 +1,23 @@
+{
+  "name": "KPC Typing - Typing Lessons & Games",
+  "short_name": "KPC Typing",
+  "description": "Install KPC Typing as a mobile app with offline lessons, typing practice, XP, AI Coach, analytics, and race mode.",
+  "id": "/?source=pwa",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#08111f",
+  "theme_color": "#5b7cfa",
+  "categories": ["education", "productivity", "games"],
+  "icons": [
+    {"src": "/static/icons/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml", "purpose": "any maskable"},
+    {"src": "/static/icons/icon-512.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "any maskable"}
+  ],
+  "shortcuts": [
+    {"name":"Training Mode", "short_name":"Training", "url":"/training-mode", "description":"Open lessons"},
+    {"name":"Career", "short_name":"Career", "url":"/career", "description":"View XP and rank"},
+    {"name":"AI Coach", "short_name":"Coach", "url":"/ai-coach", "description":"See weak keys"},
+    {"name":"Race", "short_name":"Race", "url":"/multiplayer-race", "description":"Join typing race"}
+  ]
+}

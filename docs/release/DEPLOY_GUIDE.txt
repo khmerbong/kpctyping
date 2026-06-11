@@ -1,0 +1,14 @@
+Render Deployment
+
+1. Upload project to GitHub
+2. Create Web Service on Render
+3. Build Command:
+pip install -r requirements.txt
+
+4. Start Command:
+gunicorn app:app
+
+5. Deploy
+
+Local Network:
+app.run(host="0.0.0.0", port=5000, debug=False)

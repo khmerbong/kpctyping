@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Typing Challenge - KPC Typing</title>
+
+    <meta name="description" content="Complete daily typing missions, earn XP, build streaks, practice weak keys and improve your keyboard skills every day." />
+    <meta name="keywords" content="free typing game, online typing test, typing speed test, keyboard practice, typing lessons, WPM test, typing leaderboard, Khmer typing practice" />
+    <meta name="author" content="KPC Typing" />
+    <link rel="canonical" href="https://kpctyping.space/daily-challenge" />
+    <meta property="og:title" content="Daily Typing Challenge - KPC Typing" />
+    <meta property="og:description" content="Complete daily typing missions, earn XP, build streaks, practice weak keys and improve your keyboard skills every day." />
+    <meta property="og:url" content="https://kpctyping.space/daily-challenge" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="KPC Typing" />
+    <meta property="og:image" content="https://kpctyping.space/static/images/og-kpc-typing.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="KPC Typing free typing practice website preview" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Daily Typing Challenge - KPC Typing" />
+    <meta name="twitter:description" content="Complete daily typing missions, earn XP, build streaks, practice weak keys and improve your keyboard skills every day." />
+    <meta name="twitter:image" content="https://kpctyping.space/static/images/og-kpc-typing.png" />
+    <meta name="twitter:image:alt" content="KPC Typing free typing practice website preview" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Daily Typing Challenge - KPC Typing","url":"https://kpctyping.space/daily-challenge","description":"Complete daily typing missions, earn XP, build streaks, practice weak keys and improve your keyboard skills every day.","image":"https://kpctyping.space/static/images/og-kpc-typing.png","inLanguage":"en","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"KPC Typing","url":"https://kpctyping.space"},"applicationCategory":"EducationalApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gamification.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/v39_dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/v25_phase2.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/v26_1_final_polish.css') }}" />
+    <meta name="csrf-token" content="{{ csrf_token }}">
+
+<!-- REAL PHASE 12: Mobile Experience + PWA -->
+<link rel="manifest" href="/static/manifest.json">
+<meta name="theme-color" content="#5b7cfa">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="KPC Typing">
+<link rel="stylesheet" href="/static/css/mobile_pwa.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpctyping_mockup2_redesign.css') }}">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpc_design_system_2026.css') }}">
+</head>
+<body class="gamification-body">
+<main class="gamification-shell">
+  <nav class="academy-nav"><a href="/">← Back Home</a><strong>Daily Challenge</strong><a href="/training-mode">Start Training →</a></nav>
+  <section class="progress-hero">
+    <div><div class="rank-badge">📅 V25 Daily Mission</div><h1>🔥 Daily Challenge</h1><p>Complete small missions every day to build XP, streak, and stronger typing habits.</p></div>
+    <div class="xp-card"><span>Total XP</span><strong id="dashXP">0</strong><div class="xp-bar"><div id="dashXPBar"></div></div><small id="dashNextRank">Next rank</small></div>
+  </section>
+  <section class="progress-two-col">
+    <div class="progress-panel"><h2>Today's Missions</h2><div id="dailyChallengeList" class="challenge-list"></div></div>
+    <div class="progress-panel"><h2>🤖 Weak Key Focus</h2><p class="v25-panel-note">Practice will automatically record the keys you miss most.</p><div id="v25WeakKeys"></div></div>
+  </section>
+  <section class="progress-panel"><h2>🎖 Achievements</h2><div id="achievementGallery" class="achievement-gallery"></div></section>
+</main>
+<script src="{{ url_for('static', filename='js/gamification.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/v26_1_final_polish.js') }}" defer></script>
+
+<!-- REAL PHASE 12: PWA registration and mobile touch helpers -->
+<script src="/static/js/mobile_typing_helper.js" defer></script>
+<script src="/static/js/pwa_install.js" defer></script>
+<script src="{{ url_for('static', filename='js/kpctyping_mockup2_redesign.js') }}" defer></script>
+
+<script src="{{ url_for('static', filename='js/kpc_svg_icon_system_2026.js') }}" defer></script>
+</body>
+</html>

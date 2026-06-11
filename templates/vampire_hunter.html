@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H8Q99PGJYV"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-H8Q99PGJYV');
+    </script>
+
+
+<meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vampire Hunter Typing - KPC Typing</title>
+
+    <meta name="description" content="Practice typing in Vampire Hunter, a free night castle keyboard game with levels, combos and fast word challenges." />
+    <meta name="keywords" content="free typing game, online typing test, typing speed test, keyboard practice, typing lessons, WPM test, typing leaderboard, Khmer typing practice" />
+    <meta name="author" content="KPC Typing" />
+    <link rel="canonical" href="https://kpctyping.space/vampire-hunter" />
+    <meta property="og:title" content="Vampire Hunter Typing - KPC Typing" />
+    <meta property="og:description" content="Practice typing in Vampire Hunter, a free night castle keyboard game with levels, combos and fast word challenges." />
+    <meta property="og:url" content="https://kpctyping.space/vampire-hunter" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="KPC Typing" />
+    <meta property="og:image" content="https://kpctyping.space/static/images/og-kpc-typing.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="KPC Typing free typing practice website preview" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Vampire Hunter Typing - KPC Typing" />
+    <meta name="twitter:description" content="Practice typing in Vampire Hunter, a free night castle keyboard game with levels, combos and fast word challenges." />
+    <meta name="twitter:image" content="https://kpctyping.space/static/images/og-kpc-typing.png" />
+    <meta name="twitter:image:alt" content="KPC Typing free typing practice website preview" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Game","name":"Vampire Hunter Typing - KPC Typing","url":"https://kpctyping.space/vampire-hunter","description":"Practice typing in Vampire Hunter, a free night castle keyboard game with levels, combos and fast word challenges.","image":"https://kpctyping.space/static/images/og-kpc-typing.png","inLanguage":"en","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"KPC Typing","url":"https://kpctyping.space"},"genre":"Typing Game","gamePlatform":"Web Browser","applicationCategory":"GameApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/v26_1_final_polish.css') }}" />
+    <meta name="csrf-token" content="{{ csrf_token }}">
+
+<!-- REAL PHASE 12: Mobile Experience + PWA -->
+<link rel="manifest" href="/static/manifest.json">
+<meta name="theme-color" content="#5b7cfa">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="KPC Typing">
+<link rel="stylesheet" href="/static/css/mobile_pwa.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpctyping_mockup2_redesign.css') }}">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/kpc_design_system_2026.css') }}">
+</head>
+<body>
+    
+<div id="gameOverlay" class="game-overlay">
+  <div class="game-overlay-card">
+    <h1 id="overlayTitle">VAMPIRE HUNTER</h1>
+    <p id="overlaySubtitle">Kill all vampires</p>
+    <button id="overlayPlayBtn" class="overlay-play-btn">PLAY GAME</button>
+  </div>
+</div>
+
+<main class="page-shell vampire-page">
+        <nav class="top-nav">
+            <a href="/">← Back Home</a>
+            <strong>KPC Typing</strong>
+        </nav>
+
+        <section class="typing-panel vampire-panel">
+            <div class="panel-header">
+                <div>
+                    <div class="badge vampire-badge">Game 03 • Vampire Hunter</div>
+                    <h1>Vampire Hunter Typing</h1>
+                    <p>Type the vampire word before it reaches your hunter. Survive the night castle and defeat the Vampire King.</p>
+                </div>
+                <button id="vampireStartBtn" class="primary-btn vampire-btn">Start Game</button>
+            </div>
+
+            <div class="stats-grid vampire-stats">
+                <div class="stat-card"><span>Lives</span><strong id="vampireLives" class="heart-lives">❤️❤️❤️❤️❤️</strong></div>
+                <div class="stat-card"><span>Score</span><strong id="vampireScore">0</strong></div>
+                <div class="stat-card"><span>Level</span><strong id="vampireLevel">1</strong></div>
+                <div class="stat-card"><span>Combo</span><strong id="vampireCombo">0</strong></div>
+            </div>
+
+            <div class="best-row vampire-best-row">
+                <span>🏆 Best Score: <strong id="vampireBestScore">0</strong></span>
+                <span>⚡ Best Combo: <strong id="vampireBestCombo">0</strong></span>
+                <span>📈 Best Level: <strong id="vampireBestLevel">1</strong></span>
+            </div>
+
+            <div id="vampireBossHud" class="boss-hud vampire-boss-hud hidden">
+                <div class="boss-hud-top">
+                    <strong>👑 Vampire King</strong>
+                    <span id="vampireBossHpText">HP 0/0</span>
+                </div>
+                <div class="boss-hp-bar">
+                    <div id="vampireBossHpFill"></div>
+                </div>
+            </div>
+
+            <div class="vampire-arena" id="vampireArena">
+                <div class="moon"></div>
+                <div class="castle-bg">🏰</div>
+                <div class="hunter-base"><span>HUNTER</span><strong>🧑‍🌾🏹</strong></div>
+                <div class="vampire-hint" id="vampireHint">Press Start Game</div>
+                <div class="level-toast" id="vampireLevelToast">Level Up!</div>
+            </div>
+
+            <input id="vampireInput" class="typing-input vampire-input" type="text" placeholder="Type vampire word here..." autocomplete="off" disabled />
+            <p id="vampireMessage" class="message">Ready to hunt vampires.</p>
+        </section>
+    <div data-mobile-keyboard></div>
+</main>
+
+    <div id="vampireGameOverModal" class="game-over-modal hidden">
+        <div class="game-over-card vampire-over-card">
+            <h2>🦇 Night Over</h2>
+            <p>The vampires escaped into the castle.</p>
+            <div class="modal-stats">
+                <span>Score: <strong id="vampireFinalScore">0</strong></span>
+                <span>Best Combo: <strong id="vampireFinalCombo">0</strong></span>
+                <span>Level: <strong id="vampireFinalLevel">1</strong></span>
+            </div>
+            <button id="vampireModalRestartBtn" class="primary-btn vampire-btn">Play Again</button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/vampire_hunter.js') }}"></script>
+<script src="{{ url_for('static', filename='js/player_profile.js') }}"></script>
+<script src="{{ url_for('static', filename='js/achievement_popup.js') }}"></script>
+<script src="{{ url_for('static', filename='js/letter_feedback.js') }}"></script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const overlay = document.getElementById('gameOverlay');
+  const playBtn = document.getElementById('overlayPlayBtn');
+  if (!overlay || !playBtn) return;
+
+  const startSelectors = [
+    '#spaceStart',
+    '#spaceStartBtn',
+    '#startBtn',
+    '#startGame',
+    '#startGameBtn',
+    '#startTyping',
+    '#startTest',
+    '#typingStart',
+    '#zombieStart',
+    '#vampireStart',
+    'button[data-start-game]'
+  ];
+
+  function getStartButton(){
+    for (const sel of startSelectors){
+      const el = document.querySelector(sel);
+      if (el) return el;
+    }
+    // fallback: find button whose text looks like start/restart/play
+    const buttons = Array.from(document.querySelectorAll('button'));
+    return buttons.find(b => /start|play|mission|test/i.test((b.textContent || '').trim()) && b.id !== 'overlayPlayBtn') || null;
+  }
+
+  function hideOldStartButtons(){
+    const old = getStartButton();
+    if (old) {
+      old.classList.add('old-start-hidden');
+      old.setAttribute('aria-hidden','true');
+      old.tabIndex = -1;
+    }
+  }
+
+  function startGameFromOverlay(){
+    overlay.style.display = 'none';
+    const old = getStartButton();
+    if (old) old.click();
+
+    // focus likely game input
+    setTimeout(() => {
+      const input = document.querySelector(
+        '#spaceInput,#zombieInput,#vampireInput,#typingInput,#wordInput,input[type="text"],input:not([type])'
+      );
+      if (input) input.focus();
+    }, 120);
+  }
+
+  playBtn.onclick = startGameFromOverlay;
+  hideOldStartButtons();
+
+  window.showGameOverlay = function(title, msg){
+    overlay.style.display = 'flex';
+    const titleEl = document.getElementById('overlayTitle');
+    const subEl = document.getElementById('overlaySubtitle');
+    if (titleEl) titleEl.textContent = title || 'GAME OVER';
+    if (subEl) subEl.textContent = msg || 'Try again and beat your score.';
+    playBtn.textContent = /over|again/i.test(title || '') ? 'PLAY AGAIN' : 'PLAY GAME';
+    hideOldStartButtons();
+  };
+
+  // Keep old start hidden even after game scripts re-render/update.
+  setInterval(hideOldStartButtons, 1000);
+});
+</script>
+
+<script src="{{ url_for('static', filename='js/gameover_v24.js') }}"></script>
+<div id="pauseOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:99998;align-items:center;justify-content:center;">
+<div style="background:#111827;padding:30px;border-radius:20px;text-align:center;color:white;">
+<h1>⏸️ PAUSED</h1>
+<button onclick="resumeGame()">Resume</button>
+<button onclick="location.reload()">Restart</button>
+<button onclick="location.href='/'">Home</button>
+</div></div>
+<script src="{{ url_for('static', filename='js/pause_system.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/v26_1_final_polish.js') }}" defer></script>
+
+<!-- REAL PHASE 12: PWA registration and mobile touch helpers -->
+<script src="/static/js/mobile_typing_helper.js" defer></script>
+<script src="/static/js/pwa_install.js" defer></script>
+<script src="{{ url_for('static', filename='js/kpctyping_mockup2_redesign.js') }}" defer></script>
+
+<script src="{{ url_for('static', filename='js/kpc_svg_icon_system_2026.js') }}" defer></script>
+</body>
+</html>
