@@ -418,8 +418,15 @@ def add_security_headers(response):
         "form-action 'self'; "
         "object-src 'none'"
     )
-    if request.path.startswith("/api/"):
+    # Phase 7 Performance: cache immutable versioned static assets aggressively, keep APIs private.
+    if request.path.startswith("/static/"):
+        response.headers.setdefault("Cache-Control", "public, max-age=31536000, immutable")
+    elif request.path.endswith((".js", ".css", ".svg", ".png", ".webp", ".ico")):
+        response.headers.setdefault("Cache-Control", "public, max-age=604800")
+    elif request.path.startswith("/api/"):
         response.headers.setdefault("Cache-Control", "no-store")
+    else:
+        response.headers.setdefault("Cache-Control", "no-cache")
     if request.is_secure or request.headers.get("X-Forwarded-Proto", "").lower() == "https":
         response.headers.setdefault("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload")
         response.set_cookie("secure_context", "1", secure=True, httponly=True, samesite="Lax", max_age=31536000)

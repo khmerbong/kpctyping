@@ -1,9 +1,12 @@
-const KPC_CACHE = 'kpc-typing-phase12-v1';
+const KPC_CACHE = 'kpc-typing-phase7-performance-v1';
 const CORE_ASSETS = [
-  '/', '/offline.html', '/training-mode', '/typing-test', '/progress', '/career', '/ai-coach', '/analytics-pro', '/multiplayer-race',
-  '/static/manifest.json', '/static/css/style.css', '/static/css/mobile_pwa.css', '/static/js/pwa_install.js',
-  '/static/css/training_academy.css', '/static/css/ai_coach.css', '/static/css/career.css', '/static/css/analytics_pro.css', '/static/css/multiplayer_race.css',
-  '/static/js/mobile_typing_helper.js'
+  '/', '/offline.html', '/training-mode', '/typing-test', '/leaderboard', '/profile', '/friends', '/tournaments', '/ai-coach',
+  '/static/manifest.json',
+  '/static/css/design-system.css', '/static/css/pages.css', '/static/css/components.css', '/static/css/theme.css',
+  '/static/css/mobile.css', '/static/css/mobile_typing.css', '/static/css/performance.css',
+  '/static/css/typing2026.css', '/static/css/dashboard.css', '/static/css/ai_coach2026.css', '/static/css/social2026.css', '/static/css/tournament2026.css',
+  '/static/js/theme-toggle.js', '/static/js/performance_loader.js', '/static/js/lazy_routes.js',
+  '/static/js/mobile_nav.js', '/static/js/mobile_typing.js', '/static/js/typing_engine_v2.js', '/static/js/ai_coach2026.js'
 ];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(KPC_CACHE).then(cache => cache.addAll(CORE_ASSETS)).then(() => self.skipWaiting()));
