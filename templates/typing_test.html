@@ -35,8 +35,6 @@
     <meta name="twitter:image" content="https://kpctyping.space/static/images/og-kpc-typing.png" />
     <meta name="twitter:image:alt" content="KPC Typing free typing practice website preview" />
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Game","name":"60-second typing test - KPC Typing","url":"https://kpctyping.space/typing-test","description":"Take a free 60-second typing speed test with WPM, accuracy, score tracking and leaderboard practice on KPC Typing.","image":"https://kpctyping.space/static/images/og-kpc-typing.png","inLanguage":"en","isAccessibleForFree":true,"publisher":{"@type":"Organization","name":"KPC Typing","url":"https://kpctyping.space"},"genre":"Typing Game","gamePlatform":"Web Browser","applicationCategory":"GameApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/v26_1_final_polish.css') }}" />
     <meta name="csrf-token" content="{{ csrf_token }}">
 
 <!-- REAL PHASE 12: Mobile Experience + PWA -->
@@ -45,11 +43,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="KPC Typing">
-<link rel="stylesheet" href="/static/css/mobile_pwa.css">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/kpctyping_mockup2_redesign.css') }}">
-
-<link rel="stylesheet" href="{{ url_for('static', filename='css/kpc_design_system_2026.css') }}">
-
+<link rel="manifest" href="/static/manifest.json">
+<meta name="theme-color" content="#075ce8">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/human_made_ui.css') }}">
 </head>
 <body>
