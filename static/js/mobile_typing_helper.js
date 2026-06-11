@@ -16,3 +16,24 @@
   document.addEventListener('DOMContentLoaded',()=>{ if(window.innerWidth<=780) buildMobileKeyboard('main, .training-shell, .game-shell'); });
   window.KPCMobileTyping = { buildMobileKeyboard, highlight };
 })();
+
+// KPC 2026 mobile bottom navigation - safe auto-inject
+(function(){
+  if (document.querySelector('.kpc-mobile-bottom-nav')) return;
+  const links = [
+    ['🏠','Home','/landing'],
+    ['⌨️','Test','/typing-test'],
+    ['🎮','Games','/landing#games'],
+    ['🏆','Rank','/leaderboard'],
+    ['👤','Profile','/profile']
+  ];
+  const nav = document.createElement('nav');
+  nav.className = 'kpc-mobile-bottom-nav';
+  nav.setAttribute('aria-label','Mobile quick navigation');
+  const path = location.pathname;
+  nav.innerHTML = links.map(([icon,label,href]) => {
+    const active = (href !== '/landing#games' && (path === href || (href === '/landing' && path === '/'))) ? ' active' : '';
+    return `<a class="${active}" href="${href}"><span>${icon}</span>${label}</a>`;
+  }).join('');
+  document.addEventListener('DOMContentLoaded', () => document.body.appendChild(nav));
+})();

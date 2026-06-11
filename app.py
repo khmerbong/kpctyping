@@ -12,7 +12,7 @@ from pathlib import Path
 from datetime import datetime, timedelta
 from kpc_db import get_connection, database_engine
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static", static_url_path="/static")
 # Trust the common reverse-proxy headers used by Render/Railway/Fly/NGINX so HTTPS security checks work after deployment.
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_port=1)
 app.secret_key = os.environ.get("SECRET_KEY") or os.environ.get("FLASK_SECRET_KEY") or secrets.token_hex(32)
