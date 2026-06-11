@@ -1,10 +1,41 @@
-<!DOCTYPE html><html lang="en"><head>{% include 'social_head.html' ignore missing %}<title>Friends Leaderboard | KPC Typing</title>
-
-<link rel="stylesheet" href="{{ url_for('static', filename='css/design-system.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
-</head><body class="social-body">
-
-  <script src="/static/js/theme-toggle.js" defer></script>
-</body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% include 'social_head.html' ignore missing %}
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>Friends Leaderboard | KPC Typing</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/design-system.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/social2026.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/mobile.css') }}">
+</head>
+<body class="social-body" data-page="friends-leaderboard">
+  <nav class="social-topbar">
+    <a class="social-brand" href="/">⌨️ KPC Typing</a>
+    <div class="social-links">
+      <a href="/friends">Friends</a>
+      <a href="/friends/requests">Requests</a>
+      <a href="/friends/leaderboard" class="active">Friends Rank</a>
+      <a href="/activity">Activity</a>
+      <a href="/tournaments">Tournaments</a>
+      <button id="themeToggle" type="button">Theme</button>
+    </div>
+  </nav>
+  <main class="social-shell">
+    <section class="social-hero">
+      <span class="social-badge">PRIVATE LEADERBOARD</span>
+      <h1>Compete with friends.</h1>
+      <p>A cleaner ranking table for your friend circle, sorted by best WPM, accuracy, and XP.</p>
+    </section>
+    <article class="social-card">
+      <h2>Friends Ranking</h2>
+      <div id="friendsRank"><div class="empty-state">Loading leaderboard...</div></div>
+    </article>
+  </main>
+  <div id="toastStack" class="toast-stack"></div>
+  <script src="{{ url_for('static', filename='js/theme-toggle.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/friends.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/mobile_nav.js') }}" defer></script>
+</body>
+</html>

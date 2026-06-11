@@ -1,245 +1,231 @@
-(function(){
+(() => {
   'use strict';
 
   const WORDS = {
-    easy: 'apple banana school future typing rocket window happy garden family lesson planet music teacher speed orange silver memory number puzzle winner bright strong simple calm smile dream water light clean green small quick brown house chair table phone river sunny cloud pencil story friendly practice morning evening'.split(' '),
-    medium: 'keyboard computer accuracy progress challenge improve careful rhythm focused premium dashboard leaderboard tournament creative sentence paragraph energy journey balance confident browser mobile responsive practice result mistake correct highlight character shortcut restart analysis'.split(' '),
-    hard: 'synchronization architecture productivity concentration extraordinary transformation authentication visualization optimization professional responsibility championship compatibility implementation accessibility performance analytics infrastructure psychological development'.split(' ')
+    easy: 'apple water happy school music garden family bright simple little green blue smile friend light home chair table window banana orange pencil flower morning quiet clean river sunny cloud dream story'.split(' '),
+    medium: 'typing keyboard practice future memory silver rocket planet teacher lesson puzzle hunter strong clever journey focused accurate progress rhythm system browser champion energy balance improve smooth native modern'.split(' '),
+    hard: 'architecture synchronization extraordinary championship psychological responsibility transformation infrastructure professional complexity calculation development momentum concentration productivity accessibility visualization performance'.split(' ')
   };
 
   const SENTENCES = {
-    easy: [
-      'Keep your hands relaxed and type with a steady rhythm.',
-      'Small practice every day can build strong typing skill.',
-      'Look at the words and let your fingers move calmly.'
-    ],
-    medium: [
-      'Accuracy creates speed because every correction costs time and focus.',
-      'A clean typing flow feels smooth when your eyes stay ahead of your hands.',
-      'Consistent practice turns difficult keys into easy muscle memory.'
-    ],
-    hard: [
-      'Professional typists balance concentration, accuracy, rhythm, and efficient correction habits.',
-      'Optimization is not only about speed; it is also about reducing unnecessary movement.',
-      'Accessibility and responsive interaction make a typing experience feel polished on every device.'
-    ]
+    easy: ['The sun is warm and the garden is quiet.', 'A happy student types every morning.', 'Small steps can build strong speed.'],
+    medium: ['Accuracy creates speed when your rhythm becomes steady.', 'Practice each day and your keyboard confidence will grow.', 'A focused player learns from every typing mistake.'],
+    hard: ['Consistent concentration transforms complicated keyboard patterns into natural muscle memory.', 'Professional typists balance precision, rhythm, correction control, and calm breathing.']
   };
 
-  const keyboardRows = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'];
-  const state = {
-    difficulty: 'easy', duration: 60, running: false, paused: false, startedAt: 0, pauseStartedAt: 0, pausedMs: 0,
-    timer: null, target: '', typed: '', correctChars: 0, typedChars: 0, errors: 0, streak: 0, bestStreak: 0,
-    wrongKeys: {}, sound: false, bestWpm: Number(localStorage.getItem('kpc_best_wpm') || 0)
-  };
-
-  const $ = (id) => document.getElementById(id);
   const els = {
-    shell: document.querySelector('[data-typing-shell]'), start: $('startBtn'), input: $('typingInput'), text: $('typingText'),
-    time: $('timeLeft'), wpm: $('wpm'), accuracy: $('accuracy'), errors: $('errors'), streak: $('streak'), bestStreak: $('bestStreak'),
-    message: $('message'), progress: $('progressBar'), heatmap: $('heatmap'), raw: $('rawWpmLabel'), insights: $('insightsList'),
-    focusBtn: $('focusModeBtn'), soundBtn: $('soundToggleBtn'), pause: $('pauseOverlay'), resume: $('resumeBtn'), restartPause: $('restartPauseBtn'),
-    result: $('resultModal'), resultWpm: $('resultWpm'), resultAccuracy: $('resultAccuracy'), resultErrors: $('resultErrors'), resultStreak: $('resultStreak'),
-    resultAdvice: $('resultAdvice'), closeResult: $('closeResultBtn'), playAgain: $('playAgainBtn')
+    start: document.getElementById('startBtn'), input: document.getElementById('typingInput'), display: document.getElementById('textDisplay'),
+    time: document.getElementById('timeLeft'), wpm: document.getElementById('wpm'), raw: document.getElementById('rawWpm'), accuracy: document.getElementById('accuracy'), errors: document.getElementById('errors'), streak: document.getElementById('streak'),
+    status: document.getElementById('testStatus'), progress: document.getElementById('progressBar'), duration: document.getElementById('durationSelect'), difficulty: document.getElementById('difficultySelect'), mode: document.getElementById('modeSelect'),
+    focus: document.getElementById('focusModeBtn'), pause: document.getElementById('pauseOverlay'), resume: document.getElementById('resumeBtn'), restartPause: document.getElementById('restartFromPauseBtn'),
+    result: document.getElementById('resultModal'), resultMsg: document.getElementById('resultMessage'), resultWpm: document.getElementById('resultWpm'), resultAcc: document.getElementById('resultAccuracy'), resultErr: document.getElementById('resultErrors'), resultBest: document.getElementById('resultBest'), tryAgain: document.getElementById('tryAgainBtn'), weakKeys: document.getElementById('weakKeysList'),
+    keyboard: document.getElementById('keyboardHeatmap'), sound: document.getElementById('soundToggle')
   };
 
-  window.KPCGameStats = window.KPCGameStats || { score: 0, best: 0, level: 1, combo: 0 };
+  if (!els.start || !els.input || !els.display) return;
 
-  function shuffle(arr){ return [...arr].sort(() => Math.random() - 0.5); }
-  function generateTarget(){
-    const words = shuffle(WORDS[state.difficulty]);
-    const sentence = SENTENCES[state.difficulty][Math.floor(Math.random() * SENTENCES[state.difficulty].length)];
-    const count = state.duration === 30 ? 34 : state.duration === 60 ? 72 : 130;
-    const pool = [];
-    while (pool.join(' ').length < count * 6) pool.push(...shuffle(words));
-    return `${sentence} ${pool.slice(0, count).join(' ')}.`;
+  let state = resetState();
+  let timer = null;
+  let soundEnabled = false;
+  let bestWpm = Number(localStorage.getItem('kpc_best_wpm_2026') || 0);
+  const csrf = (document.querySelector('meta[name="csrf-token"]') || {}).content || '';
+
+  function resetState() {
+    return { running:false, paused:false, text:'', startTime:null, duration:60, timeLeft:60, typedChars:0, correctChars:0, errors:0, streak:0, bestStreak:0, errorMap:{}, lastInput:'', coachEvents:[], lastKeyTime:null };
   }
 
-  function escapeHtml(str){
-    return str.replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
-  }
-
-  function renderText(){
-    const typed = state.typed;
-    let html = '';
-    for (let i = 0; i < state.target.length; i++) {
-      const targetChar = state.target[i];
-      let cls = 'char';
-      if (i < typed.length) cls += typed[i] === targetChar ? ' correct' : ' wrong';
-      if (i === typed.length && state.running && !state.paused) cls += ' current';
-      html += `<span class="${cls}">${targetChar === ' ' ? '&nbsp;' : escapeHtml(targetChar)}</span>`;
+  function makeText() {
+    const difficulty = els.difficulty.value || 'medium';
+    const mode = els.mode.value || 'words';
+    if (mode === 'sentence') {
+      const list = SENTENCES[difficulty] || SENTENCES.medium;
+      return Array.from({length: difficulty === 'hard' ? 4 : 5}, () => list[Math.floor(Math.random() * list.length)]).join(' ');
     }
-    els.text.innerHTML = html || '<span class="muted">Press Start test to begin.</span>';
+    const list = WORDS[difficulty] || WORDS.medium;
+    const count = difficulty === 'hard' ? 54 : difficulty === 'easy' ? 70 : 62;
+    return Array.from({length: count}, () => list[Math.floor(Math.random() * list.length)]).join(' ');
   }
 
-  function elapsedSeconds(){
-    if (!state.startedAt) return 0;
-    const end = state.paused ? state.pauseStartedAt : Date.now();
-    return Math.max(0, (end - state.startedAt - state.pausedMs) / 1000);
+  function renderText() {
+    els.display.innerHTML = '';
+    [...state.text].forEach((ch, i) => {
+      const span = document.createElement('span');
+      span.className = 'char';
+      span.dataset.index = String(i);
+      span.textContent = ch === ' ' ? '·' : ch;
+      els.display.appendChild(span);
+    });
+    updateHighlight();
   }
-  function remainingSeconds(){ return Math.max(0, state.duration - Math.floor(elapsedSeconds())); }
-  function calcStats(){
-    const seconds = Math.max(elapsedSeconds(), 1);
-    const minutes = seconds / 60;
+
+  function updateHighlight() {
+    const typed = els.input.value;
+    const spans = els.display.querySelectorAll('.char');
+    let correct = 0, errors = 0, streak = 0;
+    const map = {};
+    spans.forEach((span, i) => {
+      span.className = 'char';
+      if (i < typed.length) {
+        if (typed[i] === state.text[i]) { span.classList.add('correct'); correct++; streak++; }
+        else { span.classList.add('incorrect'); errors++; streak = 0; const key = (state.text[i] || typed[i] || '?').toUpperCase(); map[key] = (map[key] || 0) + 1; }
+      } else if (i === typed.length) span.classList.add('current');
+    });
+    state.typedChars = typed.length;
+    state.correctChars = correct;
+    state.errors = errors;
+    state.streak = streak;
+    state.bestStreak = Math.max(state.bestStreak, streak);
+    state.errorMap = map;
+    updateStats();
+  }
+
+  function elapsedMinutes() {
+    if (!state.startTime) return 1 / 60;
+    return Math.max((Date.now() - state.startTime) / 60000, 1 / 60);
+  }
+
+  function calcStats() {
+    const minutes = elapsedMinutes();
     const wpm = Math.round((state.correctChars / 5) / minutes);
-    const rawWpm = Math.round((state.typedChars / 5) / minutes);
-    const accuracy = state.typedChars === 0 ? 100 : Math.max(0, Math.round((state.correctChars / state.typedChars) * 100));
-    return { wpm, rawWpm, accuracy, seconds, remaining: remainingSeconds() };
+    const raw = Math.round((state.typedChars / 5) / minutes);
+    const acc = state.typedChars === 0 ? 100 : Math.max(0, Math.round((state.correctChars / state.typedChars) * 100));
+    return { wpm, raw, acc };
   }
-  function updateStats(){
-    const s = calcStats();
-    els.time.textContent = s.remaining;
-    els.wpm.textContent = s.wpm;
-    els.accuracy.textContent = `${s.accuracy}%`;
+
+  function updateStats() {
+    const stats = calcStats();
+    els.time.textContent = state.timeLeft;
+    els.wpm.textContent = stats.wpm;
+    els.raw.textContent = stats.raw;
+    els.accuracy.textContent = `${stats.acc}%`;
     els.errors.textContent = state.errors;
     els.streak.textContent = state.streak;
-    els.bestStreak.textContent = state.bestStreak;
-    els.raw.textContent = `Raw WPM ${s.rawWpm}`;
-    els.progress.style.width = `${Math.min(100, (elapsedSeconds() / state.duration) * 100)}%`;
-    window.currentWpm = s.wpm;
-    window.KPCGameStats.score = s.wpm;
-    window.KPCGameStats.combo = state.bestStreak;
-    window.KPCGameStats.best = Math.max(window.KPCGameStats.best || 0, s.wpm);
+    els.progress.style.width = `${Math.min(100, (state.typedChars / Math.max(state.text.length, 1)) * 100)}%`;
+    window.currentWpm = stats.wpm;
+    window.KPCGameStats = { score: stats.wpm, best: bestWpm, level: 1, combo: state.bestStreak, wpm: stats.wpm, accuracy: stats.acc };
+    renderKeyboard();
   }
 
-  function renderHeatmap(){
-    els.heatmap.innerHTML = keyboardRows.map(row => `<div class="heatmap-row">${row.split('').map(k => {
-      const n = state.wrongKeys[k.toLowerCase()] || 0;
-      const level = n >= 5 ? 3 : n >= 3 ? 2 : n >= 1 ? 1 : 0;
-      return `<span class="heat-key level-${level}" title="${k}: ${n} errors">${k}</span>`;
-    }).join('')}</div>`).join('');
+  function renderKeyboard() {
+    const keys = 'QWERTYUIOPASDFGHJKLZXCVBNM'.split('');
+    els.keyboard.innerHTML = keys.map(k => `<span class="typing2026-key ${(state.errorMap[k] || 0) > 0 ? 'hot' : ''}" title="${state.errorMap[k] || 0} errors">${k}</span>`).join('');
   }
 
-  function updateInsights(){
-    const weak = Object.entries(state.wrongKeys).sort((a,b) => b[1]-a[1]).slice(0,3).map(([k]) => k.toUpperCase());
-    const s = calcStats();
-    const lines = [];
-    if (weak.length) lines.push(`Focus on these weak keys next: ${weak.join(', ')}.`);
-    else lines.push('No weak keys yet. Keep the rhythm clean.');
-    if (s.accuracy < 90) lines.push('Slow down slightly; accuracy will raise your final WPM.');
-    else if (s.wpm >= 60) lines.push('Great pace. Try keeping the same rhythm until the end.');
-    else lines.push('Use steady breathing and avoid rushing after mistakes.');
-    lines.push(`Best WPM saved on this device: ${state.bestWpm}.`);
-    els.insights.innerHTML = lines.map(line => `<li>${escapeHtml(line)}</li>`).join('');
-  }
-
-  function beep(type){
-    if (!state.sound || !window.AudioContext && !window.webkitAudioContext) return;
-    const Ctx = window.AudioContext || window.webkitAudioContext;
-    const ctx = new Ctx();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.frequency.value = type === 'wrong' ? 170 : type === 'finish' ? 520 : 360;
-    gain.gain.value = 0.035;
-    osc.connect(gain); gain.connect(ctx.destination); osc.start();
-    setTimeout(() => { osc.stop(); ctx.close(); }, type === 'finish' ? 160 : 55);
-  }
-
-  function startTest(){
-    clearInterval(state.timer);
-    state.running = true; state.paused = false; state.startedAt = Date.now(); state.pauseStartedAt = 0; state.pausedMs = 0;
-    state.target = generateTarget(); state.typed = ''; state.correctChars = 0; state.typedChars = 0; state.errors = 0; state.streak = 0; state.bestStreak = 0; state.wrongKeys = {};
-    els.input.disabled = false; els.input.value = ''; els.input.focus();
+  function startTest() {
+    clearInterval(timer);
+    state = resetState();
+    state.duration = Number(els.duration.value || 60);
+    state.timeLeft = state.duration;
+    state.text = makeText();
+    state.running = true;
+    state.startTime = Date.now();
+    state.lastKeyTime = state.startTime;
+    els.result.hidden = true;
+    els.pause.hidden = true;
+    els.input.disabled = false;
+    els.input.value = '';
+    els.input.placeholder = 'Type the text here...';
     els.start.textContent = 'Restart';
-    els.message.textContent = 'Typing started. Keep your eyes on the highlighted cursor.';
-    hideResult(); hidePause(); renderText(); renderHeatmap(); updateInsights(); updateStats();
-    state.timer = setInterval(() => { updateStats(); if (remainingSeconds() <= 0) finishTest(); }, 250);
+    els.status.textContent = 'Typing live';
+    renderText();
+    updateStats();
+    els.input.focus();
+    timer = setInterval(tick, 1000);
   }
 
-  function finishTest(){
+  function tick() {
+    if (!state.running || state.paused) return;
+    state.timeLeft = Math.max(0, state.duration - Math.floor((Date.now() - state.startTime) / 1000));
+    updateStats();
+    if (state.timeLeft <= 0 || state.typedChars >= state.text.length) finishTest();
+  }
+
+  function finishTest() {
     if (!state.running) return;
-    state.running = false; state.paused = false; clearInterval(state.timer);
-    els.input.disabled = true; els.input.blur();
-    updateStats(); renderText(); updateInsights(); beep('finish');
-    const s = calcStats();
-    if (s.wpm > state.bestWpm) { state.bestWpm = s.wpm; localStorage.setItem('kpc_best_wpm', String(s.wpm)); }
-    els.resultWpm.textContent = s.wpm;
-    els.resultAccuracy.textContent = `${s.accuracy}%`;
-    els.resultErrors.textContent = state.errors;
-    els.resultStreak.textContent = state.bestStreak;
-    els.resultAdvice.textContent = makeAdvice(s);
+    state.running = false;
+    clearInterval(timer);
+    els.input.disabled = true;
+    els.status.textContent = 'Complete';
+    const stats = calcStats();
+    bestWpm = Math.max(bestWpm, stats.wpm);
+    localStorage.setItem('kpc_best_wpm_2026', String(bestWpm));
+    els.resultWpm.textContent = stats.wpm;
+    els.resultAcc.textContent = `${stats.acc}%`;
+    els.resultErr.textContent = state.errors;
+    els.resultBest.textContent = bestWpm;
+    els.resultMsg.textContent = stats.wpm >= 70 ? 'Excellent speed. Keep your accuracy strong.' : stats.wpm >= 40 ? 'Good work. Build consistency and reduce weak keys.' : 'Nice start. Slow down slightly and focus on clean accuracy.';
+    renderWeakKeys();
+    sendCoachEvents(stats);
     els.result.hidden = false;
-    submitLeaderboardScore('speed', s.wpm, state.bestStreak, 1, s.wpm);
-    if (window.KPCAchievements && s.wpm >= 100) window.KPCAchievements.check({ wpm: s.wpm });
+    submitLeaderboardScore('speed', stats.wpm, state.bestStreak, 1, stats.wpm);
   }
 
-  function makeAdvice(s){
-    if (s.accuracy < 85) return 'Accuracy is the biggest upgrade point. Try an easier mode and reduce corrections.';
-    if (s.wpm < 35) return 'Nice start. Practice short sessions daily and keep your wrists relaxed.';
-    if (s.wpm < 70) return 'Good typing flow. Push speed slowly without sacrificing accuracy.';
-    return 'Excellent work. Try hard mode or 120 seconds for endurance training.';
+
+
+  function sendCoachEvents(stats) {
+    if (!window.KPCAICoach || !state.coachEvents.length) return;
+    const difficulty = els.difficulty.value || 'medium';
+    const mode = els.mode.value || 'words';
+    window.KPCAICoach.track(state.coachEvents.slice(0, 240), `Typing Test 2026 · ${difficulty} · ${mode} · ${stats.wpm} WPM`).catch(() => {});
   }
 
-  function handleInput(){
-    if (!state.running || state.paused) return;
-    const value = els.input.value;
-    const oldTyped = state.typed;
-    state.typed = value.slice(0, state.target.length);
-    els.input.value = state.typed;
-    state.typedChars = state.typed.length;
-    state.correctChars = 0; state.errors = 0; state.streak = 0; state.bestStreak = 0; state.wrongKeys = {};
-    for (let i = 0; i < state.typed.length; i++) {
-      if (state.typed[i] === state.target[i]) { state.correctChars++; state.streak++; state.bestStreak = Math.max(state.bestStreak, state.streak); }
-      else { state.errors++; state.streak = 0; const key = (state.target[i] || state.typed[i] || '').toLowerCase(); if(/[a-z]/.test(key)) state.wrongKeys[key] = (state.wrongKeys[key] || 0) + 1; }
-    }
-    if (state.typed.length > oldTyped.length) {
-      const idx = state.typed.length - 1;
-      const ok = state.typed[idx] === state.target[idx];
-      beep(ok ? 'correct' : 'wrong');
-      if (!ok && els.shell) { els.shell.classList.remove('shake'); void els.shell.offsetWidth; els.shell.classList.add('shake'); }
-    }
-    renderText(); renderHeatmap(); updateStats(); updateInsights();
-    if (state.typed.length >= state.target.length) finishTest();
+  function renderWeakKeys() {
+    const entries = Object.entries(state.errorMap).sort((a,b) => b[1] - a[1]).slice(0, 8);
+    els.weakKeys.innerHTML = entries.length ? entries.map(([k,v]) => `<span>${k}: ${v}</span>`).join('') : 'No weak keys yet. Great accuracy.';
   }
 
-  function pauseTest(){
-    if (!state.running || state.paused) return;
-    state.paused = true; state.pauseStartedAt = Date.now(); els.input.disabled = true; els.pause.hidden = false; els.message.textContent = 'Paused. Press Esc or Resume to continue.'; renderText();
-  }
-  function resumeTest(){
-    if (!state.running || !state.paused) return;
-    state.pausedMs += Date.now() - state.pauseStartedAt; state.paused = false; state.pauseStartedAt = 0; els.input.disabled = false; els.pause.hidden = true; els.input.focus(); els.message.textContent = 'Resumed. Keep going.'; renderText();
-  }
-  function hidePause(){ els.pause.hidden = true; }
-  function hideResult(){ els.result.hidden = true; }
-  function toggleFocus(){ document.body.classList.toggle('kpc-focus'); els.focusBtn.textContent = document.body.classList.contains('kpc-focus') ? 'Exit focus' : 'Focus mode'; }
-  function toggleSound(){ state.sound = !state.sound; els.soundBtn.textContent = state.sound ? 'Sound on' : 'Sound off'; els.soundBtn.setAttribute('aria-pressed', String(state.sound)); if(state.sound) beep('correct'); }
+  function pauseTest() { if (!state.running || state.paused) return; state.paused = true; els.pause.hidden = false; els.input.blur(); }
+  function resumeTest() { if (!state.running || !state.paused) return; state.paused = false; state.startTime = Date.now() - ((state.duration - state.timeLeft) * 1000); els.pause.hidden = true; els.input.focus(); }
 
-  function bind(){
-    if (!els.start || !els.input || !els.text) return;
-    document.querySelectorAll('[data-difficulty]').forEach(btn => btn.addEventListener('click', () => { state.difficulty = btn.dataset.difficulty; document.querySelectorAll('[data-difficulty]').forEach(b => b.classList.toggle('active', b === btn)); if(!state.running) { state.target = generateTarget(); state.typed = ''; renderText(); }}));
-    document.querySelectorAll('[data-duration]').forEach(btn => btn.addEventListener('click', () => { state.duration = Number(btn.dataset.duration) || 60; document.querySelectorAll('[data-duration]').forEach(b => b.classList.toggle('active', b === btn)); if(!state.running) { els.time.textContent = state.duration; updateStats(); }}));
-    els.start.addEventListener('click', startTest);
-    els.input.addEventListener('input', handleInput);
-    els.input.addEventListener('paste', e => e.preventDefault());
-    els.text.addEventListener('click', () => { if(state.running && !state.paused) els.input.focus(); });
-    els.resume.addEventListener('click', resumeTest);
-    els.restartPause.addEventListener('click', startTest);
-    els.closeResult.addEventListener('click', hideResult);
-    els.playAgain.addEventListener('click', startTest);
-    els.focusBtn.addEventListener('click', toggleFocus);
-    els.soundBtn.addEventListener('click', toggleSound);
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') { e.preventDefault(); state.paused ? resumeTest() : pauseTest(); }
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'r') { e.preventDefault(); startTest(); }
-      if (e.key === 'Tab') { e.preventDefault(); startTest(); }
-      if (e.key === 'F11' || (e.key.toLowerCase() === 'f' && e.altKey)) { e.preventDefault(); toggleFocus(); }
-    });
-    window.resumeGame = resumeTest;
-    window.pauseGame = pauseTest;
+  function beep(type) {
+    if (!soundEnabled) return;
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator(); const gain = ctx.createGain();
+      osc.frequency.value = type === 'error' ? 140 : 520; gain.gain.value = .035; osc.connect(gain); gain.connect(ctx.destination); osc.start(); setTimeout(() => { osc.stop(); ctx.close(); }, 45);
+    } catch (_) {}
   }
 
   function submitLeaderboardScore(game, score, combo = 0, level = 1, wpm = 0) {
     const playerName = localStorage.getItem('kpc_player_name') || 'Player';
-    fetch('/api/submit-score', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-CSRFToken': (document.querySelector('meta[name="csrf-token"]') || {}).content || '' },
-      body: JSON.stringify({ player_name: playerName, game, score: Math.round(Number(score) || 0), combo: Math.round(Number(combo) || 0), level: Math.round(Number(level) || 1), wpm: Math.round(Number(wpm) || 0) })
-    }).then(res => { if (res.ok) toast('🏆 Score saved to leaderboard'); }).catch(() => {});
-  }
-  function toast(text){
-    const el = document.createElement('div'); el.className = 'typing2026-toast'; el.textContent = text; document.body.appendChild(el);
-    setTimeout(() => el.classList.add('show'), 30); setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 260); }, 1900);
+    fetch('/api/submit-score', { method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':csrf}, body:JSON.stringify({player_name:playerName, game, score:Math.round(Number(score)||0), combo:Math.round(Number(combo)||0), level:Math.round(Number(level)||1), wpm:Math.round(Number(wpm)||0)}) }).catch(() => {});
   }
 
-  document.addEventListener('DOMContentLoaded', () => { state.target = generateTarget(); bind(); renderText(); renderHeatmap(); updateStats(); updateInsights(); });
+  els.start.addEventListener('click', startTest);
+  els.tryAgain.addEventListener('click', startTest);
+  els.resume.addEventListener('click', resumeTest);
+  els.restartPause.addEventListener('click', startTest);
+  els.focus.addEventListener('click', () => document.body.classList.toggle('typing-2026-focus'));
+  els.sound.addEventListener('click', () => { soundEnabled = !soundEnabled; els.sound.textContent = soundEnabled ? 'Sound On' : 'Sound Off'; els.sound.setAttribute('aria-pressed', String(soundEnabled)); });
+
+  els.input.addEventListener('input', () => {
+    if (!state.running || state.paused) return;
+    const typed = els.input.value;
+    if (typed.length > state.lastInput.length) {
+      const idx = typed.length - 1;
+      const now = Date.now();
+      const isCorrect = typed[idx] === state.text[idx];
+      const keyValue = (state.text[idx] || typed[idx] || '?');
+      const delta = Math.max(0, Math.min(60000, now - (state.lastKeyTime || now)));
+      state.coachEvents.push({ key: keyValue, correct: isCorrect, time_ms: delta, slow: delta >= 900 });
+      if (state.coachEvents.length > 260) state.coachEvents = state.coachEvents.slice(-260);
+      state.lastKeyTime = now;
+      beep(isCorrect ? 'ok' : 'error');
+    }
+    state.lastInput = typed;
+    updateHighlight();
+    if (state.typedChars >= state.text.length) finishTest();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { e.preventDefault(); state.paused ? resumeTest() : pauseTest(); }
+    if (e.key === 'Tab') { e.preventDefault(); startTest(); }
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'r') { e.preventDefault(); startTest(); }
+  });
+
+  document.addEventListener('click', () => { if (state.running && !state.paused) els.input.focus(); });
+
+  state.text = makeText();
+  renderText();
+  renderKeyboard();
 })();

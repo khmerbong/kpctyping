@@ -1,115 +1,86 @@
-<!DOCTYPE html>
-<html lang="en" data-page="ai-coach-2026">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Coach 2026 - KPC Typing</title>
-  <meta name="description" content="KPC Typing AI Coach with weak-key analysis, daily challenges, weekly goals, keyboard heatmap, and personalized recommendations." />
-  <meta name="csrf-token" content="{{ csrf_token }}">
-  <link rel="manifest" href="/static/manifest.json">
-  <meta name="theme-color" content="#5b7cfa">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/design-system.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/ai-coach.css') }}">
-</head>
-<body class="kpc-ai-coach-body">
-  <main class="coach-shell">
-    <header class="coach-hero">
-      <nav class="coach-topbar" aria-label="AI Coach navigation">
-        <a href="/" class="coach-brand">⌨️ KPC Typing</a>
-        <div class="coach-nav-actions">
-          <a href="/typing-test">Typing Test</a>
-          <a href="/training-mode">Training</a>
-          <a href="/career">Career</a>
-          <button id="themeToggle" class="coach-ghost-btn" type="button">Theme</button>
-        </div>
-      </nav>
-      <section class="coach-hero-grid">
-        <div>
-          <span class="coach-kicker">PHASE 4 · AI Coach Upgrade</span>
-          <h1>Personal Typing Coach</h1>
-          <p>Analyze your weak keys, slow keys, accuracy rhythm, daily challenge, weekly goal, and next practice lesson from one modern dashboard.</p>
-          <div class="coach-actions">
-            <button id="aiRefreshBtn" type="button">Refresh Coach</button>
-            <a class="coach-primary-link" href="/training-mode">Start Training</a>
-          </div>
-        </div>
-        <aside class="coach-level-card" aria-label="Current skill level">
-          <span>Skill Level</span>
-          <strong id="aiSkillLevel">Starter</strong>
-          <p id="aiSkillMessage">Loading skill analysis...</p>
-          <div class="coach-progress"><i id="aiSkillProgress"></i></div>
-          <small>Next: <b id="aiNextLevel">Beginner</b></small>
-        </aside>
-      </section>
-    </header>
+{% extends "base.html" %}
+{% block title %}AI Coach 2026 - KPC Typing{% endblock %}
+{% block description %}AI Coach dashboard for weak keys, daily training plans, typing feedback, progress goals, and personalized practice recommendations.{% endblock %}
+{% block body_class %}ai-coach-2026-page{% endblock %}
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/ai_coach2026.css') }}">
+{% endblock %}
+{% block content %}
+<section class="coach-shell kpc-container">
+  <header class="coach-hero">
+    <div class="coach-hero-copy">
+      <span class="coach-kicker">PHASE 4 · Smart Typing Coach</span>
+      <h1>Your AI Coach is ready.</h1>
+      <p>Personalized feedback, weak-key analysis, daily practice plan, weekly goals, and a cleaner premium coach dashboard connected to Typing Test results.</p>
+      <div class="coach-actions">
+        <button class="kpc-btn" id="aiRefreshBtn" type="button">Refresh Coach</button>
+        <a class="kpc-btn kpc-btn-secondary" href="/typing-test">Start Typing Test</a>
+        <a class="kpc-btn kpc-btn-ghost" href="/training-mode">Open Training</a>
+      </div>
+    </div>
+    <div class="coach-character-card" aria-label="Coach summary">
+      <img src="{{ url_for('static', filename='images/v40/coach_wave.svg') }}" alt="KPC Coach" onerror="this.style.display='none'">
+      <div>
+        <strong id="coachLevelLabel">Coach Level: Starter</strong>
+        <span id="coachModeLabel">Learning from your practice</span>
+      </div>
+    </div>
+  </header>
 
-    <section class="coach-stat-grid" aria-label="AI Coach summary">
-      <article><span>Total Keys</span><strong id="aiTotalKeys">0</strong><small>tracked by coach</small></article>
-      <article><span>Accuracy</span><strong id="aiAccuracy">100%</strong><small>correct vs typed</small></article>
-      <article><span>Weak Keys</span><strong id="aiWeakKeyCount">0</strong><small>highest risk</small></article>
-      <article><span>Improvement</span><strong id="aiImprovementScore">0</strong><small>score / 100</small></article>
-    </section>
+  <section class="coach-metric-grid" aria-label="Typing coach metrics">
+    <article class="coach-metric"><span>Total Keys</span><strong id="aiTotalKeys">0</strong><small>tracked practice keys</small></article>
+    <article class="coach-metric"><span>Accuracy</span><strong id="aiAccuracy">100%</strong><small>correct / typed keys</small></article>
+    <article class="coach-metric"><span>Wrong Keys</span><strong id="aiWrongKeys">0</strong><small>mistake count</small></article>
+    <article class="coach-metric"><span>Slow Keys</span><strong id="aiSlowKeys">0</strong><small>keys needing rhythm</small></article>
+  </section>
 
-    <section class="coach-grid coach-grid-2">
-      <article class="coach-card coach-message-card">
-        <div class="coach-card-head"><h2>Coach Message</h2><span>Live</span></div>
-        <p id="aiCoachMessage">Loading coach...</p>
-      </article>
-      <article class="coach-card">
-        <div class="coach-card-head"><h2>Daily Challenge</h2><span id="aiDailyStatus">Today</span></div>
-        <div class="challenge-line"><b id="aiDailyWpm">35 WPM</b><b id="aiDailyAccuracy">95%</b><b id="aiDailyReward">+100 XP</b></div>
-        <p>Focus keys: <strong id="aiDailyFocus">f j d k</strong></p>
-      </article>
-    </section>
+  <section class="coach-grid coach-grid-main">
+    <article class="coach-card coach-message-card">
+      <div class="coach-card-head"><span>🤖</span><div><h2>Coach Feedback</h2><p>What to focus on next</p></div></div>
+      <p id="aiCoachMessage" class="coach-message">Loading coach feedback...</p>
+      <ul class="coach-feedback-list" id="aiFeedbackList"></ul>
+    </article>
 
-    <section class="coach-grid coach-grid-2">
-      <article class="coach-card">
-        <div class="coach-card-head"><h2>Weekly Goal</h2><span id="aiWeekKey">This week</span></div>
-        <div class="weekly-goal-meta"><span id="aiWeeklySessions">0 / 20 sessions</span><span id="aiWeeklyXp">0 / 5000 XP</span></div>
-        <div class="coach-progress coach-progress-large"><i id="aiWeeklyProgress"></i></div>
-        <p id="aiWeeklyFocus">Accuracy + weak keys</p>
-      </article>
-      <article class="coach-card">
-        <div class="coach-card-head"><h2>Recommended Practice</h2><span>Auto</span></div>
-        <div id="aiRecommendedLesson" class="coach-practice-text">Loading...</div>
-        <button id="copyPracticeBtn" type="button" class="coach-copy-btn">Copy Practice Text</button>
-      </article>
-    </section>
+    <article class="coach-card daily-plan-card">
+      <div class="coach-card-head"><span>📅</span><div><h2>Daily Practice Plan</h2><p>10–15 minute focused routine</p></div></div>
+      <ol id="dailyPlanList" class="daily-plan-list"></ol>
+      <a class="coach-mini-link" href="/typing-test">Practice this plan now →</a>
+    </article>
+  </section>
 
-    <section class="coach-grid coach-grid-2">
-      <article class="coach-card">
-        <div class="coach-card-head"><h2>Weak Keys</h2><span>Accuracy</span></div>
-        <div id="aiWeakKeys" class="coach-key-list"></div>
-      </article>
-      <article class="coach-card">
-        <div class="coach-card-head"><h2>Slow Keys</h2><span>Rhythm</span></div>
-        <div id="aiSlowKeyList" class="coach-key-list"></div>
-      </article>
-    </section>
+  <section class="coach-grid">
+    <article class="coach-card">
+      <div class="coach-card-head"><span>🔥</span><div><h2>Weak Keys</h2><p>Highest risk keys first</p></div></div>
+      <div id="aiWeakKeys" class="coach-key-list"></div>
+    </article>
 
-    <section class="coach-card">
-      <div class="coach-card-head"><h2>Keyboard Heatmap</h2><span>Risk</span></div>
-      <div id="aiKeyboardHeatmap" class="keyboard-heatmap" aria-label="Keyboard heatmap"></div>
-    </section>
+    <article class="coach-card">
+      <div class="coach-card-head"><span>🐢</span><div><h2>Slow Keys</h2><p>Keys that break rhythm</p></div></div>
+      <div id="aiSlowKeyList" class="coach-key-list"></div>
+    </article>
+  </section>
 
-    <section class="coach-grid coach-grid-2">
-      <article class="coach-card">
-        <div class="coach-card-head"><h2>AI Recommendations</h2><span>Next steps</span></div>
-        <div id="aiRecommendations" class="coach-recommendations"></div>
-      </article>
-      <article class="coach-card">
-        <div class="coach-card-head"><h2>Recent Sessions</h2><span>History</span></div>
-        <div id="aiSessions" class="coach-session-list"></div>
-      </article>
-    </section>
-  </main>
+  <section class="coach-grid">
+    <article class="coach-card recommended-card">
+      <div class="coach-card-head"><span>⌨️</span><div><h2>Recommended Practice Text</h2><p>Copy-ready lesson generated from weak keys</p></div></div>
+      <div id="aiRecommendedLesson" class="coach-practice-text">Loading practice text...</div>
+      <button class="kpc-btn kpc-btn-secondary" id="copyPracticeBtn" type="button">Copy Practice Text</button>
+    </article>
 
-  <div id="coachToast" class="coach-toast" role="status" aria-live="polite"></div>
-  <script src="{{ url_for('static', filename='js/ai_coach.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/ai-coach-2026.js') }}"></script>
-  <script src="/static/js/theme-toggle.js" defer></script>
-</body>
-</html>
+    <article class="coach-card weekly-goal-card">
+      <div class="coach-card-head"><span>🎯</span><div><h2>Weekly Goal</h2><p>Simple target for improvement</p></div></div>
+      <div class="weekly-goal-meter"><span id="weeklyGoalFill"></span></div>
+      <p id="weeklyGoalText">Loading weekly goal...</p>
+      <div class="coach-mini-stats"><span id="goalWpmHint">Speed goal: +5 WPM</span><span id="goalAccuracyHint">Accuracy goal: 95%+</span></div>
+    </article>
+  </section>
+
+  <section class="coach-card">
+    <div class="coach-card-head"><span>📈</span><div><h2>Recent Practice Sessions</h2><p>Latest tracked sessions from training or typing test</p></div></div>
+    <div id="aiSessions" class="coach-session-list"></div>
+  </section>
+</section>
+{% endblock %}
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/ai_coach2026.js') }}" defer></script>
+{% endblock %}

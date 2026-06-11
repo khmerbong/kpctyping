@@ -1,47 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="{{ csrf_token }}">
-  <title>Tournaments | KPC Typing</title>
-
-<link rel="manifest" href="/static/manifest.json">
-
-<link rel="stylesheet" href="{{ url_for('static', filename='css/design-system.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
+  <title>Tournament Lobby | KPC Typing</title>
+  <link rel="manifest" href="/static/manifest.json">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/design-system.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/tournament2026.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/mobile.css') }}">
 </head>
 <body class="tour-body">
-<nav class="tour-nav">
-  <a href="/">KPC Typing</a>
-  <div>
-    <a href="/global-leaderboard">Global</a>
-    <a href="/friends">Friends</a>
-    <a href="/multiplayer-race">Race</a>
-    <a href="/tournaments" class="active">Tournaments</a>
-    <a href="/champions">Champions</a>
-  </div>
-</nav>
-<main class="tour-shell">
-  <section class="tour-hero">
-    <span class="phase-pill">REAL PHASE 15</span>
-    <h1>Tournament System</h1>
-    <p>Join daily, weekly, monthly and season typing cups. Brackets, results, rewards and champion history are handled server-side.</p>
-    <button id="refreshTournaments">Refresh</button>
-  </section>
-  <section id="tournamentList" class="tour-grid"></section>
-  <section class="tour-panel">
-    <h2>Quick Join</h2>
-    <p>Guests can test tournaments locally. Logged-in users will receive XP rewards.</p>
-    <input id="guestName" placeholder="Guest name" maxlength="30">
-    <button id="quickJoinBtn">Join Latest Tournament</button>
-    <pre id="tourStatus">Loading tournaments...</pre>
-  </section>
-</main>
-<script src="{{ url_for('static', filename='js/tournaments.js') }}"></script>
+  <nav class="tour-nav">
+    <a href="/">⌨️ KPC Typing</a>
+    <div>
+      <a href="/global-leaderboard">Global</a>
+      <a href="/friends">Friends</a>
+      <a href="/multiplayer-race">Race</a>
+      <a href="/tournaments" class="active">Tournaments</a>
+      <a href="/champions">Champions</a>
+      <button id="themeToggle" class="ghost" type="button">Theme</button>
+    </div>
+  </nav>
 
-  <script src="/static/js/theme-toggle.js" defer></script>
+  <main class="tour-shell">
+    <section class="tour-hero">
+      <span class="phase-pill">PHASE 5 • TOURNAMENT 2026</span>
+      <h1>Choose your next cup.</h1>
+      <p>Join daily, weekly, monthly, and season typing cups with modern cards, countdown status, reward preview, and clean bracket navigation.</p>
+      <div class="tour-actions">
+        <button id="refreshTournaments">Refresh Lobby</button>
+        <button id="quickJoinBtn" class="ghost">Quick Join Latest</button>
+      </div>
+    </section>
+
+    <section class="tour-panel">
+      <h2>Quick Join</h2>
+      <p style="color:var(--tour-muted)">Logged-in users receive XP rewards. Guests can test tournament flow locally.</p>
+      <div class="action-row">
+        <input id="guestName" placeholder="Guest name" maxlength="30">
+        <button id="quickJoinBtn2">Join Latest Tournament</button>
+      </div>
+      <div id="tourStatus" class="tour-status">Loading tournaments...</div>
+    </section>
+
+    <section id="tournamentList" class="tour-grid" style="margin-top:18px"></section>
+
+    <section class="tour-panel">
+      <h2>Reward Preview</h2>
+      <div class="reward-grid">
+        <div class="reward-card"><div style="font-size:34px">🥇</div><b>Champion</b><p>Biggest XP reward and hall-of-fame status.</p></div>
+        <div class="reward-card"><div style="font-size:34px">🥈</div><b>Finalist</b><p>Strong XP reward and visible final placement.</p></div>
+        <div class="reward-card"><div style="font-size:34px">🔥</div><b>Participant</b><p>Practice credit and match history tracking.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/theme-toggle.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/tournaments.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/mobile_nav.js') }}" defer></script>
 </body>
 </html>

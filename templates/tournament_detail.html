@@ -1,36 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="{{ csrf_token }}">
   <title>Tournament Detail | KPC Typing</title>
-
-<link rel="stylesheet" href="{{ url_for('static', filename='css/design-system.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/design-system.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/tournament2026.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/mobile.css') }}">
 </head>
 <body class="tour-body">
-<nav class="tour-nav"><a href="/tournaments">← Tournaments</a><a href="/champions">Champions</a></nav>
-<main class="tour-shell" data-tournament-id="{{ tournament_id }}">
-  <section class="tour-hero compact">
-    <span class="phase-pill">Live Bracket</span>
-    <h1 id="tourTitle">Tournament</h1>
-    <p id="tourMeta">Loading...</p>
-    <div class="action-row">
-      <input id="guestName" placeholder="Guest name" maxlength="30">
-      <button id="joinTournamentBtn">Join</button>
-      <button id="startTournamentBtn">Generate Bracket</button>
-    </div>
-    <pre id="tourStatus"></pre>
-  </section>
-  <section class="tour-panel"><h2>Players</h2><div id="playersList" class="player-list"></div></section>
-  <section class="tour-panel"><h2>Bracket Matches</h2><div id="matchesList" class="match-list"></div></section>
-  <section class="tour-panel"><h2>Results</h2><div id="resultsList" class="player-list"></div></section>
-</main>
-<script src="{{ url_for('static', filename='js/tournament_detail.js') }}"></script>
+  <nav class="tour-nav">
+    <a href="/tournaments">← Tournament Lobby</a>
+    <div><a href="/champions">Champions</a><button id="themeToggle" class="ghost" type="button">Theme</button></div>
+  </nav>
 
-  <script src="/static/js/theme-toggle.js" defer></script>
+  <main class="tour-shell" data-tournament-id="{{ tournament_id }}">
+    <section class="tour-hero compact">
+      <span class="phase-pill">Live Bracket</span>
+      <h1 id="tourTitle">Tournament</h1>
+      <p id="tourMeta">Loading...</p>
+      <div class="action-row">
+        <input id="guestName" placeholder="Guest name" maxlength="30">
+        <button id="joinTournamentBtn">Join</button>
+        <button id="startTournamentBtn" class="ghost">Generate Bracket</button>
+      </div>
+      <div id="tourStatus" class="tour-status"></div>
+    </section>
+
+    <section class="tour-panel">
+      <h2>Top Placement</h2>
+      <div id="podium" class="podium"><div class="empty-state">Waiting for results...</div></div>
+    </section>
+
+    <section class="bracket-grid">
+      <article class="tour-panel"><h2>Players</h2><div id="playersList" class="player-list"></div></article>
+      <article class="tour-panel"><h2>Results</h2><div id="resultsList" class="player-list"></div></article>
+    </section>
+
+    <section class="tour-panel"><h2>Bracket Matches</h2><div id="matchesList" class="match-list"></div></section>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/theme-toggle.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/tournament_detail.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/mobile_nav.js') }}" defer></script>
 </body>
 </html>

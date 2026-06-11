@@ -1,26 +1,33 @@
 # PHASE 3 — Typing Test 2026 Report
 
-## Updated files
+## Updated Files
 - `templates/typing_test.html`
 - `static/css/typing2026.css`
 - `static/js/typing_engine_v2.js`
+- `docs/reports/PHASE3_TYPING_TEST_2026_REPORT.md`
 
-## What changed
-- Rebuilt the Typing Test page on top of the Phase 1 `base.html` layout.
-- Added modern 2026 typing UI with hero area, live statistic cards, centered typing area, mode pills, progress bar, result modal and pause overlay.
-- Added real character-by-character highlighting: correct, wrong and current cursor states.
-- Replaced basic word score WPM with correct character-based WPM: `(correct characters / 5) / minutes`.
-- Added live accuracy, raw WPM, errors, streak and best streak.
-- Added keyboard heatmap for weak key analysis.
-- Added keyboard shortcuts: `Tab` new test, `Ctrl/Cmd + R` restart, `Esc` pause/resume, `Alt + F` or `F11` focus mode.
-- Added optional sound toggle with lightweight browser-generated key feedback.
-- Added mobile-friendly layout and textarea input for better phone keyboard behavior.
-- Added leaderboard submission using the existing `/api/submit-score` endpoint.
+## Main Improvements
+- Rebuilt Typing Test page using `base.html` from Phase 1.
+- Added modern responsive Typing Test 2026 interface.
+- Added real-time character-by-character validation.
+- Added correct/current/incorrect character highlighting.
+- Replaced old score-based WPM with standard character-based WPM formula:
+  - WPM = (correct characters / 5) / minutes
+- Added live Raw WPM, Accuracy, Errors and Streak.
+- Added duration selector: 30s, 60s, 120s.
+- Added difficulty selector: Easy, Medium, Hard.
+- Added mode selector: Words and Sentence.
+- Added keyboard shortcuts:
+  - `Tab` = next/restart test
+  - `Ctrl+R` = restart test
+  - `Esc` = pause/resume
+- Added Focus Mode.
+- Added Result Modal with WPM, Accuracy, Errors, Best WPM and weak key list.
+- Added keyboard heatmap for weak keys.
+- Added optional typing sound toggle.
+- Added mobile responsive typing layout.
+- Added leaderboard submit after test complete.
 
-## Compatibility notes
-- Existing `static/js/typing_test.js` is kept in the project for rollback, but the typing test page now loads `typing_engine_v2.js`.
-- Existing achievement and mobile helper scripts are still loaded.
-- No backend route changes were required.
-
-## Suggested next phase
-- PHASE 4 — AI Coach Upgrade: connect weak key data and session stats to personalized coaching cards.
+## No Feature Removal
+Existing route `/typing-test` continues to use `templates/typing_test.html`.
+The score submit endpoint `/api/submit-score` is preserved.

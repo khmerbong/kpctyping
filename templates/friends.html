@@ -1,14 +1,63 @@
-<!DOCTYPE html><html lang="en"><head>{% include 'social_head.html' ignore missing %}<title>Friends | KPC Typing</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% include 'social_head.html' ignore missing %}
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>Friends | KPC Typing</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/design-system.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/social2026.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/mobile.css') }}">
+</head>
+<body class="social-body" data-page="friends">
+  <nav class="social-topbar">
+    <a class="social-brand" href="/">⌨️ KPC Typing</a>
+    <div class="social-links">
+      <a href="/friends" class="active">Friends</a>
+      <a href="/friends/requests">Requests <span id="navPending" class="pill">0</span></a>
+      <a href="/friends/leaderboard">Friends Rank</a>
+      <a href="/activity">Activity</a>
+      <a href="/tournaments">Tournaments</a>
+      <button id="themeToggle" type="button">Theme</button>
+    </div>
+  </nav>
 
-<link rel="stylesheet" href="{{ url_for('static', filename='css/design-system.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
-</head><body class="social-body">
-{% include 'social_nav.html' ignore missing %}
-<main class="social-shell">
-<section class="social-hero"><span class="social-badge">REAL PHASE 14</span><h1>Friends & Social System</h1><p>Search players, send friend requests, and build your typing community.</p><p>Pending requests: <b id="pendingCount">0</b></p></section>
-<section class="social-grid"><article class="social-card"><h3>Find Player</h3><input id="playerSearch" class="social-input" placeholder="Search username..." /><div id="searchResults"></div></article><article class="social-card"><h3>Your Friends</h3><div id="friendsList">Loading...</div></article></section>
+  <main class="social-shell">
+    <section class="social-hero">
+      <span class="social-badge">PHASE 5 • SOCIAL 2026</span>
+      <h1>Build your typing team.</h1>
+      <p>Find players, send friend requests, track online friends, and turn practice into a social typing game.</p>
+      <div class="social-metrics">
+        <div class="metric-card"><div class="metric-label">Friends</div><div id="friendCount" class="metric-value">0</div></div>
+        <div class="metric-card"><div class="metric-label">Online</div><div id="onlineCount" class="metric-value">0</div></div>
+        <div class="metric-card"><div class="metric-label">Pending</div><div id="pendingCount" class="metric-value">0</div></div>
+        <div class="metric-card"><div class="metric-label">Best Friend WPM</div><div id="bestFriendWpm" class="metric-value">0</div></div>
+      </div>
+    </section>
 
-  <script src="/static/js/theme-toggle.js" defer></script>
-</body></html>
+    <section class="social-grid three">
+      <article class="social-card">
+        <h2>Find Player</h2>
+        <input id="playerSearch" class="social-input" placeholder="Search username..." autocomplete="off">
+        <div id="searchResults" style="margin-top:14px"></div>
+      </article>
+
+      <article class="social-card">
+        <h2>Your Friends</h2>
+        <div id="friendsList" aria-live="polite"><div class="empty-state">Loading friends...</div></div>
+      </article>
+
+      <article class="social-card">
+        <h2>Activity Feed</h2>
+        <div id="activityFeed"><div class="empty-state">Loading activity...</div></div>
+      </article>
+    </section>
+  </main>
+
+  <div id="toastStack" class="toast-stack"></div>
+  <script src="{{ url_for('static', filename='js/theme-toggle.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/friends.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/mobile_nav.js') }}" defer></script>
+</body>
+</html>
