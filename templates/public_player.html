@@ -1,8 +1,9 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{{ profile_username }} - KPCTyping Player</title><link rel="stylesheet" href="/static/css/global_leaderboard.css"><link rel="stylesheet" href="{{ url_for('static', filename='css/kpctyping_mockup2_redesign.css') }}">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{{ profile_username }} - KPCTyping Player</title>
 
-<link rel="stylesheet" href="{{ url_for('static', filename='css/kpc_design_system_2026.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/design-system.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
 </head>
 <body class="phase13-page">
 <main class="lb-shell"><section class="lb-hero"><div><p class="eyebrow">PUBLIC PLAYER PROFILE</p><h1>👤 {{ profile_username }}</h1><p>Global leaderboard profile and recent verified scores.</p></div><nav class="lb-actions"><a href="/global-leaderboard">Global</a></nav></section><section class="card" id="playerProfile">Loading...</section></main>

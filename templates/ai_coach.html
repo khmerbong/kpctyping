@@ -6,8 +6,6 @@
     <title>AI Coach - KPC Typing</title>
     <meta name="description" content="Smart AI Coach for KPC Typing. Analyze weak keys, slow keys, accuracy, and recommended practice lessons." />
     <meta name="csrf-token" content="{{ csrf_token }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/ai_coach.css') }}" />
 
 <!-- REAL PHASE 12: Mobile Experience + PWA -->
 <link rel="manifest" href="/static/manifest.json">
@@ -15,10 +13,9 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="KPC Typing">
-<link rel="stylesheet" href="/static/css/mobile_pwa.css">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/kpctyping_mockup2_redesign.css') }}">
 
-<link rel="stylesheet" href="{{ url_for('static', filename='css/kpc_design_system_2026.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/design-system.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
 </head>
 <body class="ai-coach-body">
 <main class="ai-coach-shell">

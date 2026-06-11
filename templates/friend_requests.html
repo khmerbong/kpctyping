@@ -1,6 +1,7 @@
-<!DOCTYPE html><html lang="en"><head>{% include 'social_head.html' ignore missing %}<title>Friend Requests | KPC Typing</title><link rel="stylesheet" href="{{ url_for('static', filename='css/kpctyping_mockup2_redesign.css') }}">
+<!DOCTYPE html><html lang="en"><head>{% include 'social_head.html' ignore missing %}<title>Friend Requests | KPC Typing</title>
 
-<link rel="stylesheet" href="{{ url_for('static', filename='css/kpc_design_system_2026.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/design-system.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
 </head><body class="social-body">
 {% include 'social_nav.html' ignore missing %}<main class="social-shell"><section class="social-hero"><span class="social-badge">REQUESTS</span><h1>Friend Requests</h1><p>Accept or reject incoming requests and view outgoing pending requests.</p></section><section class="social-panel" id="requestList">Loading...</section></main><script src="{{ url_for('static', filename='js/social.js') }}"></script><script src="{{ url_for('static', filename='js/kpctyping_mockup2_redesign.js') }}" defer></script>
 

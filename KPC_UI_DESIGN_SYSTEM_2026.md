@@ -1,32 +1,18 @@
-# KPC Typing UI Design System 2026
+# KPC Typing Real Clean UI v5 Design System
 
-This release adds a modern UI layer without PNG assets.
+This release replaces older dark/neon/glassmorphism styles with one consistent professional light SaaS UI.
 
-## Added files
+## CSS source of truth
+- `static/css/design-system.css`
+- `static/css/pages.css`
 
-- `static/css/kpc_design_system_2026.css`
-- `static/js/kpc_svg_icon_system_2026.js`
+## Visual direction
+- White and soft gray backgrounds
+- Navy text
+- Blue primary buttons
+- Rounded 16px cards
+- Soft shadows
+- Consistent 16px / 24px / 32px spacing
+- Responsive desktop/tablet/mobile layouts
 
-## Design direction
-
-- Dark SaaS + gaming learning platform
-- Neon purple / electric blue / cyan glow
-- Glassmorphism cards and panels
-- Sticky navigation
-- Responsive card grids
-- CSS-only hero visual polish
-- Inline SVG icon system
-- No PNG assets required
-
-## Main tokens
-
-- Background: `#02040d`, `#060a18`, `#0b1024`
-- Purple: `#8b5cf6`
-- Magenta: `#d946ef`
-- Blue: `#2563eb`
-- Cyan: `#06d6ff`
-- Gold: `#fbbf24`
-
-## Notes
-
-Older UI files are preserved to avoid breaking existing features. The new design system is loaded last, so it safely overrides visual styles while keeping existing Flask routes, templates, JS, and features.
+Backend, routes, database, XP, games, and score logic are unchanged.
