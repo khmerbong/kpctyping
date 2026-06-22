@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Friend Requests | KPC Typing{% endblock %}
+{% block body_class %}kpc-social-page{% endblock %}
+{% block content %}
+<main class="kpc-page">
+  <section class="kpc-hero kpc-hero-compact">
+    <div>
+      <span class="kpc-eyebrow">Requests</span>
+      <h1>Friend Requests</h1>
+      <p>Accept incoming requests and check outgoing pending requests in one clean place.</p>
+    </div>
+    <div class="kpc-actions-row">
+      <a class="kpc-btn kpc-btn-soft" href="/friends">Back to Friends</a>
+    </div>
+  </section>
+
+  <section class="kpc-card kpc-section-card">
+    <div id="requestList" class="kpc-list-state">Loading...</div>
+  </section>
+</main>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/social.js') }}"></script>
+{% endblock %}

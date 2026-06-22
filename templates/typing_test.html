@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Typing Test - KPC Typing{% endblock %}
+{% block body_class %}ref-typing beginner-focus-page kpc-focus-no-bottom-nav{% endblock %}
+{% block content %}
+<main class="beginner-focus-shell kpc-v33-typing-shell">
+  <section class="beginner-hero-card v29-focus-card">
+    <div class="beginner-hero-top v29-hero-top">
+      <div>
+        <h1>Typing Test</h1>
+        <p>60-second typing test with clean text flow, live feedback, and guest score saving.</p>
+      </div>
+      <div class="beginner-controls v29-controls">
+        <a class="beginner-soft-btn v30-nav-btn" href="/" aria-label="Home"><span>🏠</span><b>Home</b></a>
+        <a class="beginner-soft-btn v30-nav-btn" href="/training-mode" aria-label="Lessons"><span>📚</span><b>Lessons</b></a>
+      </div>
+    </div>
+
+    <p class="beginner-actions v29-start-top"><button id="startBtn" class="ref-btn primary beginner-start-btn">▶ Start Test</button></p>
+    <p class="v30-helper-text kpc-v33-guide-line">Press Start or click the text box. Type carefully—speed becomes stable after the first few seconds.</p>
+
+    <div class="beginner-type-card v29-type-card">
+      <small class="kpc-badge-focus">READY · CLICK TEXT OR PRESS START</small>
+      <div class="type-box beginner-type-box">
+        <span class="current-letter">T</span>he quick brown fox jumps over the lazy dog. Practice makes perfect typing. Keep your eyes on the text and let your fingers move smoothly.
+      </div>
+      <p id="typingTextStatus" class="v30-helper-text kpc-mt-xs">Text 1 ready · Keep typing until time ends</p>
+      <input id="typingInput" class="kpc-input typing-input easy-typing-input kpc-hidden-input" type="text" placeholder="Type here..." autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" inputmode="text" enterkeyhint="done" data-mobile-typing-input />
+    </div>
+
+    <div data-mobile-keyboard class="kpc-mobile-keyboard-anchor kpc-inline-touch-keyboard"></div>
+
+    <div class="beginner-stats-bar v29-stats-bar kpc-typing-primary-stats" aria-label="Typing stats">
+      <div class="beginner-stat"><span>⚡ WPM</span><b id="wpm">0</b></div>
+      <div class="beginner-stat"><span>🎯 Accuracy</span><b id="accuracy">100%</b></div>
+      <div class="beginner-stat"><span>❌ Errors</span><b id="score">0</b></div>
+      <div class="beginner-stat"><span>⏱ Time</span><b id="timeLeft">60s</b></div>
+    </div>
+
+    <div class="kpc-inline-save-card">
+      <div>
+        <strong>👤 Save Your Score</strong>
+        <span>Enter your name to save your result.</span>
+      </div>
+      <div data-player-widget-target></div>
+    </div>
+
+    <div class="kpc-practice-tip-card">💡 <b>Tip:</b> Focus on accuracy first. Speed will follow with practice.</div>
+
+    <details class="kpc-keyboard-details" data-desktop-open>
+      <summary>⌨ Keyboard Guide <span class="kpc-summary-note">desktop help</span></summary>
+      <div class="beginner-keyboard-card v29-keyboard-card">
+      <div class="keyboard beginner-keyboard">
+        <div class="keyrow number-row">
+          {% for k in ['`','1','2','3','4','5','6','7','8','9','0','-','=','Backspace'] %}<span class="kbd {{ 'wide' if k=='Backspace' else '' }}">{{k}}</span>{% endfor %}
+        </div>
+        <div class="keyrow second letter-row">
+          {% for k in ['Tab','Q','W','E','R','T','Y','U','I','O','P','{','}','\\'] %}<span class="kbd {{ 'medium' if k=='Tab' else '' }}">{{k}}</span>{% endfor %}
+        </div>
+        <div class="keyrow third home-row">
+          {% for k in ['Caps','A','S','D','F','G','H','J','K','L',';','Enter'] %}<span class="kbd {{ 'medium' if k in ['Caps','Enter'] else 'hot' if k=='F' else 'good' if k=='J' else 'warn' if k in ['A','S','D','G','H'] else 'blue' if k=='K' else '' }}">{{k}}</span>{% endfor %}
+        </div>
+        <div class="keyrow shift-row">
+          {% for k in ['Shift','Z','X','C','V','B','N','M',',','.','/','Shift'] %}<span class="kbd {{ 'shift-key' if k=='Shift' else '' }}">{{k}}</span>{% endfor %}
+        </div>
+        <div class="keyrow fourth bottom-row">
+          <span class="kbd small">Ctrl</span><span class="kbd small">Win</span><span class="kbd small">Alt</span><span class="kbd space-key">Space</span><span class="kbd small">Alt</span><span class="kbd small">Win</span><span class="kbd small">Ctrl</span>
+        </div>
+      </div>
+      <div class="keyboard-legend beginner-legend">
+        <span><i class="legend-dot legend-left"></i>Left Hand</span>
+        <span><i class="legend-dot legend-right"></i>Right Hand</span>
+        <span><i class="legend-dot legend-current"></i>Current Key</span>
+      </div>
+      <p class="beginner-actions v29-restart-bottom"><button type="button" class="ref-btn beginner-restart-btn" onclick="window.location.reload()">↻ Restart Test</button></p>
+      </div>
+    </details>
+  </section>
+</main>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/typing_test.js') }}"></script><script src="{{ url_for('static', filename='js/player_profile.js') }}"></script>{% endblock %}

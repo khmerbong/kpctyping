@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Race - KPC Typing{% endblock %}
+{% block body_class %}ref-race{% endblock %}
+{% block content %}
+<main class="ref-page">
+  <div class="ref-layout">
+    <aside class="ref-card ref-side">
+      <div class="side-title">Multiplayer</div>
+      <div class="ref-menu"><a class="active">⚡ Quick Race</a><a href="/global-leaderboard">🏆 Leaderboard</a><a href="/profile">☻ Profile</a><a href="/tournaments">🏆 Tournament</a></div>
+      <div class="ref-card pad kpc-mt-sm"><h3>Your Local Race Stats</h3><div class="list"><div class="list-item"><span>Races</span><b id="raceLocalCount">0</b></div><div class="list-item"><span>Best WPM</span><b id="raceLocalBest">0</b></div><div class="list-item"><span>Player</span><b id="raceLocalName">Guest</b></div></div></div>
+    </aside>
+    <section>
+      <div class="ref-card pad kpc-real-controls">
+        <div class="section-title"><h2>Real Race Controls</h2><span class="kpc-status-muted">Create or join a live room</span></div>
+        <div class="kpc-action-inline"><input id="racePlayerName" class="kpc-input" placeholder="Guest name"><input id="raceJoinCode" class="kpc-input" placeholder="Room code"><button id="raceCreate" class="ref-btn primary" type="button">Create Room</button><button id="raceJoin" class="ref-btn soft" type="button">Join</button><button id="raceStart" class="ref-btn soft" type="button">Start</button></div>
+        <textarea id="raceInput" class="kpc-input" rows="3" placeholder="Type the race text here after a room is created..."></textarea>
+        <p id="raceStatus" class="kpc-status-muted">No room yet. Create or join a race to begin.</p>
+      </div>
+      <div class="ref-card pad kpc-race-room-grid kpc-mt-sm">
+        <div><span>Room Code</span><h1 class="kpc-m-0" id="raceRoomCode">—</h1><p id="raceRoomTitle">No active room</p></div>
+        <div><span>Players</span><h2 id="raceRoomPlayers">👥 0 / 0</h2></div>
+        <div><span>Status</span><h2 id="raceRoomStatus" class="kpc-accent-green">Waiting</h2></div>
+        <div><span>Started</span><h2 id="raceRoomStarted" class="kpc-accent-red">—</h2></div>
+      </div>
+      <div class="ref-card pad kpc-mt-sm">
+        <div class="section-title"><h2>Race Text</h2><span id="racePromptHint">Room prompt will appear here.</span></div>
+        <div id="racePrompt" class="type-box kpc-type-large"><span class="current-letter">Create or join a room first.</span></div>
+        <div class="race-track" id="raceTrack"><div class="kpc-empty-state"><b>No players yet</b><p>Create or join a room to show real racers.</p></div></div>
+      </div>
+      <div class="ref-card pad kpc-mt-sm"><div class="stats-row kpc-stats-six"><div class="stat-box"><span class="stat-icon">🏆</span><div><b id="raceRank">—</b><br>Your Rank</div></div><div class="stat-box"><span class="stat-icon">⚡</span><div><b id="raceWpm">0</b><br>Live WPM</div></div><div class="stat-box"><span class="stat-icon">🎯</span><div><b id="raceAcc">100%</b><br>Accuracy</div></div><div class="stat-box"><span class="stat-icon">⌨</span><div><b id="raceChars">0</b><br>Chars</div></div><div class="stat-box"><span class="stat-icon">✕</span><div><b id="raceErrors">0</b><br>Errors</div></div><div class="stat-box"><span class="stat-icon">📍</span><div><b id="raceProgressStat">0%</b><br>Progress</div></div></div></div>
+    </section>
+    <aside>
+      <div class="ref-card pad"><h2>How it works</h2><p class="kpc-status-muted">Rooms use the Flask API and save each guest by local session. No demo racers are displayed.</p></div>
+    </aside>
+  </div>
+</main>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/multiplayer_race_live.js') }}" defer></script>{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}{% block title %}60 Typing Lessons - KPC Typing{% endblock %}{% block body_class %}kpc-lessons-body{% endblock %}{% block content %}
+<main class="kpc-landing-page kpc-lessons-page">
+  <section class="kpc-lessons-hero ref-card">
+    <span class="kpc-eyebrow">KPC Typing Academy</span>
+    <h1>60 practice lessons for real typing improvement.</h1>
+    <p>Beginner, Intermediate, and Advanced paths with real typing text for daily practice.</p>
+    <div class="kpc-landing-actions"><a class="btn btn-primary" href="/training-mode?lesson=1">Start Lesson 1</a><a class="btn btn-soft" href="/training-mode?lesson=21">Intermediate</a><a class="btn btn-soft" href="/training-mode?lesson=41">Advanced</a></div>
+  </section>
+  {% for group in lesson_groups %}
+  <section class="ref-card kpc-lesson-group">
+    <div class="section-title"><span class="kpc-section-kicker">{{ group.category }}</span><h2>{{ group.category }} Path</h2><b>{{ group.lessons|length }} Lessons</b></div>
+    <div class="kpc-all-lessons-grid">
+      {% for item in group.lessons %}
+      <article class="kpc-lesson-card">
+        <div><span class="kpc-lesson-number">L{{ item.id }}</span><span class="kpc-lesson-level">{{ item.difficulty }}</span></div>
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.text[:90] }}{% if item.text|length > 90 %}...{% endif %}</p>
+        <small>⏱ {{ item.duration }}</small>
+        <a class="btn btn-soft" href="/training-mode?lesson={{ item.id }}">Start Lesson</a>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+  {% endfor %}
+</main>{% endblock %}

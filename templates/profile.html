@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}Profile - KPC Typing{% endblock %}
+{% block body_class %}ref-profile{% endblock %}
+{% block content %}
+<main class="ref-page" data-kpc-page="profile">
+  <div class="ref-layout">
+    <aside class="ref-card ref-side">
+      <div class="ref-menu">
+        <a class="active">⌂ Overview</a>
+        <a href="/analytics-pro">▥ Statistics</a>
+        <a href="/global-leaderboard">🏆 Leaderboard</a>
+        <a href="/training-mode">⌨ Training</a>
+        <a href="/ai-coach">🤖 AI Coach</a>
+      </div>
+      <div class="profile-card ref-card kpc-mt-sm">
+        <div class="profile-avatar">👤</div>
+        <h2 id="profileName">Loading...</h2>
+        <p id="profileMode">Loading profile...</p>
+        <p id="profileCountry">🌐 Global</p>
+        <input id="guestProfileName" class="kpc-input kpc-name-input" placeholder="Guest display name">
+        <button id="saveGuestProfileName" class="ref-btn soft kpc-full-btn" type="button">Save Guest Name</button>
+        <div class="list kpc-mt-sm">
+          <div class="list-item"><b id="sideStreak">0</b><span>Day Streak</span></div>
+          <div class="list-item"><b id="sideXp">0</b><span>Total XP</span></div>
+          <div class="list-item"><b id="sideRank">Guest</b><span>Current Rank</span></div>
+        </div>
+      </div>
+    </aside>
+
+    <section>
+      <div class="page-title">
+        <div><h1>Profile Overview 👋</h1><p id="profileIntro">Your real typing progress will appear here after you practice.</p></div>
+        <a class="ref-btn soft" href="/typing-test">Start Typing</a>
+      </div>
+
+      <div class="ref-card pad">
+        <div class="stats-row kpc-stats-five">
+          <div class="stat-box"><span class="stat-icon">🏅</span><div><b id="profileLevel">1</b><br>Level<br><small id="profileLevelText">0 XP</small></div></div>
+          <div class="stat-box"><span class="stat-icon">🏆</span><div><b id="profileRank">Guest</b><br>Rank</div></div>
+          <div class="stat-box"><span class="stat-icon">⚡</span><div><b id="profileBestWpm">0</b><br>Best WPM</div></div>
+          <div class="stat-box"><span class="stat-icon">🎯</span><div><b id="profileBestAccuracy">0%</b><br>Best Accuracy</div></div>
+          <div class="stat-box"><span class="stat-icon">📋</span><div><b id="profileTests">0</b><br>Tests Taken</div></div>
+        </div>
+      </div>
+
+      <div class="grid2 kpc-mt-sm">
+        <div class="ref-card pad">
+          <div class="section-title"><h2>Performance Over Time</h2><a class="mini-link" href="/analytics-pro">Open Analytics</a></div>
+          <div id="profileTrend" class="chart kpc-profile-chart-empty"><div class="kpc-loading-state"><b>Loading chart...</b><p>Real results only, no fake sample data.</p></div></div>
+        </div>
+        <div class="ref-card pad">
+          <h2>Typing Stats</h2>
+          <div class="list">
+            <div class="list-item"><span>Average WPM</span><b id="profileAvgWpm">0</b></div>
+            <div class="list-item"><span>Average Accuracy</span><b id="profileAvgAccuracy">0%</b></div>
+            <div class="list-item"><span>Best Score</span><b id="profileBestScore">0</b></div>
+            <div class="list-item"><span>Lessons Completed</span><b id="profileLessons">0</b></div>
+            <div class="list-item"><span>Total Time Typed</span><b id="profilePracticeTime">0 min</b></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid2 kpc-mt-sm">
+        <div class="ref-card pad">
+          <div class="section-title"><h2>Recent Test Results</h2><a class="mini-link" href="/typing-test">New Test</a></div>
+          <table class="table"><tbody id="profileRecent"><tr class="kpc-table-empty"><td>No data yet. Complete your first typing test.</td></tr></tbody></table>
+        </div>
+        <div class="ref-card pad">
+          <h2>Activity Summary</h2>
+          <div id="profileActivity" class="kpc-empty-state"><b>No activity yet</b><p>Practice sessions will be summarized here automatically.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <aside>
+      <div class="ref-card pad">
+        <div class="section-title"><h2>Achievements</h2><a class="mini-link" href="/career">Career</a></div>
+        <div id="profileAchievements" class="list"><div class="kpc-empty-state"><b>No achievements yet</b><p>Start training to unlock achievements.</p></div></div>
+      </div>
+      <div class="ref-card pad kpc-mt-sm">
+        <div class="section-title"><h2>Weak Keys Heatmap</h2><a class="mini-link" href="/ai-coach">AI Coach</a></div>
+        <div id="profileWeakKeys" class="weak-grid"></div>
+        <p><a class="ref-btn soft kpc-full-btn" href="/training-mode">Practice Weak Keys</a></p>
+      </div>
+      <div class="ref-card pad kpc-mt-sm">
+        <div class="section-title"><h2>Daily Goal</h2><span class="kpc-status-muted">Local goal</span></div>
+        <div class="goal-ring"><div><b id="profileGoalPercent">0%</b><small>Complete</small></div></div>
+        <p id="profileGoalText">0 / 30 min</p>
+        <div class="progress"><span id="profileGoalBar" style="width:0%"></span></div>
+      </div>
+    </aside>
+  </div>
+</main>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/profile_live.js') }}" defer></script>{% endblock %}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% include 'components/social_head.html' ignore missing %}
+  <title>Player Social Profile | KPC Typing</title>
+</head>
+<body class="social-body">
+  {% include 'components/social_nav.html' ignore missing %}
+  <main class="social-shell">
+    <section class="social-hero">
+      <span class="social-badge">PLAYER PROFILE</span>
+      <h1>Social Profile</h1>
+      <p>Public player stats and recent social activity.</p>
+    </section>
+    <section id="socialProfile" data-username="{{ profile_username }}">Loading...</section>
+  </main>
+  <nav class="kpc-bottom-nav " aria-label="Mobile navigation">
+    <a href="/" class="{{ 'active' if request.path == '/' else '' }}"><span>Home</span></a>
+    <a href="/typing-test" class="{{ 'active' if request.path == '/typing-test' else '' }}"><span>Practice</span></a>
+    <a href="/global-leaderboard" class="{{ 'active' if request.path == '/global-leaderboard' else '' }}"><span>Rank</span></a>
+    <a href="/lessons" class="{{ 'active' if request.path in ['/lessons', '/training-mode'] else '' }}"><span>Lessons</span></a>
+    <div class="kpc-mobile-more-wrap">
+      <button class="kpc-mobile-more-btn" type="button" data-kpc-mobile-more-toggle aria-expanded="false" aria-controls="kpc-mobile-more-panel"><span>More</span></button>
+      <div id="kpc-mobile-more-panel" class="kpc-mobile-more-panel" role="menu">
+        <a href="/ai-coach" role="menuitem">AI Coach</a>
+        <a href="/multiplayer-race" role="menuitem">Race</a>
+        <a href="/career" role="menuitem">Career</a>
+        <a href="/analytics-pro" role="menuitem">Analytics</a>
+        <a href="/friends" role="menuitem">Friends</a>
+        <a href="/profile" role="menuitem">Settings</a>
+      </div>
+    </div>
+  </nav>
+  <script src="{{ url_for('static', filename='js/kpc_toast.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/kpc_mobile_more.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/social.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/kpc_ui_consistency.js') }}" defer></script>
+</body>
+</html>

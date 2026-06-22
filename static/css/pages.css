@@ -1,0 +1,4 @@
+/* KPC pages.css
+   Page-specific layout refinements live here. Legacy/final CSS remains loaded for v38 visual compatibility. */
+.profile-fallback-warning{margin:0 0 14px;padding:12px 14px;border-radius:16px;background:#fff7ed;color:#9a3412;border:1px solid #fed7aa;font-weight:850;}
+html[data-theme="dark"] .profile-fallback-warning{background:rgba(154,52,18,.18);color:#fdba74;border-color:rgba(251,146,60,.35);}

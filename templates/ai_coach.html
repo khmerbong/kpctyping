@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}AI Coach | KPC Typing{% endblock %}
+{% block body_class %}kpc-ai-page{% endblock %}
+{% block head %}
+{% endblock %}
+{% block content %}
+<main class="kpc-page">
+  <section class="kpc-hero kpc-hero-compact">
+    <div>
+      <span class="kpc-eyebrow">Smart Coach</span>
+      <h1>AI Coach</h1>
+      <p>Analyze weak keys, slow keys, accuracy, and recommended practice for your next session.</p>
+    </div>
+    <div class="kpc-actions-row">
+      <button id="aiRefreshBtn" class="kpc-btn kpc-btn-soft" type="button">Refresh Coach</button>
+      <a class="kpc-btn kpc-btn-primary" href="/training-mode">Start Training</a>
+    </div>
+  </section>
+
+  <section class="kpc-metric-grid">
+    <article class="kpc-metric"><span>Total Keys</span><strong id="aiTotalKeys">0</strong></article>
+    <article class="kpc-metric"><span>Accuracy</span><strong id="aiAccuracy">100%</strong></article>
+    <article class="kpc-metric"><span>Wrong Keys</span><strong id="aiWrongKeys">0</strong></article>
+    <article class="kpc-metric"><span>Slow Keys</span><strong id="aiSlowKeys">0</strong></article>
+  </section>
+
+  <section class="kpc-card-grid">
+    <article class="kpc-card"><h2>Coach Message</h2><p id="aiCoachMessage">Loading coach...</p></article>
+    <article class="kpc-card"><h2>Recommended Practice</h2><div id="aiRecommendedLesson" class="kpc-practice-text">Loading...</div></article>
+    <article class="kpc-card"><h2>Weak Keys</h2><div id="aiWeakKeys" class="kpc-key-list"></div></article>
+    <article class="kpc-card"><h2>Slow Keys</h2><div id="aiSlowKeyList" class="kpc-key-list"></div></article>
+  </section>
+
+  <section class="kpc-card kpc-section-card">
+    <h2>Recent Practice Sessions</h2>
+    <div id="aiSessions" class="kpc-list-state"></div>
+  </section>
+</main>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/ai_coach.js') }}"></script>
+{% endblock %}

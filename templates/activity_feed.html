@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Activity Feed | KPC Typing{% endblock %}
+{% block body_class %}kpc-social-page{% endblock %}
+{% block content %}
+<main class="kpc-page">
+  <section class="kpc-hero kpc-hero-compact">
+    <div>
+      <span class="kpc-eyebrow">Social Feed</span>
+      <h1>Activity Feed</h1>
+      <p>See your friends' levels, achievements, challenges, and typing milestones.</p>
+    </div>
+    <div class="kpc-actions-row">
+      <a class="kpc-btn kpc-btn-soft" href="/friends">Friends</a>
+      <a class="kpc-btn kpc-btn-primary" href="/typing-test">Start Typing</a>
+    </div>
+  </section>
+
+  <section class="kpc-card kpc-section-card">
+    <div id="activityFeed" class="kpc-list-state">Loading...</div>
+  </section>
+</main>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/social.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: kpctyping
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements-prod.txt
+    startCommand: gunicorn --worker-class eventlet -w 1 app:app
+    healthCheckPath: /healthz
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: FLASK_ENV
+        value: production
+      - key: REQUIRE_DATABASE_URL
+        value: "1"
+      - key: SESSION_COOKIE_SECURE
+        value: "1"
+      - key: PUBLIC_BASE_URL
+        value: https://kpctyping.onrender.com
+      - key: DATABASE_URL
+        fromDatabase:
+          name: kpctyping-postgres
+          property: connectionString
+
+# For production with permanent stored scores/users, upgrade this database plan
+# from free to basic-256mb in Render. Free Postgres is best for testing only.
+databases:
+  - name: kpctyping-postgres
+    plan: free
+
+# Fallback if eventlet fails on a host image: gunicorn -w 1 app:app
+# Keep runtime.txt pinned to python-3.11.9 for eventlet compatibility.

@@ -1,0 +1,4 @@
+const el=document.getElementById('publicPlayerProfile');
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+async function load(){if(!el)return;const res=await fetch(`/api/player/${encodeURIComponent(window.PROFILE_USERNAME)}`); const data=await res.json(); if(!data.ok){el.innerHTML='<p>Player not found.</p>';return;} const p=data.profile; el.innerHTML=`<h2>${esc(p.username)}</h2><p><strong>Country:</strong> ${esc(p.country)}</p><p><strong>Best WPM:</strong> ${esc(p.wpm)}</p><p><strong>Best Accuracy:</strong> ${esc(p.accuracy)}%</p><p><strong>XP:</strong> ${esc(p.xp)}</p><p><strong>Career Rank:</strong> ${esc(p.career_rank)}</p><h3>Recent Scores</h3>${(data.recent_scores||[]).map(s=>`<div class="record-row"><span>${esc(s.game_mode)}<br><small>${esc(s.created_at)}</small></span><strong>${esc(s.wpm)} WPM</strong></div>`).join('')}`;}
+load().catch(()=>{});

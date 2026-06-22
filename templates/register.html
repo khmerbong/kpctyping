@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Register | KPC Typing{% endblock %}
+{% block head %}
+{% endblock %}
+{% block body_class %}kpc-auth-page{% endblock %}
+{% block content %}
+<main class="kpc-page kpc-auth-shell">
+  <section class="kpc-auth-panel">
+    <div class="kpc-eyebrow">Create profile</div>
+    <h1>Create your account</h1>
+    <p class="kpc-muted">Save your typing records, XP, leaderboard progress and friends.</p>
+    {% if error %}<div class="kpc-alert kpc-alert-danger">{{ error }}</div>{% endif %}
+    <form method="post" class="kpc-form">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token_value }}">
+      <label>Username
+        <input name="username" required minlength="3" maxlength="30" autocomplete="username" placeholder="Choose a username">
+      </label>
+      <label>Email optional
+        <input name="email" type="email" autocomplete="email" placeholder="you@example.com">
+      </label>
+      <label>Password
+        <input name="password" type="password" required minlength="8" autocomplete="new-password" placeholder="At least 8 characters">
+      </label>
+      <label>Confirm Password
+        <input name="confirm_password" type="password" required minlength="8" autocomplete="new-password" placeholder="Repeat password">
+      </label>
+      <button type="submit" class="kpc-btn kpc-btn-primary kpc-btn-full">Create Account</button>
+    </form>
+    <div class="kpc-auth-links"><a href="/login">Already have an account?</a><span>•</span><a href="/typing-test">Try as Guest</a></div>
+  </section>
+</main>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/auth_ui.js') }}"></script>{% endblock %}

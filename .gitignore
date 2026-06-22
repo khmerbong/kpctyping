@@ -1,0 +1,28 @@
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Local database / secrets
+leaderboard.db
+*.sqlite
+*.sqlite3
+.env
+.env.*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Deploy safety
+leaderboard.db
+*.db
+__pycache__/
+*.pyc
+.DS_Store
+.env

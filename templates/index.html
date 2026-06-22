@@ -1,0 +1,97 @@
+{% extends "base.html" %}{% block title %}KPC Typing - Home{% endblock %}{% block body_class %}kpc-landing-home{% endblock %}{% block content %}
+<main class="kpc-landing-page">
+  <section class="kpc-landing-hero">
+    <div class="kpc-landing-copy">
+      <span class="kpc-eyebrow">KPC Typing Practice</span>
+      <h1>Start typing. Improve faster.</h1>
+      <p>Choose a test, practice your weak keys, and track your progress in a clean typing workspace.</p>
+      <div class="kpc-landing-actions">
+        <a class="btn btn-primary kpc-hero-start" href="/typing-test">Start Typing</a>
+        <a class="btn btn-soft" href="/training-mode">Practice Mode</a>
+      </div>
+    </div>
+    <div class="kpc-typing-preview" aria-label="Typing preview">
+      <div class="kpc-preview-top"><span></span><span></span><span></span></div>
+      <div class="kpc-preview-text">
+        <b>the quick brown fox jumps over the lazy dog</b>
+        <p>Focus on rhythm, accuracy, and smooth typing speed.</p>
+      </div>
+      <div class="kpc-preview-metrics">
+        <div><small>Best WPM</small><strong>0</strong></div>
+        <div><small>Accuracy</small><strong>0%</strong></div>
+        <div><small>Time</small><strong>60s</strong></div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="kpc-lessons-showcase ref-card" aria-label="KPC Typing lessons">
+    <div class="section-title">
+      <span class="kpc-section-kicker">Practice Library</span>
+      <h2>60 Lessons Available</h2>
+      <a class="mini-link" href="/lessons">View all lessons</a>
+    </div>
+    <div class="kpc-lesson-path-grid">
+      <article class="kpc-path-card beginner">
+        <span class="kpc-path-icon">📚</span>
+        <h3>Beginner</h3>
+        <p>Home row, top row, bottom row, easy words and sentences.</p>
+        <b>20 lessons</b>
+        <a href="/training-mode?lesson=1" class="btn btn-soft">Start Beginner</a>
+      </article>
+      <article class="kpc-path-card intermediate">
+        <span class="kpc-path-icon">⚡</span>
+        <h3>Intermediate</h3>
+        <p>Common words, paragraphs, numbers, punctuation and speed drills.</p>
+        <b>20 lessons</b>
+        <a href="/training-mode?lesson=21" class="btn btn-soft">Start Intermediate</a>
+      </article>
+      <article class="kpc-path-card advanced">
+        <span class="kpc-path-icon">🚀</span>
+        <h3>Advanced</h3>
+        <p>Professional typing, symbols, long text and programming practice.</p>
+        <b>20 lessons</b>
+        <a href="/training-mode?lesson=41" class="btn btn-soft">Start Advanced</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="kpc-focus-stats" aria-label="Typing summary">
+    <div><span>Best WPM</span><b>0</b></div>
+    <div><span>Accuracy</span><b>0%</b></div>
+    <div><span>Tests</span><b>0</b></div>
+    <div><span>Lessons</span><b>0</b></div>
+  </section>
+
+  <section class="kpc-clean-dashboard kpc-home-priority-grid">
+    <article class="ref-card kpc-primary-dashboard-card">
+      <div class="section-title"><span class="kpc-section-kicker">Next step</span><h2>Continue Training</h2><a class="mini-link" href="/training-mode">Open</a></div>
+      <div class="kpc-training-card">
+        <div>
+          <b>Start your next lesson</b>
+          <p id="homeTrainingHint">No saved lesson data yet.</p>
+          <div class="progress"><span id="homeTrainingProgress" style="width:0%"></span></div>
+        </div>
+        <a class="btn btn-soft" href="/training-mode">Open Training</a>
+      </div>
+    </article>
+
+    <article class="ref-card kpc-compact-dashboard-card">
+      <div class="section-title"><span class="kpc-section-kicker">Today</span><h2>Daily Goal</h2></div>
+      <div class="kpc-goal-clean"><b id="homeGoalPercent">0%</b><span id="homeGoalText">0 / 30 min complete</span></div>
+      <div class="progress"><span id="homeGoalBar" style="width:0%"></span></div>
+    </article>
+
+  </section>
+
+  <section class="kpc-home-lower-grid">
+    <article class="ref-card">
+      <div class="section-title"><span class="kpc-section-kicker">Community</span><h2>Top Players</h2><a class="mini-link" href="/global-leaderboard">View all</a></div>
+      <div class="players kpc-players-clean">
+        <div class="kpc-empty-state"><b>No scores yet</b><p>Real top players will appear after saved tests.</p></div>
+      </div>
+    </article>
+  </section>
+</main>{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/home_live.js') }}" defer></script>{% endblock %}

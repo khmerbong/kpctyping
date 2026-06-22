@@ -1,0 +1,69 @@
+{
+  "name": "KPC Typing - Typing Lessons & Games",
+  "short_name": "KPC Typing",
+  "description": "Install KPC Typing as a mobile app with offline lessons, typing practice, XP, AI Coach, analytics, and race mode.",
+  "id": "/?source=pwa",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#0ea5e9",
+  "categories": [
+    "education",
+    "productivity",
+    "games"
+  ],
+  "icons": [
+    {
+      "src": "/static/icons/favicon-48.png",
+      "sizes": "48x48",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/icons/favicon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/static/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Training Mode",
+      "short_name": "Training",
+      "url": "/training-mode",
+      "description": "Open lessons"
+    },
+    {
+      "name": "Career",
+      "short_name": "Career",
+      "url": "/career",
+      "description": "View XP and rank"
+    },
+    {
+      "name": "AI Coach",
+      "short_name": "Coach",
+      "url": "/ai-coach",
+      "description": "See weak keys"
+    },
+    {
+      "name": "Race",
+      "short_name": "Race",
+      "url": "/multiplayer-race",
+      "description": "Join typing race"
+    }
+  ]
+}

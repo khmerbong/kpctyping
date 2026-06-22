@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Login | KPC Typing{% endblock %}
+{% block head %}
+{% endblock %}
+{% block body_class %}kpc-auth-page{% endblock %}
+{% block content %}
+<main class="kpc-page kpc-auth-shell">
+  <section class="kpc-auth-panel">
+    <div class="kpc-eyebrow">Welcome back</div>
+    <h1>Sign in to KPC Typing</h1>
+    <p class="kpc-muted">Continue your progress, XP, friends, analytics and saved leaderboard results.</p>
+    {% if error %}<div class="kpc-alert kpc-alert-danger">{{ error }}</div>{% endif %}
+    <form method="post" class="kpc-form">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token_value }}">
+      <label>Username or Email
+        <input name="identity" required autocomplete="username" placeholder="Your username or email">
+      </label>
+      <label>Password
+        <input name="password" type="password" required autocomplete="current-password" placeholder="Your password">
+      </label>
+      <input type="hidden" name="next" value="{{ next_url or request.args.get('next', '') }}">
+      <button type="submit" class="kpc-btn kpc-btn-primary kpc-btn-full">Login</button>
+    </form>
+    <div class="kpc-auth-links">
+      <a href="/forgot-password">Forgot password?</a>
+      <span>•</span>
+      <a href="/register">Create account</a>
+      <span>•</span>
+      <a href="/typing-test">Continue as Guest</a>
+    </div>
+  </section>
+</main>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/auth_ui.js') }}"></script>
+{% endblock %}

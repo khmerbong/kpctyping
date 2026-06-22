@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>{% block title %}KPC Typing{% endblock %}</title>
+  <link rel="manifest" href="/static/manifest.json">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="48x48" href="/static/icons/favicon-48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/static/icons/favicon-96.png">
+  <link rel="apple-touch-icon" href="/static/icons/apple-touch-icon.png">
+  <meta property="og:image" content="https://kpctyping.space/static/images/og-kpc-typing.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="theme-color" content="#0ea5e9" id="kpc-theme-color">
+  <script>(function(){try{var t=localStorage.getItem('kpc-theme')||'light';document.documentElement.setAttribute('data-theme',t)}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/design-system.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/mobile.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/legacy.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/final-ui-polish.css') }}">
+  {% block head %}{% endblock %}
+</head>
+<body class="kpc-clean kpc-ref-ui {% block body_class %}{% endblock %}">
+  <nav class="ref-topbar kpc-simple-topbar">
+    <a class="ref-brand" href="/"><span class="ref-logo ref-logo-image kpc-full-logo-wrap"><img src="/static/icons/kpc-typing-logo-full.png" alt="KPC Typing logo"></span><span><b>KPC Typing</b><small>Practice faster, type cleaner</small></span></a>
+    <div class="ref-links kpc-main-nav">
+      <a href="/" class="{{ 'active' if request.path == '/' else '' }}">Home</a>
+      <a href="/typing-test" class="{{ 'active' if request.path == '/typing-test' else '' }}">Practice</a>
+      <a href="/lessons" class="{{ 'active' if request.path in ['/lessons', '/training-mode'] else '' }}">Lessons</a>
+      <a href="/global-leaderboard" class="{{ 'active' if request.path == '/global-leaderboard' else '' }}">Leaderboard</a>
+      <div class="kpc-more-menu">
+        <button type="button" class="kpc-more-button">More</button>
+        <div class="kpc-more-panel" role="menu">
+          <a href="/lessons">Lessons</a>
+          <a href="/training-mode">Training Mode</a>
+          <a href="/multiplayer-race">Race</a>
+          <a href="/tournaments">Tournament</a>
+          <a href="/daily-challenge">Daily Challenge</a>
+          <a href="/analytics-pro">Analytics</a>
+          <a href="/ai-coach">AI Coach</a>
+        </div>
+      </div>
+    </div>
+    <div class="ref-user-actions kpc-clean-actions">
+      <button class="ref-theme kpc-theme-toggle" type="button" data-kpc-theme-toggle><span data-kpc-theme-icon>🌙</span><span data-kpc-theme-text>Dark</span></button>
+      {% if current_user %}
+        <a class="ref-user" href="/profile"><span class="ref-avatar">{{ current_user.username[:1]|upper }}</span><span>{{ current_user.username }}<br><small>Profile</small></span></a>
+        <a class="kpc-btn kpc-btn-ghost kpc-login-link" href="/logout">Logout</a>
+      {% else %}
+        <a class="ref-user" href="/login"><span class="ref-avatar">G</span><span>Guest<br><small>Login</small></span></a>
+        <a class="kpc-btn kpc-btn-primary kpc-login-link" href="/register">Register</a>
+      {% endif %}
+    </div>
+  </nav>
+  <div class="kpc-flash-stack" aria-hidden="true">{% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}{% for category, message in messages %}<div data-kpc-flash data-category="{{ category }}" data-message="{{ message|e }}"></div>{% endfor %}{% endif %}{% endwith %}</div>
+  {% block content %}{% endblock %}
+  <nav class="kpc-bottom-nav ref-bottom-nav" aria-label="Mobile navigation">
+    <a href="/" class="{{ 'active' if request.path == '/' else '' }}"><span>Home</span></a>
+    <a href="/typing-test" class="{{ 'active' if request.path == '/typing-test' else '' }}"><span>Practice</span></a>
+    <a href="/global-leaderboard" class="{{ 'active' if request.path == '/global-leaderboard' else '' }}"><span>Rank</span></a>
+    <a href="/lessons" class="{{ 'active' if request.path in ['/lessons', '/training-mode'] else '' }}"><span>Lessons</span></a>
+    <div class="kpc-mobile-more-wrap">
+      <button class="kpc-mobile-more-btn" type="button" data-kpc-mobile-more-toggle aria-expanded="false" aria-controls="kpc-mobile-more-panel"><span>More</span></button>
+      <div id="kpc-mobile-more-panel" class="kpc-mobile-more-panel" role="menu">
+        <a href="/ai-coach" role="menuitem">AI Coach</a>
+        <a href="/multiplayer-race" role="menuitem">Race</a>
+        <a href="/career" role="menuitem">Career</a>
+        <a href="/analytics-pro" role="menuitem">Analytics</a>
+        <a href="/friends" role="menuitem">Friends</a>
+        <a href="/profile" role="menuitem">Settings</a>
+      </div>
+    </div>
+  </nav>
+  <script src="/static/js/kpc_toast.js" defer></script>
+  <script src="/static/js/kpc_mobile_more.js" defer></script>
+  <script src="/static/js/kpc_guest.js" defer></script>
+  <script src="/static/js/mobile_typing_helper.js" defer></script>
+  <script src="/static/js/pwa_install.js" defer></script>
+  <script src="{{ url_for('static', filename='js/kpc_theme.js') }}" defer></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

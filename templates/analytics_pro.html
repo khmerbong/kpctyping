@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Pro Analytics | KPC Typing{% endblock %}
+
+{% block body_class %}kpc-analytics-page{% endblock %}
+{% block content %}
+<main class="kpc-page analytics-pro-shell">
+  <section class="kpc-hero kpc-hero-compact analytics-hero">
+    <div>
+      <div class="kpc-eyebrow">Professional Analytics</div>
+      <h1>Analytics Dashboard</h1>
+      <p>Track speed, accuracy, practice time, weak keys, AI Coach data and career progress from saved sessions.</p>
+    </div>
+    <div class="kpc-actions-row hero-actions">
+      <button id="refreshAnalytics" class="kpc-btn kpc-btn-primary">Refresh</button>
+      <a class="kpc-btn kpc-btn-soft" href="/typing-test">Start Typing Test</a>
+    </div>
+  </section>
+  <pre id="analyticsStatus" class="kpc-status-box">Loading analytics...</pre>
+  <section class="kpc-metric-grid metric-grid">
+    <article class="kpc-metric"><span>Best WPM</span><strong id="bestWpm">0</strong></article>
+    <article class="kpc-metric"><span>Average WPM</span><strong id="avgWpm">0</strong></article>
+    <article class="kpc-metric"><span>Best Accuracy</span><strong id="bestAccuracy">0%</strong></article>
+    <article class="kpc-metric"><span>Average Accuracy</span><strong id="avgAccuracy">0%</strong></article>
+    <article class="kpc-metric"><span>Sessions</span><strong id="sessionCount">0</strong></article>
+    <article class="kpc-metric"><span>Practice Minutes</span><strong id="practiceMinutes">0</strong></article>
+  </section>
+  <section class="kpc-card-grid analytics-grid">
+    <article class="kpc-card analytics-card wide"><h2>Speed Trend</h2><div id="speedChart" class="bar-chart"></div></article>
+    <article class="kpc-card analytics-card wide"><h2>Accuracy Trend</h2><div id="accuracyChart" class="bar-chart"></div></article>
+    <article class="kpc-card analytics-card"><h2>Weak Key Heatmap</h2><div id="weakHeatmap" class="heatmap"></div></article>
+    <article class="kpc-card analytics-card"><h2>AI Coach Summary</h2><ul id="aiCoachList" class="summary-list"></ul></article>
+    <article class="kpc-card analytics-card wide">
+      <h2>Recent Sessions</h2>
+      <div class="kpc-table-wrap session-table-wrap">
+        <table class="kpc-table session-table">
+          <thead><tr><th>Date</th><th>Mode</th><th>Lesson</th><th>WPM</th><th>Accuracy</th><th>Weak Keys</th></tr></thead>
+          <tbody id="recentSessions"></tbody>
+        </table>
+      </div>
+    </article>
+  </section>
+</main>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/analytics_pro.js') }}"></script>{% endblock %}

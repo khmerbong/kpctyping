@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Daily Challenge | KPC Typing{% endblock %}
+{% block body_class %}kpc-challenge-page{% endblock %}
+{% block content %}
+<main class="kpc-page">
+  <section class="kpc-hero kpc-hero-compact">
+    <div>
+      <span class="kpc-eyebrow">Daily Mission</span>
+      <h1>Daily Challenge</h1>
+      <p>Complete small missions every day to build XP, streaks, and stronger typing habits.</p>
+    </div>
+    <div class="kpc-card kpc-mini-card xp-card">
+      <span>Total XP</span>
+      <strong id="dashXP">0</strong>
+      <div class="xp-bar"><div id="dashXPBar"></div></div>
+      <small id="dashNextRank">Next rank</small>
+    </div>
+  </section>
+
+  <section class="kpc-card-grid">
+    <article class="kpc-card">
+      <h2>Today's Missions</h2>
+      <div id="dailyChallengeList" class="challenge-list kpc-list-state"></div>
+    </article>
+    <article class="kpc-card">
+      <h2>Weak Key Focus</h2>
+      <p class="kpc-muted">Practice will automatically record the keys you miss most.</p>
+      <div id="v25WeakKeys" class="kpc-list-state"></div>
+    </article>
+  </section>
+
+  <section class="kpc-card kpc-section-card">
+    <h2>Achievements</h2>
+    <div id="achievementGallery" class="achievement-gallery kpc-card-grid"></div>
+  </section>
+</main>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/gamification.js') }}"></script>
+<script src="{{ url_for('static', filename='js/v26_1_final_polish.js') }}" defer></script>
+{% endblock %}

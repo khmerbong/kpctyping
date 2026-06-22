@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Verify Email | KPC Typing{% endblock %}
+{% block body_class %}kpc-auth-page{% endblock %}
+{% block content %}
+<main class="kpc-page kpc-auth-shell"><section class="kpc-auth-panel">
+  <div class="kpc-eyebrow">Email verification</div><h1>Verify your email</h1>
+  {% if message %}<div class="kpc-alert kpc-alert-success">{{ message }}</div>{% endif %}
+  {% if error %}<div class="kpc-alert kpc-alert-danger">{{ error }}</div>{% endif %}
+  <p class="kpc-muted">Email verification helps protect account recovery and future production security.</p>
+  <div class="kpc-auth-links"><a href="/profile">Go to profile</a><span>•</span><a href="/typing-test">Typing test</a></div>
+</section></main>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Friends Leaderboard | KPC Typing{% endblock %}
+{% block body_class %}social-body phase3c-page{% endblock %}
+{% block content %}
+<main class="social-shell kpc-page-shell">
+  <section class="social-hero kpc-page-hero"><span class="social-badge kpc-badge">FRIENDS RANK</span><h1>Friends Leaderboard</h1><p>Compare WPM, accuracy, XP and career rank with only your friends.</p></section>
+  <section class="social-panel kpc-card kpc-table-wrap"><table class="social-table kpc-table"><thead><tr><th>Rank</th><th>Player</th><th>Best WPM</th><th>Accuracy</th><th>XP</th><th>Career</th></tr></thead><tbody id="friendLeaderboardBody"><tr><td colspan="6">Loading...</td></tr></tbody></table></section>
+</main>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/social.js') }}"></script><script src="{{ url_for('static', filename='js/kpctyping_mockup2_redesign.js') }}" defer></script>{% endblock %}

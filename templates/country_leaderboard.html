@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Country Leaderboard - KPC Typing{% endblock %}
+{% block body_class %}kpc-country-leaderboard-page{% endblock %}
+{% block head %}
+{% endblock %}
+{% block content %}
+<main class="kpc-shell lb-shell">
+  <section class="kpc-section">
+    <div class="kpc-hero kpc-hero-compact">
+      <div>
+        <span class="kpc-pill">Country Ranking</span>
+        <h1>🏆 Country Leaderboard</h1>
+        <p>Compare players by country, period and ranking strength.</p>
+      </div>
+      <nav class="lb-actions kpc-actions-row"><a class="kpc-btn kpc-btn-soft" href="/global-leaderboard">Global</a><a class="kpc-btn kpc-btn-soft" href="/hall-of-fame">Hall of Fame</a></nav>
+    </div>
+    <section class="lb-controls card kpc-card kpc-inline-form kpc-mt-md">
+      <label>Country <input id="countryInput" value="Cambodia"></label>
+      <label>Period <select id="countryPeriod"><option value="all">All Time</option><option value="weekly">This Week</option><option value="monthly">This Month</option><option value="season">Season</option></select></label>
+      <button id="refreshCountry" class="kpc-btn kpc-btn-primary">Refresh</button>
+    </section>
+    <section class="card kpc-card kpc-mt-sm">
+      <h2 id="countryTitle">Cambodia Top Players</h2>
+      <div class="table-wrap kpc-table-wrap"><table class="lb-table kpc-table"><thead><tr><th>#</th><th>Player</th><th>WPM</th><th>Accuracy</th><th>XP</th><th>Rank</th></tr></thead><tbody id="countryRows"><tr><td colspan="6">Loading...</td></tr></tbody></table></div>
+    </section>
+  </section>
+</main>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/country_leaderboard.js"></script>
+{% endblock %}

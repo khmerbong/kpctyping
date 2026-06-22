@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Tournaments - KPC Typing{% endblock %}
+{% block body_class %}ref-tournament{% endblock %}
+{% block content %}
+<main class="ref-page">
+  <div class="ref-layout">
+    <aside class="ref-card ref-side">
+      <div class="side-title">Tournament</div>
+      <div class="ref-menu"><a class="active">🏆 Overview</a><a href="/multiplayer-race">⚑ Race</a><a href="/global-leaderboard">Leaderboard</a><a href="/profile">Profile</a></div>
+      <div class="ref-card pad kpc-mt-sm"><h3>Guest Entry</h3><input id="tournamentPlayerName" class="kpc-input" placeholder="Guest name"><p class="kpc-status-muted">Your guest name is saved in this browser.</p></div>
+    </aside>
+    <section>
+      <div class="page-title"><div><h1 id="tournamentTitle">Tournaments 🏆</h1><p id="tournamentMeta">Loading real tournament data...</p></div><button id="tournamentStatus" class="ref-btn soft" type="button">Loading</button></div>
+      <div class="ref-card pad"><div class="stats-row kpc-stats-five"><div class="stat-box"><span class="stat-icon">🏆</span><div><b id="tourFormat">—</b><br>Format</div></div><div class="stat-box"><span class="stat-icon">👥</span><div><b id="tourPlayers">0 / 0</b><br>Players</div></div><div class="stat-box"><span class="stat-icon">⏱</span><div><b id="tourType">—</b><br>Type</div></div><div class="stat-box"><span class="stat-icon">📌</span><div><b id="tourState">open</b><br>Status</div></div><div class="stat-box"><button id="joinActiveTournament" class="btn btn-primary" type="button">Join Tournament</button></div></div></div>
+      <div class="ref-card pad kpc-mt-sm"><div class="section-title"><h2>Tournament Bracket</h2><span id="tourBracketHint">Real players only</span></div><div id="tournamentBracket" class="bracket"><div class="kpc-loading-state"><b>Loading bracket...</b><p>No fake bracket names are displayed.</p></div></div></div>
+      <div class="ref-card pad kpc-mt-sm"><h2>Available Tournaments</h2><div id="upcomingTournaments" class="list"><div class="kpc-loading-state"><b>Loading tournaments...</b><p>Checking the database.</p></div></div></div>
+    </section>
+    <aside>
+      <div class="ref-card pad live-panel"><h2>Live Match</h2><div id="liveMatchBox" class="kpc-empty-state"><b>No live match yet</b><p>Start a bracket when 2+ players have joined.</p></div></div>
+      <div class="ref-card pad kpc-mt-sm"><h2>Tournament Rewards</h2><div class="list"><div class="list-item"><b>🥇 Champion</b><span>XP reward</span></div><div class="list-item"><b>🥈 Runner Up</b><span>XP reward</span></div><div class="list-item"><b>💚 Participation</b><span>Practice history</span></div></div></div>
+      <div class="ref-card pad kpc-mt-sm"><h2>Your Tournament History</h2><div id="tournamentHistory" class="kpc-empty-state"><b>No local history yet</b><p>Join a tournament to create history on this browser.</p></div></div>
+    </aside>
+  </div>
+</main>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/tournaments_live.js') }}" defer></script>{% endblock %}

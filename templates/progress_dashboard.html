@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Typing Progress Dashboard - KPC Typing{% endblock %}
+{% block body_class %}gamification-body phase3c-page{% endblock %}
+{% block head %}
+  <meta name="description" content="Track your typing progress, XP, rank, achievements, daily challenges, accuracy, streak and weak keys on KPC Typing.">
+  <link rel="canonical" href="https://kpctyping.space/progress">
+  {% endblock %}
+{% block content %}
+<main class="progress-dashboard kpc-page-shell">
+  <section class="analytics-dashboard kpc-card" id="analyticsDashboard" aria-label="Typing analytics dashboard">
+    <div class="analytics-hero kpc-page-hero compact">
+      <div><span class="analytics-badge kpc-badge">REAL PHASE 5.1</span><h2>Typing Analytics Dashboard</h2><p>Track XP, weak keys, accuracy, WPM, completion history and keyboard heatmap from your local practice data.</p></div>
+      <button class="analytics-reset kpc-btn kpc-btn-soft" id="analyticsResetBtn" type="button">Reset Analytics</button>
+    </div>
+    <div class="analytics-card-grid kpc-grid kpc-grid-4">
+      <article class="analytics-card kpc-card"><span>Total XP</span><strong id="analyticsXP">0</strong><small>Academy reward points</small></article>
+      <article class="analytics-card kpc-card"><span>Completed Lessons</span><strong id="analyticsCompleted">0/25</strong><small>Roadmap progress</small></article>
+      <article class="analytics-card kpc-card"><span>Weakest Key</span><strong id="analyticsWeakest">None</strong><small id="analyticsWeakestDetail">No mistakes yet</small></article>
+      <article class="analytics-card kpc-card"><span>Practice Streak</span><strong id="analyticsStreak">0 days</strong><small>Local daily activity</small></article>
+    </div>
+    <div class="analytics-grid kpc-grid kpc-grid-2">
+      <section class="analytics-panel kpc-card"><div class="analytics-panel-title"><h3>Keyboard Heatmap</h3><span>mistakes + hits</span></div><div class="analytics-keyboard" id="analyticsKeyboardHeatmap"></div></section>
+      <section class="analytics-panel kpc-card"><div class="analytics-panel-title"><h3>Weak-Key Report</h3><span>top errors</span></div><div id="analyticsWeakKeyList"></div></section>
+    </div>
+  </section>
+
+  <section class="progress-hero kpc-page-hero">
+    <div><div class="rank-badge kpc-badge" id="dashRankBadge">Beginner</div><h1>🏆 Your Typing Progress</h1><p>Track XP, rank, daily challenges, achievements, accuracy, streak and lesson progress.</p></div>
+    <div class="xp-card kpc-card"><span>Total XP</span><strong id="dashXP">0</strong><div class="xp-bar"><div id="dashXPBar"></div></div><small id="dashNextRank">Next rank: Rookie</small></div>
+  </section>
+  <section class="progress-grid kpc-grid kpc-grid-4">
+    <article class="kpc-card"><span>🎯 Accuracy</span><strong id="dashAccuracy">100%</strong></article>
+    <article class="kpc-card"><span>🔥 Best Streak</span><strong id="dashBestStreak">0</strong></article>
+    <article class="kpc-card"><span>✅ Correct Keys</span><strong id="dashCorrect">0</strong></article>
+    <article class="kpc-card"><span>📚 Lessons Done</span><strong id="dashLessons">0</strong></article>
+  </section>
+  <section class="progress-two-col kpc-grid kpc-grid-2">
+    <div class="progress-panel kpc-card"><h2>📅 Daily Challenges</h2><div id="dailyChallengeList" class="challenge-list"></div></div>
+    <div class="progress-panel kpc-card"><h2>🎖 Achievements</h2><div id="achievementGallery" class="achievement-gallery"></div></div>
+  </section>
+  <section class="progress-panel kpc-card"><h2>📈 Rank Ladder</h2><div id="rankLadder" class="rank-ladder"></div></section>
+  <section class="progress-panel kpc-card"><h2>🤖 Weak Key AI</h2><p class="v25-panel-note">This shows the keys you miss most often, so the next practice can focus on your weak points.</p><div id="v25WeakKeys"></div></section>
+</main>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/gamification.js') }}"></script>
+<script src="{{ url_for('static', filename='js/v26_1_final_polish.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/analytics_engine.js') }}"></script>
+<script src="{{ url_for('static', filename='js/analytics_dashboard.js') }}"></script>
+<script src="{{ url_for('static', filename='js/kpctyping_mockup2_redesign.js') }}" defer></script>
+{% endblock %}

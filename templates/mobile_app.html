@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}KPC Typing Mobile App{% endblock %}
+{% block body_class %}pwa-offline phase3c-page{% endblock %}
+
+{% block content %}
+<main class="kpc-page-shell pwa-shell">
+  <section class="pwa-card kpc-page-hero">
+    <span class="kpc-badge">PWA READY</span>
+    <h1>📱 KPC Typing Mobile + PWA</h1>
+    <p>Install this website as an app. Phase 12 adds responsive UI, offline cache, mobile nav, touch support, and app shortcuts.</p>
+    <div class="kpc-actions-row"><a class="kpc-btn kpc-btn-primary" href="/training-mode">Start Training</a><a class="kpc-btn kpc-btn-soft" href="/career">Open Career</a><a class="kpc-btn kpc-btn-soft" href="/multiplayer-race">Race Mode</a></div>
+  </section>
+</main>
+{% endblock %}
+{% block scripts %}<script src="/static/js/pwa_install.js"></script><script src="{{ url_for('static', filename='js/kpctyping_mockup2_redesign.js') }}" defer></script>{% endblock %}

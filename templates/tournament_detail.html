@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Tournament Detail | KPC Typing{% endblock %}
+{% block body_class %}tour-body phase3c-page{% endblock %}
+
+{% block content %}
+<main class="tour-shell kpc-page-shell" data-tournament-id="{{ tournament_id }}">
+  <section class="tour-hero compact kpc-page-hero">
+    <span class="phase-pill kpc-badge">Live Bracket</span>
+    <h1 id="tourTitle">Tournament</h1>
+    <p id="tourMeta">Loading...</p>
+    <div class="action-row kpc-actions-row">
+      <input class="kpc-input" id="guestName" placeholder="Guest name" maxlength="30">
+      <button class="kpc-btn kpc-btn-primary" id="joinTournamentBtn">Join</button>
+      <button class="kpc-btn kpc-btn-soft" id="startTournamentBtn">Generate Bracket</button>
+    </div>
+    <pre id="tourStatus" class="kpc-status-box"></pre>
+  </section>
+  <section class="tour-panel kpc-card"><h2>Players</h2><div id="playersList" class="player-list"></div></section>
+  <section class="tour-panel kpc-card"><h2>Bracket Matches</h2><div id="matchesList" class="match-list"></div></section>
+  <section class="tour-panel kpc-card"><h2>Results</h2><div id="resultsList" class="player-list"></div></section>
+</main>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/tournament_detail.js') }}"></script>
+<script src="{{ url_for('static', filename='js/kpctyping_mockup2_redesign.js') }}" defer></script>
+{% endblock %}

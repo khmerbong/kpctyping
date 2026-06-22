@@ -1,0 +1,191 @@
+
+
+/* =========================================================
+   mobile.css
+   Consolidated from existing KPC Typing CSS. No app logic changed.
+   ========================================================= */
+
+
+/* =========================================================
+   Source: kpc_mobile_polish.css
+   Consolidated from existing KPC Typing CSS. No app logic changed.
+   ========================================================= */
+/* =========================================================
+   KPC Typing — Phase 7 Mobile Polish
+   Mobile-first refinement for tables, cards, forms, nav, race,
+   tournaments, analytics, profile and typing screens.
+   ========================================================= */
+:root{
+  --kpc-mobile-gap:14px;
+  --kpc-touch:44px;
+}
+
+/* Safer sizing everywhere */
+*,*::before,*::after{box-sizing:border-box;}
+img,svg,video,canvas{max-width:100%;height:auto;}
+.kpc-page,.kpc-container,.container,.main-container,.dashboard-container,.analytics-container,.tour-container,.race-container,.profile-container{
+  width:min(1180px,calc(100% - 32px));
+  margin-inline:auto;
+}
+
+/* Better tap targets */
+a,button,.kpc-btn,.btn,input[type="submit"],input[type="button"]{min-height:var(--kpc-touch);}
+button,.kpc-btn,.btn{touch-action:manipulation;}
+input,select,textarea{font-size:16px;}
+
+/* Desktop table guard */
+.kpc-table-wrap,.table-wrap,.leaderboard-table-wrap,.analytics-table-wrap{
+  width:100%;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  border-radius:18px;
+}
+
+/* Mobile card tables. JS adds data-label to cells. */
+@media(max-width:760px){
+  body{padding-bottom:76px;}
+  .kpc-nav{position:sticky;top:0;z-index:40;padding:10px 14px;gap:10px;}
+  .kpc-brand{font-size:15px;min-width:0;}
+  .kpc-brand span:last-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px;}
+  .kpc-links{display:none!important;}
+  .kpc-actions{margin-left:auto;display:flex;align-items:center;gap:8px;}
+  .kpc-actions .kpc-btn{padding:9px 12px;font-size:13px;min-height:40px;}
+  .kpc-bottom-nav{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;position:fixed;left:10px;right:10px;bottom:10px;z-index:45;padding:8px;border-radius:22px;backdrop-filter:blur(16px);}
+  .kpc-bottom-nav a,.kpc-bottom-nav button{min-height:46px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px;}
+
+  .kpc-page,.kpc-container,.container,.main-container,.dashboard-container,.analytics-container,.tour-container,.race-container,.profile-container{
+    width:min(100% - 22px,1180px);
+  }
+  .kpc-hero,.kpc-page-hero,.tour-hero,.analytics-hero,.race-hero,.hero,.page-hero{
+    padding:24px 18px!important;
+    border-radius:24px!important;
+    margin-top:12px;
+  }
+  h1{font-size:clamp(28px,9vw,42px)!important;line-height:1.04!important;}
+  h2{font-size:clamp(22px,7vw,30px)!important;line-height:1.12!important;}
+  h3{font-size:clamp(18px,5vw,23px)!important;}
+  p{line-height:1.65;}
+
+  .kpc-grid,.grid,.stats-grid,.profile-grid,.analytics-grid,.tournament-grid,.tour-grid,.race-grid,.cards-grid,.dashboard-grid,.progress-grid,.career-grid{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:var(--kpc-mobile-gap)!important;
+  }
+  .kpc-card,.card,.panel,.profile-card,.stat-card,.tour-card,.race-card,.analytics-card,.dashboard-card,.leaderboard-card,.auth-card,.glass-card{
+    border-radius:22px!important;
+    padding:18px!important;
+    margin-inline:0!important;
+  }
+
+  .kpc-actions-row,.actions,.button-row,.form-actions,.auth-actions,.race-actions,.tour-actions{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:10px!important;
+  }
+  .kpc-actions-row .kpc-btn,.actions .btn,.button-row .btn,.form-actions button,.race-actions button,.tour-actions button{
+    width:100%;justify-content:center;text-align:center;
+  }
+
+  /* Tables become readable cards on phones */
+  table.kpc-mobile-card, .kpc-mobile-card table, table.leaderboard-table, table.rank-table, table.data-table, table.analytics-table{
+    border:0!important;
+    width:100%!important;
+  }
+  table.kpc-mobile-card thead, .kpc-mobile-card table thead, table.leaderboard-table thead, table.rank-table thead, table.data-table thead, table.analytics-table thead{
+    display:none!important;
+  }
+  table.kpc-mobile-card tbody, .kpc-mobile-card table tbody, table.leaderboard-table tbody, table.rank-table tbody, table.data-table tbody, table.analytics-table tbody{
+    display:grid!important;
+    gap:12px!important;
+  }
+  table.kpc-mobile-card tr, .kpc-mobile-card table tr, table.leaderboard-table tr, table.rank-table tr, table.data-table tr, table.analytics-table tr{
+    display:block!important;
+    border:1px solid var(--kpc-border)!important;
+    border-radius:20px!important;
+    padding:10px!important;
+    background:var(--kpc-surface)!important;
+    box-shadow:var(--kpc-shadow-soft)!important;
+    overflow:hidden;
+  }
+  table.kpc-mobile-card td, .kpc-mobile-card table td, table.leaderboard-table td, table.rank-table td, table.data-table td, table.analytics-table td{
+    display:flex!important;
+    justify-content:space-between;
+    align-items:center;
+    gap:14px;
+    width:100%!important;
+    padding:11px 8px!important;
+    border:0!important;
+    border-bottom:1px solid var(--kpc-border)!important;
+    text-align:right!important;
+    background:transparent!important;
+  }
+  table.kpc-mobile-card td:last-child, .kpc-mobile-card table td:last-child, table.leaderboard-table td:last-child, table.rank-table td:last-child, table.data-table td:last-child, table.analytics-table td:last-child{border-bottom:0!important;}
+  table.kpc-mobile-card td::before, .kpc-mobile-card table td::before, table.leaderboard-table td::before, table.rank-table td::before, table.data-table td::before, table.analytics-table td::before{
+    content:attr(data-label);
+    font-weight:900;
+    color:var(--kpc-muted);
+    text-align:left;
+    min-width:92px;
+  }
+
+  /* Typing screen comfort */
+  .typing-container,.typing-area,.typing-shell,.test-container,.practice-container{
+    width:100%!important;
+    padding:0!important;
+  }
+  .typing-text,.quote-box,.word-display,.lesson-text,.text-display{
+    font-size:clamp(20px,6vw,30px)!important;
+    line-height:1.85!important;
+    padding:18px!important;
+    border-radius:22px!important;
+    max-height:42vh;
+    overflow:auto;
+  }
+  textarea.typing-input,input.typing-input,.input-area textarea,#typing-input,#text-input{
+    width:100%!important;
+    min-height:128px!important;
+    font-size:18px!important;
+    line-height:1.7!important;
+    border-radius:20px!important;
+  }
+  .typing-stats,.stats-row,.metric-row,.result-grid{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:10px!important;
+  }
+
+  /* Multiplayer/tournament mobile layout */
+  .race-room,.room-layout,.multiplayer-layout,.tournament-layout{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:14px!important;
+  }
+  .player-list,.participants,.room-sidebar,.leaderboard-sidebar{
+    max-height:320px;
+    overflow:auto;
+  }
+
+  /* Analytics chart protection */
+  .chart-container,.analytics-chart,.chart-card,canvas{
+    max-width:100%!important;
+  }
+  .chart-container,.analytics-chart{
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  /* Forms */
+  form{max-width:100%;}
+  .form-row,.auth-form-row,.input-row{display:grid!important;grid-template-columns:1fr!important;gap:12px!important;}
+
+  /* Toast and dialog on mobile */
+  .kpc-toast-host{left:12px!important;right:12px!important;bottom:86px!important;top:auto!important;width:auto!important;}
+  .kpc-toast{width:100%!important;}
+  .kpc-confirm-card{width:min(100% - 24px,420px)!important;border-radius:24px!important;}
+}
+
+@media(max-width:420px){
+  .typing-stats,.stats-row,.metric-row,.result-grid{grid-template-columns:1fr!important;}
+  .kpc-brand span:last-child{max-width:118px;}
+  .kpc-actions .kpc-btn{display:none;}
+}

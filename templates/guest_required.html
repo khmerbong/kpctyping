@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Sign in optional - KPC Typing{% endblock %}
+{% block body_class %}easy-ux-page guest-page{% endblock %}
+{% block head %}
+{% endblock %}
+{% block content %}
+<main class="easy-shell guest-shell">
+    <section class="guest-card">
+      <div class="guest-badge">Guest Mode is ON</div>
+      <h1>{{ feature_name }} needs sign in</h1>
+      <p>អ្នកអាចហាត់វាយអក្សរ និងមើល Leaderboard ដោយមិន Login បាន។ មុខងារ <b>{{ feature_name }}</b> ត្រូវការ Login ព្រោះវារក្សាទុកទិន្នន័យផ្ទាល់ខ្លួន។</p>
+      <div class="guest-actions">
+        <a class="easy-btn easy-btn-primary" href="/login?next={{ next_url }}">Sign in to continue</a>
+        <a class="easy-btn easy-btn-ghost" href="/typing-test">Continue as Guest</a>
+      </div>
+      <div class="guest-list">
+        <span>✅ Typing Test: no login</span>
+        <span>✅ Public Leaderboard: no login</span>
+        <span>🔒 Profile, Friends, Stats: sign in</span>
+      </div>
+    </section>
+  </main>
+{% endblock %}

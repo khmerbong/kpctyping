@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Leaderboard - KPC Typing{% endblock %}
+{% block body_class %}ref-leaderboard{% endblock %}
+{% block content %}
+<main class="ref-page">
+  <div class="ref-layout">
+    <aside class="ref-card ref-side">
+      <div class="ref-menu">
+        <a href="/">⌂ Overview</a>
+        <a href="/profile">☻ Profile</a>
+        <a href="/analytics-pro">▥ Statistics</a>
+        <a class="active" href="/global-leaderboard">🏆 Leaderboard</a>
+        <a href="/multiplayer-race">⚑ Race</a>
+        <a href="/tournaments">🏆 Tournament</a>
+        <a href="/career">🎖 Achievements</a>
+      </div>
+      <div class="pro-card kpc-pro-soft"><h2>Practice Tip</h2><p class="kpc-soft-text">Scores appear here only after real typing sessions are saved.</p><a class="btn btn-primary" href="/typing-test">Start Test</a></div>
+    </aside>
+    <section>
+      <div class="ref-card pad">
+        <div class="page-title">
+          <div><h1>Leaderboard 👑</h1><p>Real saved scores from Typing Test and Training Mode.</p></div>
+          <button id="leaderboardRefresh" class="ref-btn soft" type="button">↻ Refresh</button>
+        </div>
+        <div class="tabs"><div class="tab active">▥ All Time</div><div class="tab">Weekly</div><div class="tab">Monthly</div><div class="tab">Season</div><div class="tab">☆ Hall of Fame</div></div>
+        <div class="podium"><div class="kpc-loading-state"><b>Loading leaderboard...</b><p>No fake sample players will be shown.</p></div></div>
+        <table class="table"><thead><tr><th>#</th><th>Player</th><th>Country</th><th>WPM</th><th>Accuracy</th><th>Mode</th><th>Score</th></tr></thead><tbody id="leaderboardRows"><tr class="kpc-table-empty"><td colspan="7">Loading real scores...</td></tr></tbody></table>
+        <p class="kpc-row-actions"><span id="myRankNote">Complete a test to create your first score.</span><a class="ref-btn primary" href="/typing-test">New Test</a></p>
+      </div>
+    </section>
+    <aside>
+      <div class="ref-card pad"><div class="section-title"><h2>Top Countries</h2></div><div id="topCountriesList" class="list"><div class="kpc-empty-state"><b>No country data yet</b><p>Scores will group here automatically.</p></div></div></div>
+      <div class="ref-card pad kpc-mt-sm"><div class="section-title"><h2>Recent Real Scores</h2></div><div id="trendingPlayersList" class="list"><div class="kpc-empty-state"><b>No recent scores yet</b><p>Play a test to appear here.</p></div></div></div>
+      <div class="ref-card pad kpc-mt-sm"><h2>Hall of Fame Highlights</h2><div id="hofHighlights" class="grid3"><div class="kpc-empty-state"><b>No records yet</b><p>High scores will appear after real attempts.</p></div></div></div>
+    </aside>
+  </div>
+</main>
+{% endblock %}
+{% block scripts %}<script>window.KPC_DEFAULT_PERIOD = {{ (default_period|default('all'))|tojson }};</script><script src="{{ url_for('static', filename='js/global_leaderboard_live.js') }}" defer></script>{% endblock %}

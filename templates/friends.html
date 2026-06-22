@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Friends | KPC Typing{% endblock %}
+{% block body_class %}kpc-social-page{% endblock %}
+{% block content %}
+<main class="kpc-page">
+  <section class="kpc-hero kpc-hero-compact">
+    <div>
+      <span class="kpc-eyebrow">Social</span>
+      <h1>Friends</h1>
+      <p>Search players, send friend requests, and build your typing community.</p>
+    </div>
+    <div class="kpc-card kpc-mini-card">
+      <span class="kpc-muted">Pending requests</span>
+      <strong id="pendingCount">0</strong>
+    </div>
+  </section>
+
+  <section class="kpc-card-grid">
+    <article class="kpc-card">
+      <h2>Find Player</h2>
+      <p class="kpc-muted">Type a username to search and connect.</p>
+      <input id="playerSearch" class="kpc-input" placeholder="Search username..." autocomplete="off">
+      <div id="searchResults" class="kpc-list-state">Start typing to search players.</div>
+    </article>
+    <article class="kpc-card">
+      <h2>Your Friends</h2>
+      <p class="kpc-muted">People you can compete with and follow.</p>
+      <div id="friendsList" class="kpc-list-state">Loading...</div>
+    </article>
+  </section>
+</main>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/social.js') }}"></script>
+{% endblock %}

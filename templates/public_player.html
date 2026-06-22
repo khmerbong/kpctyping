@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}{{ profile_username }} - KPCTyping Player{% endblock %}
+{% block body_class %}phase13-page phase3c-page{% endblock %}
+
+{% block content %}
+<main class="lb-shell kpc-page-shell">
+  <section class="lb-hero kpc-page-hero"><div><p class="eyebrow kpc-badge">PUBLIC PLAYER PROFILE</p><h1>👤 {{ profile_username }}</h1><p>Global leaderboard profile and recent verified scores.</p></div><nav class="lb-actions"><a class="kpc-btn kpc-btn-soft" href="/global-leaderboard">Global</a></nav></section>
+  <section class="card kpc-card" id="playerProfile">Loading...</section>
+</main>
+{% endblock %}
+{% block scripts %}<script>window.PROFILE_USERNAME={{ profile_username|tojson }};</script><script src="/static/js/public_player.js"></script><script src="{{ url_for('static', filename='js/kpctyping_mockup2_redesign.js') }}" defer></script>{% endblock %}

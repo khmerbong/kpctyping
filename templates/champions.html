@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Hall of Champions | KPC Typing{% endblock %}
+{% block body_class %}tour-body{% endblock %}
+{% block head %}
+{% endblock %}
+{% block content %}
+<main class="tour-shell">
+  <section class="tour-hero"><span class="phase-pill">Hall of Champions</span><h1>Tournament Winners</h1><p>Completed tournament champions and season legends.</p></section>
+  <section id="championsList" class="tour-grid"></section>
+</main>
+<script src="{{ url_for('static', filename='js/champions.js') }}"></script>
+<script src="{{ url_for('static', filename='js/kpctyping_mockup2_redesign.js') }}" defer></script>
+{% endblock %}

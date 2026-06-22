@@ -1,0 +1,91 @@
+{% extends "base.html" %}{% block title %}Training Lessons - KPC Typing{% endblock %}{% block body_class %}ref-training kpc-lessons-body kpc-focus-no-bottom-nav{% endblock %}{% block content %}
+<main class="ref-page kpc-training-page kpc-old-function-ui-clean kpc-simple-training-ui">
+  <div class="typing-shell kpc-training-shell">
+    <aside class="ref-card ref-side kpc-lessons-sidebar">
+      <div class="side-title">Academy Lessons</div>
+      <div class="kpc-lesson-count"><b>60</b><span>Total lessons</span></div>
+      <div class="ref-menu">
+        <a href="/lessons">📖 All Lessons <span>60</span></a>
+        <a class="{{ 'active' if lesson.category == 'Beginner' else '' }}" href="/training-mode?lesson=1">🌱 Beginner <span>20</span></a>
+        <a class="{{ 'active' if lesson.category == 'Intermediate' else '' }}" href="/training-mode?lesson=21">⚡ Intermediate <span>20</span></a>
+        <a class="{{ 'active' if lesson.category == 'Advanced' else '' }}" href="/training-mode?lesson=41">🚀 Advanced <span>20</span></a>
+        <a href="/ai-coach">🤖 AI Coach</a>
+      </div>
+      <div class="ref-card pad kpc-mt-sm">
+        <h3>Current Lesson</h3>
+        <p class="kpc-muted">L{{ lesson.id }} · {{ lesson.category }}</p>
+        <div class="progress"><span style="width: {{ ((lesson.id / 60) * 100)|round(0, 'ceil') }}%;"></span></div>
+        <p class="kpc-progress-caption">{{ ((lesson.id / 60) * 100)|round(0, 'ceil') }}% course progress</p>
+      </div>
+    </aside>
+
+    <section class="kpc-training-main">
+      <div class="page-title kpc-training-focus-title">
+        <div>
+          <small class="kpc-badge-focus">{{ lesson.category }} LESSON</small>
+          <h1>L{{ lesson.id }} • {{ lesson.title }}</h1>
+          <p>{{ lesson.difficulty }} practice • Estimated {{ lesson.duration }} • Start typing to begin.</p>
+        </div>
+        <div class="grid3 kpc-min-grid kpc-lesson-status-grid">
+          <div class="ref-card pad kpc-status-pill"><span>📚 Lesson</span><b>{{ lesson.id }}/60</b></div>
+          <div class="ref-card pad kpc-status-pill"><span>🎯 Level</span><b>{{ lesson.difficulty }}</b></div>
+          <div class="ref-card pad kpc-status-pill"><span>⏱ Time</span><b>{{ lesson.duration }}</b></div>
+        </div>
+      </div>
+
+      <nav class="kpc-mobile-training-actions" aria-label="Mobile lesson shortcuts">
+        <a href="/lessons">📖 Lessons</a>
+        {% if lesson.id > 1 %}<a href="/training-mode?lesson={{ lesson.id - 1 }}">← Prev</a>{% endif %}
+        {% if lesson.id < 60 %}<a href="/training-mode?lesson={{ lesson.id + 1 }}">Next →</a>{% endif %}
+        <a href="/ai-coach">🤖 Coach</a>
+      </nav>
+
+      <div class="ref-card pad kpc-mt-sm kpc-one-card-practice">
+        <div class="kpc-practice-head">
+          <div>
+            <small class="kpc-badge-focus">TYPE THIS LESSON</small>
+            <h2>Practice directly on the lesson text</h2>
+            <p><b id="lessonFocusKeys">—</b> · Click the lesson text or use the touch keyboard. Accuracy first.</p>
+          </div>
+          <span id="lessonStatePill" class="kpc-state-pill">Ready</span>
+        </div>
+
+        <div id="lessonText" class="type-box kpc-lesson-type-box kpc-direct-type-box" tabindex="0" role="textbox" aria-label="Typing lesson text" data-lesson-id="{{ lesson.id }}" data-lesson-title="{{ lesson.title }}" data-lesson-category="{{ lesson.category }}" data-lesson-text="{{ lesson.text|e }}">{{ lesson.text }}</div>
+        <textarea id="lessonInput" class="kpc-hidden-capture" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" inputmode="text" enterkeyhint="done" aria-label="Hidden typing capture" data-mobile-typing-input></textarea>
+        <p id="lessonHint" class="kpc-start-hint">ចុចលើអត្ថបទ រួចចាប់ផ្តើមវាយ · Tap the lesson text, then type</p>
+        <div data-mobile-keyboard class="kpc-mobile-keyboard-anchor kpc-inline-touch-keyboard"></div>
+
+        <div id="lessonKeyboard" class="kpc-full-keyboard" aria-label="Keyboard guide"></div>
+
+        <div class="stats-row kpc-stats-four kpc-direct-stats">
+          <div class="stat-box"><b id="lessonWpm">0</b><br>WPM</div>
+          <div class="stat-box"><b id="lessonAcc">100%</b><br>Accuracy</div>
+          <div class="stat-box"><b id="lessonProgress">0%</b><br>Progress</div>
+          <div class="stat-box"><b id="lessonErrors">0</b><br>Errors</div>
+        </div>
+        <div class="progress kpc-direct-progress"><span id="lessonProgressBar"></span></div>
+        <div class="kpc-simple-actions"><button id="lessonReset" class="ref-btn soft" type="button">↻ Reset</button><button id="lessonFinish" class="ref-btn primary kpc-finish-clean-btn is-disabled" type="button" disabled>Finish</button></div>
+        <div id="lessonResult" class="kpc-muted kpc-mt-sm"></div>
+      </div>
+
+      <section class="kpc-lesson-browser ref-card pad kpc-mt-sm">
+        <div class="section-title"><span class="kpc-section-kicker">Choose another lesson</span><h2>Learning Paths</h2><a class="mini-link" href="/lessons">Full lessons page</a></div>
+        {% for group in lesson_groups %}
+          <h3 class="kpc-path-heading">{{ group.category }} · {{ group.lessons|length }} lessons</h3>
+          <div class="kpc-mini-lesson-grid">
+          {% for item in group.lessons[:6] %}
+            <a class="kpc-mini-lesson {{ 'active' if item.id == lesson.id else '' }}" href="/training-mode?lesson={{ item.id }}"><b>L{{ item.id }}</b><span>{{ item.title }}</span></a>
+          {% endfor %}
+          </div>
+        {% endfor %}
+      </section>
+    </section>
+
+    <aside class="kpc-training-aside">
+      <div class="ref-card pad"><h2>Lesson Tips</h2><p>Focus on accuracy first. Speed will grow after your fingers learn the rhythm.</p></div>
+      <div class="ref-card pad kpc-mt-sm"><h2>Next Lessons</h2><div class="list">
+      {% for item in lessons[lesson.id:lesson.id+4] %}<a class="list-item" href="/training-mode?lesson={{ item.id }}"><b>L{{ item.id }}</b><span>{{ item.title }}</span></a>{% endfor %}
+      </div></div>
+    </aside>
+  </div>
+</main>{% endblock %}{% block scripts %}<script src="{{ url_for('static', filename='js/training_mode.js') }}"></script>{% endblock %}

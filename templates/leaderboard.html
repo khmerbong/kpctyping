@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Leaderboard - KPC Typing{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/leaderboard_live.js') }}"></script>{% endblock %}
+{% block body_class %}kpc-leaderboard-page{% endblock %}
+{% block content %}
+<main class="kpc-shell">
+  <section class="kpc-section">
+    <div class="kpc-card kpc-pad-lg">
+      <div class="kpc-flex-between">
+        <div>
+          <span class="kpc-pill">🏆 Local ranking</span>
+          <h1 class="kpc-title-xl">Leaderboard</h1>
+          <p class="kpc-muted kpc-m-0">Compare WPM, score, combos and levels.</p>
+        </div>
+        <div class="kpc-tabs kpc-tabs-tight">
+          <a class="kpc-tab {% if selected_game == 'all' %}active{% endif %}" href="/leaderboard?game=all">All</a>
+          <a class="kpc-tab {% if selected_game == 'speed' %}active{% endif %}" href="/leaderboard?game=speed">Speed</a>
+          <a class="kpc-tab {% if selected_game == 'zombie' %}active{% endif %}" href="/leaderboard?game=zombie">Zombie</a>
+          <a class="kpc-tab {% if selected_game == 'vampire' %}active{% endif %}" href="/leaderboard?game=vampire">Vampire</a>
+          <a class="kpc-tab {% if selected_game == 'space' %}active{% endif %}" href="/leaderboard?game=space">Space</a>
+          <a class="kpc-tab {% if selected_game == 'lesson' %}active{% endif %}" href="/leaderboard?game=lesson">Lessons</a>
+        </div>
+      </div>
+      <div class="kpc-table-wrap">
+        <table class="kpc-table">
+          <thead><tr><th>#</th><th>Player</th><th>Game</th><th>Score</th><th>Combo</th><th>Level</th><th>WPM</th><th>Date</th></tr></thead>
+          <tbody>
+          {% for row in rows %}
+            <tr><td data-label="#">{{ loop.index }}</td><td data-label="Player">{{ row.player_name or row.username }}</td><td data-label="Game">{{ row.game or row.game_type }}</td><td data-label="Score">{{ row.score }}</td><td data-label="Combo">{{ row.combo }}</td><td data-label="Level">{{ row.level }}</td><td data-label="WPM"><strong class="kpc-accent-red">{{ row.wpm }}</strong></td><td data-label="Date">{{ row.created_at }}</td></tr>
+          {% else %}
+            <tr><td colspan="8">
+              <div class="kpc-empty-state kpc-empty-leaderboard">
+                <div class="kpc-empty-icon">🏆</div>
+                <h3>No leaderboard data yet</h3>
+                <p>Complete a typing test to enter the rankings and start building your typing record.</p>
+                <a class="kpc-btn kpc-btn-primary" href="/typing-test">Start Typing Test</a>
+              </div>
+            </td></tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}
